@@ -1,3 +1,7 @@
+#background {
+	-fx-background-color: linear-gradient(to right bottom,#0F5298,#61D8DE);
+}
+
 .backgroundColor{
 	-fx-background-color: linear-gradient(to right bottom,#0F5298,#61D8DE);
 }
@@ -9,6 +13,7 @@
 .text-field{
 	-fx-background-color: transparent;
 	-fx-background-insets : 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+	-fx-text-fill: "white";
 }
 .button{
 	-fx-background-color: linear-gradient(to right bottom,#66D3FA,#2196F3);

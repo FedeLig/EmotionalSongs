@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="419.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="419.0" prefWidth="450.0" styleClass="backgroundColor" stylesheets="@application/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneController">
    <children>
       <TextField fx:id="TextFieldNome" layoutX="125.0" layoutY="78.0" prefHeight="26.0" prefWidth="193.0" promptText="nome" />
       <TextField fx:id="TextFieldCognome" layoutX="125.0" layoutY="122.0" prefHeight="26.0" prefWidth="194.0" promptText="cognome" />
       <TextField fx:id="TextFieldIndirizzo" layoutX="125.0" layoutY="168.0" prefHeight="26.0" prefWidth="194.0" promptText="indirizzo" />
       <TextField fx:id="TextFieldEmail" layoutX="125.0" layoutY="210.0" prefHeight="26.0" prefWidth="194.0" promptText="email" />
       <TextField fx:id="TextFieldIdUtente" layoutX="125.0" layoutY="258.0" prefHeight="26.0" prefWidth="194.0" promptText="id utente" />
-      <Button layoutX="187.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="Registrati" />
+      <Button layoutX="134.0" layoutY="351.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Registrati" />
       <TextField fx:id="TextFieldPassword" layoutX="125.0" layoutY="302.0" prefHeight="26.0" prefWidth="194.0" promptText="password" />
+      <Line endX="100.0" layoutX="235.0" layoutY="104.0" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="235.0" layoutY="148.0" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="235.0" layoutY="194.0" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="235.0" layoutY="237.0" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="234.0" layoutY="293.0" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="234.0" layoutY="328.0" startX="-100.0" stroke="WHITE" />
+      <Button layoutX="272.0" layoutY="351.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" text="Accedi" />
+      <Label layoutX="222.0" layoutY="357.0" text="oppure" />
    </children>
 </AnchorPane>

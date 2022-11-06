@@ -16,7 +16,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
 			
-			primaryStage.setTitle("cambiareScena");
+			primaryStage.setTitle("Emotional Songs");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
