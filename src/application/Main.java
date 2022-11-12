@@ -12,10 +12,13 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		
-			Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/ScenaDue.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+			String css = this.getClass().getResource("login.css").toExternalForm();
+			scene.getStylesheets().add(css);
 			
+			primaryStage.setResizable(false);
+			primaryStage.sizeToScene();
 			primaryStage.setTitle("Emotional Songs");
 			primaryStage.setScene(scene);
 			primaryStage.show();
