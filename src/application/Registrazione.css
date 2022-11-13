@@ -1,0 +1,15 @@
+#tabpane{
+	-fx-background-color:transparent;
+}
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+	-fx-background-insets:0;
+	-fx-background-insets-color:transparent;
+}
+.tab{
+	-fx-background-color:transparent;
+	-fx-font-color:transparent;
+	-fx-background-insets-color:transparent;
+	-fx-focus-color: transparent;
+}
+

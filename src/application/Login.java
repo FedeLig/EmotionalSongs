@@ -1,9 +1,7 @@
 package application;
 
 import java.util.*;
-import java.util.regex.PatternSyntaxException;
 import java.io.*;
-import java.nio.file.FileSystems;
 
 public class Login {
     
@@ -54,7 +52,7 @@ public class Login {
         List<String[]> users = getUsers();
 
         for(String[] user : users) {
-            if(userName.equals(user[5]) && password.equals(user[6])) {
+            if(userName.equals(user[0]) && password.equals(user[1])) {
                 this.logged = true;
                 this.userName = userName;
                 this.password = password;
@@ -83,6 +81,8 @@ public class Login {
             list.add(line.split(","));
 
         list.remove(0);
+        
+        br.close();
 
         return list;
     }
