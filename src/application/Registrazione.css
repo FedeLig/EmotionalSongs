@@ -6,6 +6,10 @@
 	-fx-background-insets:0;
 	-fx-background-insets-color:transparent;
 }
+
+.label{
+	-fx-alignment: center;
+	}
 .tab{
 	-fx-background-color:transparent;
 	-fx-font-color:transparent;

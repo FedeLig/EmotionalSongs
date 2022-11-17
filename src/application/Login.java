@@ -10,40 +10,15 @@ public class Login {
 
     //Quando al costruttore si passa un array questo viene usato per fare la registrazione.
     public Login(String[] dati) throws IOException {    
-        
-        boolean check = true;
-        List<String[]> users = getUsers();
-
-        for(String[] user : users) {
-            if(user[2] == dati[2]) {
-                this.errore = "Codice fiscale già in uso!";
-                check = false;
-                break;
-            }
-            if(user[4] == dati[4]) {
-                this.errore = "Indirizzo email già in uso!";
-                check = false;
-                break;
-            }
-            if(user[5] == dati[5]) {
-                this.errore = "Nome utente già in uso!";
-                check = false;
-                break;
-            }
-
-        }
-
-        if(check) {
-            //Aggiungiamo il nome utente al file UtentiRegistrati.csv
-            String newLine = String.format("%s,%s,%s,%s,%s,%s,%s",dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],dati[6]);
-            String path = getPath() + (File.separator + "UtentiRegistrati.csv");
-            BufferedWriter output = new BufferedWriter(new FileWriter(path, true));
-            output.append(newLine + System.lineSeparator());
-            output.close();
-            //segnamo che l'utente è loggato
-            this.logged = true;
-        }
-
+        //Aggiungiamo il nome utente al file UtentiRegistrati.csv
+    	//L'ordine dei dati è: nome,cognome,cf,indirizzo,email,userId,password
+        String newLine = String.format("%s,%s,%s,%s,%s,%s,%s",dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],dati[6]);
+        String path = getPath() + (File.separator + "UtentiRegistrati.csv");
+        BufferedWriter output = new BufferedWriter(new FileWriter(path, true));
+        output.append(newLine + System.lineSeparator());
+        output.close();
+        //segnamo che l'utente è loggato
+        this.logged = true;
     }
 
     //se si passano nome utente e password invece si effettua il login.
@@ -52,24 +27,67 @@ public class Login {
         List<String[]> users = getUsers();
 
         for(String[] user : users) {
-            if(userName.equals(user[0]) && password.equals(user[1])) {
+            if(userName.equals(user[5]) && password.equals(user[6])) {
                 this.logged = true;
                 this.userName = userName;
                 this.password = password;
                 break;
             }
         }
+    }
+    // I tre metodi seguenti servono a verificare l'unicità di un atttributo.
+    // Sono statici poichè il loro utilizzo è riferito a tutta la classe e non 
+    // a una particolare istanza.
+    // Si comportano tutti allo stesso modo: prendono come argomento un attributo
+    // e verificano che non siano presenti doppioni nei dati salavati.
+    public static boolean checkCf(String cf) throws IOException {
+        boolean check = true;
+        List<String[]> users = getUsers();
 
-        if(!this.logged)
-            System.out.println("\nAccesso fallito: nome utente o password errati.\n");
+        for(String[] user : users) {
+            if(user[2].equals(cf)) {
+                check = false;
+                break;
+            }
+        }
+        return check; 
+    }
+    
 
+    public static boolean checkEmail(String email) throws IOException {
+        boolean check = true;
+        List<String[]> users = getUsers();
+
+        for(String[] user : users) {
+            if(user[4].equals(email)) {
+                check = false;
+                break;
+            }
+        }
+        return check; 
     }
 
-    public boolean isLogged(){
+    
+    public static boolean checkUserId(String userId) throws IOException {
+        boolean check = true;
+        List<String[]> users = getUsers();
+
+        for(String[] user : users) {
+	        if(user[5].equals(userId)) {
+	            check = false;
+	            break;
+	        }
+        }
+        return check;
+    }
+
+    // Il metodo isLogged è utile per verificare se una registrazione o un login
+    // sono andati a buon fine.
+    public boolean isLogged() {
         return this.logged;
     }
 
-    private List<String[]> getUsers() throws IOException {
+    private static List<String[]> getUsers() throws IOException {
         //ottengo i dati di tutti gli utenti e li divido in un array per potervi accedere 
         //singolarmente.
         List<String[]> list = new ArrayList<String[]>();
@@ -87,7 +105,7 @@ public class Login {
         return list;
     }
     //per ottenere il filePath alla cartella /data (ogni OS)
-    private String getPath() {
+    private static String getPath() {
         //ottengo la directory del progetto
         String userDirectory = System.getProperty("user.dir");
         return (userDirectory + File.separator + "data");
