@@ -32,23 +32,26 @@ class Song {
 
     //Funzione per la ricerca di una canzzone:
     //cerca i risultati in base al titolo, nome dell'artista e dell'album.
-    public List<String> searchSong(String name) throws IOException, NumberFormatException, NumberFormatException{
+    public static List<Song> searchSong(String name) throws IOException, NumberFormatException, NumberFormatException{
         name = name.toLowerCase();
         String[] data = new String[6];
-        List<String> songList = new ArrayList<String>();
-        int i=0;
+        String line, searchLine;
+        List<Song> songList = new ArrayList<Song>();
 
         String path = getPath() + (File.separator + "Songs.csv");
+        System.out.println(path);
         BufferedReader br = new BufferedReader(new FileReader(path));
         //Raggruppo tutte le canzoni in cui appare il dato cercato
         while((line = br.readLine()) != null) {
             data = line.split(",,");
             if(! data[0].equals("id")) {
-                searchLine = String.join(",,", data[1],data[2],data[3]).toLowerCase();
-                if(searchLine.contains(name))
-                    songList.add(line);
+                searchLine = String.join("", data[1],data[2],data[3]).toLowerCase();
+                if(searchLine.contains(name)) 
+                    songList.add(new Song(Integer.parseInt(data[0])));
             }
+            
         }
+        br.close();
 
         return(songList);
     }
@@ -72,7 +75,7 @@ class Song {
                 break;
             }
         }
-
+        br.close();
 
         //se la canzone è già stata valutata rimpiaziamo la vecchia valutazione[
         if(rated) {
@@ -94,6 +97,7 @@ class Song {
             FileWriter writer = new FileWriter(path);
             writer.append(fileContents);
             writer.flush();
+            writer.close();
 
         }else {
             //apro il file in modalità append per aggiungere i dati di una canzone
@@ -105,25 +109,20 @@ class Song {
     }
 
     //per ottenere il filePath alla cartella /data (ogni OS)
-    private String getPath() {
-        //ottengo la directory del progetto
-        String userDirectory = System.getProperty("user.dir");
-        //File.separator permette di creare percorsi su ogni OS
-        String[] directories = userDirectory.split(File.separator);
-        //cambio cartella per aprire i file in \data
-        directories[directories.length -1] = "data";
-
-        return String.join(File.separator, directories);
+    private static String getPath() {
+    	String userDirectory = System.getProperty("user.dir");
+        return (userDirectory + File.separator + "data");
     }	
 
     //funzione che preleva i dati della IDesima canzone nel dataset
     private String[] getSongData(int id) throws IOException, FileNotFoundException {
         
-        String path = getPath() + (File.separator + "Songs.csv"), line="";
+    	String path = getPath() + (File.separator + "Songs.csv"), line="";
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         for(int i=0;i<=id; i++)
             line = br.readLine();
+        br.close();
 
         String[] values = line.split(",,");
 
@@ -145,6 +144,7 @@ class Song {
                 ratings.add(rating);
             }
         }
+        br.close();
 
         return ratings;
     }

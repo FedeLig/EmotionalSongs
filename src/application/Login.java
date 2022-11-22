@@ -5,7 +5,7 @@ import java.io.*;
 
 public class Login {
     
-    private String userName, password, errore;
+    private String userName, password;
     private boolean logged;
 
     //Quando al costruttore si passa un array questo viene usato per fare la registrazione.
