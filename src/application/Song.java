@@ -5,16 +5,25 @@ package application;
 
 import java.util.*;
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.lang.NullPointerException;
 
-class Song {
+// nota : se Song non fosse public RepositoryTableController non funzionerebbe 
+public class Song {
 
     private String name, author, album;
     private int year, duration, id;
 
+    // costruttore default : utile ai controller delle tabelle 
+    public Song(String name, String author, String album, int year, int duration, int id) {
+		
+		this.name = name;
+		this.author = author;
+		this.album = album;
+		this.year = year;
+		this.duration = duration;
+		this.id = id;
+	}
 
-    //il costruttore prende in input l'inidice della canzone nel dataset
+	//il costruttore prende in input l'inidice della canzone nel dataset
     //e da lì ottiene i dati.
     public Song(int id) throws IOException, NumberFormatException {
 
@@ -29,17 +38,39 @@ class Song {
         this.duration = (int)Float.parseFloat(data[4]);
         this.year = Integer.parseInt(data[5]);
     }
+    
+    // getter necessari per i controller delle tabelle 
+    public String getName() {
+		return name;
+	}
 
-    //Funzione per la ricerca di una canzzone:
+	public String getAuthor() {
+		return author;
+	}
+
+
+	public String getAlbum() {
+		return album;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+	
+    //Funzione per la ricerca di una canzone:
     //cerca i risultati in base al titolo, nome dell'artista e dell'album.
-    public static List<Song> searchSong(String name) throws IOException, NumberFormatException, NumberFormatException{
+    public static ArrayList<Song> searchSong(String name) throws IOException, NumberFormatException, NumberFormatException{
         name = name.toLowerCase();
         String[] data = new String[6];
         String line, searchLine;
-        List<Song> songList = new ArrayList<Song>();
+        ArrayList<Song> songList = new ArrayList<Song>();
 
         String path = getPath() + (File.separator + "Songs.csv");
-        System.out.println(path);
+        //System.out.println(path);
         BufferedReader br = new BufferedReader(new FileReader(path));
         //Raggruppo tutte le canzoni in cui appare il dato cercato
         while((line = br.readLine()) != null) {
