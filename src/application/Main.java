@@ -12,10 +12,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		
-			Parent root = FXMLLoader.load(getClass().getResource("/ScenaDue.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/RepositoryTable.fxml"));
 			Scene scene = new Scene(root);
+			/*
 			String css = this.getClass().getResource("login.css").toExternalForm();
-			scene.getStylesheets().add(css);
+			scene.getStylesheets().add(css);*/
 			
 			primaryStage.setResizable(false);
 			primaryStage.sizeToScene();

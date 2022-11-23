@@ -1,7 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,8 +21,7 @@ import javafx.stage.Stage;
 
 public class SceneController {
 	
-	private Stage stage; 
-	private Scene scene; 
+	private Stage stage;  
 	private Parent root;
 	
     /*campi del login */
@@ -188,9 +186,6 @@ public class SceneController {
 	public void switchToLogin(ActionEvent e ) throws IOException {
 		
 	    SwitchTo("/Login.fxml","login.css",e);
-	    List<Song> list  = Song.searchSong("testify");  
-        
-        list.get(0).printSongData();
 		
 	}
 
