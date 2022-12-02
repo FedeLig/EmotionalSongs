@@ -106,6 +106,7 @@ public class Song {
                 break;
             }
         }
+        scan.close();
         br.close();
 
         //se la canzone è già stata valutata rimpiaziamo la vecchia valutazione[

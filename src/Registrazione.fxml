@@ -8,25 +8,21 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" styleClass="backgroundColor" stylesheets="@application/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneController">
    <children>
-      <Label layoutX="133.0" layoutY="404.0" text="sei già registrato? " />
-      <Hyperlink fx:id="LinkToLogin" layoutX="245.0" layoutY="400.0" onAction="#switchToLogin" prefHeight="26.0" prefWidth="74.0" text="Accedi" textFill="#fcfbfb" underline="true" />
+      <Label layoutX="146.0" layoutY="377.0" text="sei già registrato? " />
+      <Hyperlink fx:id="LinkToLogin" layoutX="243.0" layoutY="371.0" onAction="#switchToLogin" prefHeight="26.0" prefWidth="74.0" text="Accedi" textFill="#fcfbfb" underline="true" />
       <TabPane fx:id="tabpane" layoutX="54.0" layoutY="59.0" prefHeight="278.0" prefWidth="342.0" styleClass="Registrazione.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="firstTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="342.0">
                      <children>
-                        <TextField fx:id="surnameField" layoutX="62.0" layoutY="98.0" prefHeight="26.0" prefWidth="201.0" promptText="cognome" />
-                        <Line endX="104.5999755859375" endY="-1.52587890625E-5" layoutX="167.0" layoutY="125.0" startX="-93.79997253417969" startY="-1.52587890625E-5" stroke="WHITE" />
+                        <TextField fx:id="surnameField" layoutX="66.0" layoutY="98.0" prefHeight="26.0" prefWidth="193.0" promptText="cognome" />
                         <TextField fx:id="nameField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="nome" />
-                        <Line endX="100.0" layoutX="171.0" layoutY="81.0" startX="-100.0" stroke="WHITE" />
                         <Button fx:id="toSecondTabButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#changeToSecondTab" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="codiceFiscaleField" layoutX="67.0" layoutY="143.0" prefHeight="26.0" prefWidth="207.0" promptText="codice fiscale" />
-                        <Line endX="100.0" layoutX="171.0" layoutY="169.0" startX="-95.40000915527344" startY="-1.52587890625E-5" stroke="WHITE" />
+                        <TextField fx:id="codiceFiscaleField" layoutX="66.0" layoutY="145.0" prefHeight="26.0" prefWidth="193.0" promptText="codice fiscale" />
                      </children>
                   </AnchorPane>
               </content>
@@ -36,16 +32,11 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="342.0">
                      <children>
                         <Button fx:id="toThirdTabButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#changeToThirdTab" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="nomeViaField" layoutX="66.0" layoutY="58.0" prefHeight="26.0" prefWidth="192.0" promptText="nome via " />
-                        <Line endX="88.0" endY="0.4000091552734375" layoutX="170.0" layoutY="84.0" startX="-98.40000915527344" startY="0.4000091552734375" stroke="WHITE" />
-                        <TextField fx:id="civicoField" layoutX="104.0" layoutY="98.0" prefHeight="26.0" prefWidth="50.0" promptText="civico" />
-                        <Line endX="-58.79997253417969" endY="-1.52587890625E-5" layoutX="208.0" layoutY="125.0" startX="-100.0" stroke="WHITE" />
-                        <TextField fx:id="capField" layoutX="166.0" layoutY="98.0" prefHeight="26.0" prefWidth="43.0" promptText="cap" />
-                        <Line endX="-58.79997253417969" endY="-1.52587890625E-5" layoutX="267.0" layoutY="125.0" startX="-100.0" stroke="WHITE" />
-                        <TextField fx:id="comuneField" layoutX="98.0" layoutY="140.0" prefHeight="26.0" prefWidth="61.0" promptText="comune" />
-                        <Line endX="-47.79998779296875" endY="-1.52587890625E-5" layoutX="276.0" layoutY="165.0" startX="-103.19999694824219" startY="-1.52587890625E-5" stroke="WHITE" />
-                        <TextField fx:id="provinciaField" layoutX="165.0" layoutY="139.0" prefHeight="26.0" prefWidth="63.0" promptText="provincia" />
-                        <Line endX="-58.79997253417969" endY="-1.52587890625E-5" layoutX="205.0" layoutY="166.0" startX="-100.0" stroke="WHITE" />
+                        <TextField fx:id="nomeViaField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="nome via " />
+                        <TextField fx:id="civicoField" layoutX="114.0" layoutY="98.0" prefHeight="26.0" prefWidth="50.0" promptText="civico" />
+                        <TextField fx:id="capField" layoutX="176.0" layoutY="98.0" prefHeight="26.0" prefWidth="43.0" promptText="cap" />
+                        <TextField fx:id="comuneField" layoutX="102.0" layoutY="145.0" prefHeight="26.0" prefWidth="61.0" promptText="comune" />
+                        <TextField fx:id="provinciaField" layoutX="176.0" layoutY="145.0" prefHeight="26.0" prefWidth="63.0" promptText="provincia" />
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -53,18 +44,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Line endX="104.5999755859375" endY="-1.52587890625E-5" layoutX="152.0" layoutY="169.0" startX="-93.79997253417969" startY="-1.52587890625E-5" stroke="WHITE" />
-                        <TextField fx:id="newIdField" layoutX="59.0" layoutY="107.0" prefHeight="26.0" prefWidth="193.0" promptText="idutente" />
-                        <Line endX="100.0" layoutX="155.0" layoutY="133.0" startX="-100.0" stroke="WHITE" />
+                        <TextField fx:id="newIdField" layoutX="66.0" layoutY="98.0" prefHeight="26.0" prefWidth="193.0" promptText="idutente" />
                         <Button fx:id="SubmitButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#singIn" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="emailField" layoutX="54.0" layoutY="63.0" prefHeight="26.0" prefWidth="207.0" promptText="email" />
-                        <Line endX="100.0" layoutX="155.0" layoutY="89.0" startX="-95.40000915527344" startY="-1.52587890625E-5" stroke="WHITE" />
-                        <PasswordField fx:id="singInPasswordField" layoutX="58.0" layoutY="144.0" prefHeight="26.0" prefWidth="200.0" promptText="password" />
+                        <TextField fx:id="emailField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="email" />
+                        <PasswordField fx:id="singInPasswordField" layoutX="66.0" layoutY="145.0" prefHeight="26.0" prefWidth="200.0" promptText="password" />
                      </children></AnchorPane>
               </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="110.0" layoutY="337.0" prefHeight="62.0" prefWidth="242.0" textAlignment="CENTER" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="32.0" layoutY="337.0" prefHeight="34.0" prefWidth="386.0" textAlignment="CENTER" />
    </children>
 </AnchorPane>

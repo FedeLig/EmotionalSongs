@@ -3,8 +3,8 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,8 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,35 +27,56 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+
 public class RepositoryTableController implements Initializable{
-	
-	@FXML
-	public TableView<Song> tabellaMenuIniziale ;
 	
 	private Stage stage; 
 	private Parent root;
-
+	
+	@FXML
+	private TableView<Song> tabellaMenuIniziale ;
+	
+	@FXML
+	private ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
+	@FXML 
+	private Label filtroSelezionato ; 
+    private static ArrayList<String> listaOpzioni ;
+	private static String PreviousOption = "  titolo" ; 
+	
+	@FXML
+	private TabPane tabpane ; 
+	@FXML 
+	private Tab firstTab, secondTab ; 
+	
 	/* il  metodo Initialize viene chiamato (una e una sola volta)
        dal controller appena dopo la finestra è stata "caricata" con successo 
        e contiene la tabella che vogliamo visualizzare la prima volta  */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+	    
+		listaOpzioni = new ArrayList<String>(Arrays.asList("  titolo","  autore e anno"));
 		
-		// il placeholder è la scritta che vediamo quando la tabella è vuota 
+		sceltaFiltro.setItems(FXCollections.observableArrayList(listaOpzioni));
+		 
+		sceltaFiltro.setValue("");
+		
+		sceltaFiltro.setOnAction(event -> { ChangeFilter(); });
+		
 		tabellaMenuIniziale.setPlaceholder(new Label("La tabella è vuota"));
 		
 	}
+	
+	// ---------- INIZIO CONTROLLI PER MANIPOLARE TABELLA ----------------
 	
 	/* il metodo seguente prende come parametro il vettore risultato della ricerca nella repository
 	 * e lo trasforma in una tabella dove ogni riga corrisponde ai dati di una canzone .
 	 * L'Ultima colonna di ogni riga contiene un Hyperlink : 
 	 * *DA IMPLEMENTARE* esso permette di visualizzare  le statistiche della canzone corrispondente  */
-	
-	public void UpdateTable(ActionEvent e ) throws NumberFormatException, IOException{
+	public void UpdateTable(ActionEvent e ) throws NumberFormatException, IOException {
 		
 		ArrayList<Song> risultatiRicerca = new ArrayList<Song>();
 		
-        risultatiRicerca = Song.searchSong("testify");  
+		risultatiRicerca = Song.searchSong("testify");
 		
 	 	Boolean PreviousTableIsNotEmpty = (!(tabellaMenuIniziale.getItems()).isEmpty()) ;
 	 	
@@ -66,7 +91,7 @@ public class RepositoryTableController implements Initializable{
 			 		tabellaMenuIniziale.getColumns().clear(); 	 
 			 }
 			 
-			 tabellaMenuIniziale.setPlaceholder(new Label("Nessuna canzone corrisponde ai criteri di ricerca"));
+		 	 tabellaMenuIniziale.setPlaceholder(new Label("Nessuna canzone corrisponde ai criteri di ricerca"));
 		 
 		 }
 		 else  {
@@ -150,7 +175,7 @@ public class RepositoryTableController implements Initializable{
         
         // usiamo la wrapper class di void per inizializzare colonna 
 		
-        TableColumn<Song,Void> StatsColumn = new TableColumn<Song,Void>("StatsColumn");
+        TableColumn<Song,Void> StatsColumn = new TableColumn<Song,Void>("statistiche");
 
         Callback<TableColumn<Song,Void>, TableCell<Song,Void>> cellFactory = new Callback<TableColumn<Song,Void>, TableCell<Song,Void>>() {
 
@@ -159,7 +184,7 @@ public class RepositoryTableController implements Initializable{
 
                 final TableCell<Song,Void> cell = new TableCell<Song,Void>(){
 
-                    private final Hyperlink linkToStats = new Hyperlink("visualizza statistiche");
+                    private final Hyperlink linkToStats = new Hyperlink("statistiche");
                     
                     {
                     /* all' interno di questa funzione lambda metteremo un metodo 
@@ -194,9 +219,51 @@ public class RepositoryTableController implements Initializable{
 
     }
     
-    public void switchToLogin(ActionEvent e ) throws IOException {
+     // ---------- INIZIO CONTROLLI PER SCELTA FILTRO  ----------------
+    
+    private void ChangeFilter() {
+    	
+    	sceltaFiltro.setValue("");
+    	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+    	
+    	// nota : se non abbiamo selezionato il titolo , abbiamo selezionato autore e anno 
+        if ((sceltaFiltro.getSelectionModel().getSelectedItem()).equals("  titolo") ) {
+    	    
+        	/* se titolo NON era l'opzione selezionata , 
+        	   dobbiamo cambiare gli elementi della GUI collegati alle opzioni  */
+        	if ( !(PreviousOption.equals("  titolo")) ) {
+        		
+        		filtroSelezionato.setText("titolo");
+        		// cambiamo tab 
+        		selectionModel.select(0);
+        		firstTab.setDisable(false);
+			    secondTab.setDisable(true);
+			    // nota : l'opzione scelta sarà quella precedente nella prossima esecuzione del metodo
+			    PreviousOption  = "  titolo"; 
+        		
+        	}
+    		
+    	}
+        else {
+        	
+        	if ( !(PreviousOption.equals("  autore e anno")) ) {
+        		
+            	filtroSelezionato.setText("autore e anno");
+            	selectionModel.select(1);
+            	firstTab.setDisable(true);
+			    secondTab.setDisable(false);
+			    PreviousOption  = "  autore e anno";
+        	}
+        	
+        }
+    	
+    	
+    }
+    
+    
+    public void switchToRegistrazione(ActionEvent e ) throws IOException {
 		
-	    SwitchTo("/Login.fxml","login.css",e);
+	    SwitchTo("/Registrazione.fxml","Registrazione.css",e);
 		
 	}
     
