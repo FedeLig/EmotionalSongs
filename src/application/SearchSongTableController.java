@@ -30,10 +30,7 @@ abstract class SearchSongTableController extends SongTableController {
 	
     protected static ArrayList<String> listaOpzioni ;
     
-	private static String PreviousOption = "  titolo" ; 
-	
-	/*campo del driver per testing */
-	private static int iteration = 0 ; 
+	private static String PreviousOption = "  titolo" ;  
 	
     // ----------  CONTROLLI PER SCELTA FILTRO  ----------------
     
@@ -76,20 +73,4 @@ abstract class SearchSongTableController extends SongTableController {
     	
     }
 
-    public void driver(ObservableList<Song> risultatiRicerca) { 
-		
-		if(iteration % 2 == 0 ){
-			
-		   int n = 10 ; 
-			String s ; 
-			
-			for(int i= 0 ; i<= n ; i++) {
-				s = "sssssssssssssssssssssss";
-			    risultatiRicerca.add(new Song(s,s,s,i,i,i)); 
-			}
-			
-         }
-		 iteration++;
-	
-    }
 }

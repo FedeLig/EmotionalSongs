@@ -33,7 +33,7 @@ public class LoginController extends Controller{
 	        //Per vedere se il login è andato a buon fine usiamo il metodo isLogged
 	        if(login.isLogged()) {
                 loginErrorLabel.setText("");
-                FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
+                FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
         		setRoot(fxmlloader.load());
         		changeScene(e);
             }
