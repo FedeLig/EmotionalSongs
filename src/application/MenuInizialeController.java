@@ -17,6 +17,16 @@ public class MenuInizialeController extends Controller {
 	private Button RegisterButton ;
 	
 	@FXML
+    public void switchToRicercaRepository(ActionEvent e ) throws IOException {
+		
+		RicercaInRepositoryController controller = new RicercaInRepositoryController();
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
+		fxmlloader.setController(controller);
+		setRoot(fxmlloader.load());
+		changeScene(e);
+	}
+	
+	@FXML
     public void switchToLogin(ActionEvent e ) throws IOException {
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Login.fxml"));
