@@ -12,17 +12,18 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		
-			Parent root = FXMLLoader.load(getClass().getResource("/RepositoryTable.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/MenuIniziale.fxml"));
 			Scene scene = new Scene(root);
-			/*
-			String css = this.getClass().getResource("login.css").toExternalForm();
-			scene.getStylesheets().add(css);*/
+			
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setResizable(false);
 			primaryStage.sizeToScene();
 			primaryStage.setTitle("Emotional Songs");
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
