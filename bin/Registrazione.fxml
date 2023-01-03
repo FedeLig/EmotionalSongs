@@ -9,10 +9,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" styleClass="backgroundColor" stylesheets="@application/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneController">
    <children>
-      <Label layoutX="146.0" layoutY="377.0" text="sei già registrato? " />
-      <Hyperlink fx:id="LinkToLogin" layoutX="243.0" layoutY="371.0" onAction="#switchToLogin" prefHeight="26.0" prefWidth="74.0" text="Accedi" textFill="#fcfbfb" underline="true" />
+      <Label layoutX="142.0" layoutY="375.0" text="sei già registrato  ? " />
+      <Hyperlink fx:id="LinkToLogin" layoutX="259.0" layoutY="369.0" onAction="#switchToLogin" prefHeight="26.0" prefWidth="47.0" text="Accedi" textFill="#fcfbfb" underline="true" />
       <TabPane fx:id="tabpane" layoutX="54.0" layoutY="59.0" prefHeight="278.0" prefWidth="342.0" styleClass="Registrazione.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="firstTab">
