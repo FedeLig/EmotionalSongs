@@ -5,9 +5,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -16,27 +13,9 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
+public class RegistrazioneController extends Controller {
 
-public class SceneController {
-	
-	private Stage stage;  
-	private Parent root;
-	
-    /*campi del login */
-	@FXML 
-	private TextField idTextField;
-	@FXML
-	private PasswordField passwordField;
-	@FXML
-	private Label loginErrorLabel,IdLabel,PasswordLabel;
-	@FXML 
-	private Button LoginButton; 
-	@FXML
-	private Hyperlink LinkToRegistrazione;
-	
-	/*campi della registrazione */
 	@FXML
 	private Label errorLabel;
 	@FXML 
@@ -56,9 +35,7 @@ public class SceneController {
 	private String errore;
 	private String[] dati = new String[7];
 	
-	
-    
-    /* DI SEGUITO I METODI DI NAVIGAZIONE FRA LE TAB NELLA SCENA REGISTRAZIONE
+	   /* DI SEGUITO I METODI DI NAVIGAZIONE FRA LE TAB NELLA SCENA REGISTRAZIONE
      * Non servono solo a raccogliere i dati della registrazione,
      * si occupano di verificarne l'usabilità evitandoo:
      * - Campi vuoti
@@ -147,77 +124,34 @@ public class SceneController {
                 login = new Login(dati);
                 this.errore = "";
                 
-                if(login.isLogged())
-    	            SwitchTo("/ScenaDue.fxml","login.css",e);
+                if(login.isLogged()) {
+                	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
+            		setRoot(fxmlloader.load());
+            		changeScene(e);
+                }
+    	            
             }
         }
         else
     		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
         this.errorLabel.setText(this.errore);
     }
-
-/* FINE CONTROLLI DELLA SCENA DI REGISTRAZIONE   
- *--------------------------------------------------------------------------------------------------
- * CONTROLLI DELLA SCENA DI LOGIN */ 
-
-    //Metodo per efettuare il login, semplicemente si prova a creare un istanza della classe Login
-	public void Login(ActionEvent e ) throws IOException {
-		
-		String idUtente = idTextField.getText();
-		String password = passwordField.getText(); 
-		if(inputCheck(idUtente) && inputCheck(password)) {
-	        Login login = new Login(idUtente,password); 
-	        //Per vedere se il login è andato a buon fine usiamo il metodo isLogged
-	        if(login.isLogged()) {
-                loginErrorLabel.setText("");
-	            SwitchTo("/ScenaDue.fxml","login.css",e);
-            }
-	        else 
-	            loginErrorLabel.setText("Errore: credenziali errate");	 
-		}
-		else
-			loginErrorLabel.setText("Errore: non possono essere lasciati spazi vuoti o contenenti virgole");	
-	}
-	
-	public void switchToRegistrazione(ActionEvent e ) throws IOException {
-		SwitchTo("/Registrazione.fxml","Registrazione.css",e);
-	}
-	
-	public void switchToLogin(ActionEvent e ) throws IOException {
-		
-	    SwitchTo("/Login.fxml","login.css",e);
-		
-	}
-
-/*FINE COTROLLI DI REGISTRAZIONE
- * -----------------------------------------------------------------------------------------
- *INIZIO METODI AUSILIARI */
-
-    //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
-	private boolean inputCheck(String textField) {
-		if(textField.contains(",") || textField.isBlank())
-			return false;	
-		else
-			return true;
-	}
-
     
-    //metodo per il cambio di scena	
-	private void SwitchTo(String FileName,String cssname, ActionEvent e ) throws IOException{
+  //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
+  	private boolean inputCheck(String textField) {
+  		if(textField.contains(",") || textField.isBlank())
+  			return false;	
+  		else
+  			return true;
+  	}
+  	
+  	@FXML
+    public void switchToLogin(ActionEvent e ) throws IOException {
 		
-		root = FXMLLoader.load(getClass().getResource(FileName));
-	    stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-	    Scene scene = new Scene(root);
-	    String css = this.getClass().getResource(cssname).toExternalForm();
-	    scene.getStylesheets().add(css);
-	    
-	    
-	    stage.setResizable(false);
-		stage.sizeToScene();
-		stage.setTitle("Emotional Songs");
-	    stage.setScene(scene);
-	    stage.show();
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+		setRoot(fxmlloader.load());
+		changeScene(e);
 		
 	}
-	
+
 }
