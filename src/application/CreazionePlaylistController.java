@@ -10,6 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+/**
+ * La classe che si occupa di gestire la creazione delle playlist
+ * contiene i controlli per tutte le operazioni effettuabili nella schermata "playlist"
+ * @author Ligas
+ *
+ */
 public class CreazionePlaylistController extends SongTableController {
 
 	@FXML
@@ -19,9 +25,11 @@ public class CreazionePlaylistController extends SongTableController {
 	
 	private Playlist playlist ; 
 	
-	/* il  metodo Initialize viene chiamato (una e una sola volta)
-    dal controller appena dopo la finestra è stata "caricata" con successo 
-    e contiene la tabella che vogliamo visualizzare la prima volta  */
+	/**
+	 * il  metodo Initialize viene chiamato (una e una sola volta)
+     * dal controller appena dopo la finestra è stata "caricata" con successo 
+     * e contiene la tabella che vogliamo visualizzare la prima volta
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -35,6 +43,10 @@ public class CreazionePlaylistController extends SongTableController {
 	}
 
 	@FXML
+	/**
+	 * Cambia la scena in "ricerca canzone"
+	 * @param e : evento "aggiungi canzone"
+	 */
     public void switchToAddSong(ActionEvent e) throws IOException {
         
 		AddSongToPlaylistController controller = new AddSongToPlaylistController();

@@ -6,12 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class AddSongToPlaylistController extends SearchSongTableController {
 	
+	@FXML
+	private TextField searchField;
 	private Playlist playlist ; 
 	
 	@Override
@@ -24,11 +29,11 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		sceltaFiltro.setValue("");
 		
 		sceltaFiltro.setOnAction(event -> { ChangeFilter(); });
-		
+		/*
 		searchButton.setOnAction(event -> { 
 			ArrayList<Song> risultatiRicerca = new ArrayList<Song>();
 			try {
-				risultatiRicerca = Song.searchSong("testify");
+				risultatiRicerca = Song.searchSong(filtroTitolo,"testify");
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -36,7 +41,7 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 			}
 			songObservableList = FXCollections.observableArrayList(risultatiRicerca);
 			UpdateTable(songObservableList);  
-		});
+		}); */
 		
 		goBackButton.setOnAction(event -> {     
 			
@@ -57,6 +62,14 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		
 		tabellaCanzoni.setPlaceholder(new Label("La tabella è vuota"));
 		
+	}
+	
+	public void cercaCanzone(ActionEvent e ) throws NumberFormatException, IOException {
+		String[] input = {searchField.getText()}; 
+		ObservableList<Song> listaCanzoni = FXCollections.observableList(Song.searchSong(filtroTitolo, input));
+		String[] rating = {"5","1","1","1","1","1","1","1","1"};
+		listaCanzoni.get(0).inserisciEmozioniBrano("pippo", rating);
+		UpdateTable(listaCanzoni);
 	}
 	
 	@Override 

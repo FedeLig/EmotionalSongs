@@ -6,7 +6,11 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
+/**
+ * Classe che si occupa di iniziare il programma, avvia l'applicazione
+ * presentando all'utente il menu iniziale.
+ * @author Picazio
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {

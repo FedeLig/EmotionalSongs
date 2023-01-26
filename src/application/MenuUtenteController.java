@@ -7,6 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
+/**
+ * Classe che si occupa della gestione della scena "Menu Utente"
+ * @author Ligas
+ */
 public class MenuUtenteController extends Controller  {
 	
 	@FXML

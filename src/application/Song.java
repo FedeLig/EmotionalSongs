@@ -1,12 +1,14 @@
 package application;
 
-//Classe che istanzia l'oggetto canzone, permette di selezionare una canzone
-//e di valutare le emozioni che trsamette
-
 import java.util.*;
 import java.io.*;
 
 // nota : se Song non fosse public RepositoryTableController non funzionerebbe 
+/**
+ * Classe che gestisce le canzoni: permette di cercarle, ottenerne i dati
+ * e valutare le emozioni che trasmettono.
+ * @author Picazio
+ */
 public class Song {
 
     private String name, author, album;
@@ -23,8 +25,11 @@ public class Song {
 		this.id = id;
 	}
 
-	//il costruttore prende in input l'inidice della canzone nel dataset
-    //e da lì ottiene i dati.
+    /**
+	 *il costruttore prende in input l'inidice della canzone nel dataset
+     *e da lì ottiene i dati.
+     *@param id : indice della canzone nel dataset
+     */
     public Song(int id) throws IOException, NumberFormatException {
 
         this.id = id;
@@ -63,8 +68,14 @@ public class Song {
 	
     //Funzione per la ricerca di una canzone:
     //cerca i risultati in base al titolo, nome dell'artista e dell'album.
-    public static ArrayList<Song> searchSong(String name) throws IOException, NumberFormatException, NumberFormatException{
-        name = name.toLowerCase();
+	/**
+	 * Data in input una stringa si occupa di restituire una lista di canzoni i cui attributi matchano
+	 * i valori della stringa.
+	 * @param ricercaTitolo : se vero si effettua la ricerca in base al titolo, altrimenti per auote e anno
+	 * @param input : valori della ricerca
+	 * @return lista di canzoni corrispondenti alla ricerca
+	 */
+    public static ArrayList<Song> searchSong(boolean ricercaTitolo, String[] input) throws IOException, NumberFormatException, NumberFormatException{
         String[] data = new String[6];
         String line, searchLine;
         ArrayList<Song> songList = new ArrayList<Song>();
@@ -72,26 +83,54 @@ public class Song {
         String path = getPath() + (File.separator + "Songs.csv");
         //System.out.println(path);
         BufferedReader br = new BufferedReader(new FileReader(path));
+        br.readLine();
         //Raggruppo tutte le canzoni in cui appare il dato cercato
-        while((line = br.readLine()) != null) {
-            data = line.split(",,");
-            if(! data[0].equals("id")) {
-                searchLine = String.join("", data[1],data[2],data[3]).toLowerCase();
-                if(searchLine.contains(name)) 
-                    songList.add(new Song(Integer.parseInt(data[0])));
-            }
-            
+        if(ricercaTitolo) {
+        	//caso di ricerca per titolo
+        	String titolo, titoloCercato;
+        	//leggo riga per riga il dataset canzoni
+        	while((line = br.readLine()) != null) {
+        		//separo i dati
+        		data = line.split(",,");
+        		//assegno alle variabili i valori della ricerca (case Insensitive)
+        		titolo = data[1].toLowerCase();
+        		titoloCercato = input[0].toLowerCase();
+        		if(titolo.contains(titoloCercato))
+        			//Se il titolo cercato è contenuto in quello della canzone la aggiungo alla lista dei risultati
+        			songList.add(new Song(Integer.parseInt(data[0])));
+        	}
+        }
+        else {
+        	//caso di rcerca per autore e anno
+        	//caso di ricerca per titolo
+        	String autore, anno, autoreCercato, annoCercato;
+        	//leggo riga per riga il dataset canzoni
+        	while((line = br.readLine()) != null) {
+        		//separo i dati
+        		data = line.split(",,");
+        		//assegno alle variabili i valori della ricerca (case Insensitive)
+        		autore = data[2].toLowerCase();
+        		autoreCercato = input[0].toLowerCase();
+        		anno = data[5];
+        		annoCercato = input[2];
+        		if(autore.contains(autoreCercato) && anno.equals(annoCercato))
+        			//Se l'anno e l'autore cercati sono contenuti in quelloi della canzone la aggiungo alla lista dei risultati
+        			songList.add(new Song(Integer.parseInt(data[0])));
+        	}
         }
         br.close();
 
         return(songList);
     }
 
-    public void inserisciEmozioniBrano(String userId) throws IOException {
+    /**
+     * 
+     * @param userId
+     * @throws IOException
+     */
+    public void inserisciEmozioniBrano(String userId, String[] rating) throws IOException {
         boolean rated = false;
-        Scanner scan = new Scanner(System.in);
-        String amazement = scan.nextLine();
-        String line, oldLine="", newLine = String.format("%d,,%s,,%s",this.id,userId,amazement); 
+        String line, oldLine="", newLine = String.format("%d,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s",this.id,userId,rating[0],rating[1],rating[2],rating[3],rating[4],rating[5],rating[6],rating[7],rating[8]); 
         String path = getPath() + (File.separator + "Emozioni.csv");
         //String[] data = new String[6];
         Writer output;
@@ -100,16 +139,15 @@ public class Song {
         while((line = br.readLine()) != null) {
             String[] data = line.split(",,");
             
-            if(data[0].equals(Integer.toString(this.id)) & data[1].equals(userId)) {
+            if(data[0].equals(Integer.toString(this.id)) && data[1].equals(userId)) {
                 rated = true;
                 oldLine = line;
                 break;
             }
         }
-        scan.close();
         br.close();
 
-        //se la canzone è già stata valutata rimpiaziamo la vecchia valutazione[
+        //se la canzone è già stata valutata rimpiaziamo la vecchia valutazione
         if(rated) {
             //Instantiating the Scanner class to read the file
             Scanner sc = new Scanner(new File(path));
@@ -161,8 +199,12 @@ public class Song {
         return values;
     }
 
-    //funzione per ottenere le emozioni di una canzone dato l'id;
-    private List<String[]> getEmotionsData(int id) throws IOException, FileNotFoundException {
+    /**
+     * funzione per ottenere le valutazione di ciascun utente riguardo una canzone dato l'id
+     * @param id : indice del brano
+     * @return array contenente ogni valutazione associata allo userId dell'utente che l'ha fatta
+     */
+    public List<String[]> getEmotionsData(int id) throws IOException, FileNotFoundException {
         boolean check = false;
         String path = getPath() + (File.separator + "Emozioni.csv"), line;
         String[] rating = new String[3];
@@ -181,11 +223,18 @@ public class Song {
         return ratings;
     }
 
+    /**
+     * Stampa a schermo i dati di una canzone
+     */
     public void printSongData() {
         String line = String.format("Nome: %s \nArtista: %s \n",this.name,this.author);
         System.out.print(line);
     }
-
+    
+    /**
+     * Stampa a schermo i valori delle emozioni di una canzone, per ciascun utente che l'ha valutata
+     * @throws IOException
+     */
     public void printEmotionsData() throws IOException {
         int i;
         List<String[]> ratings = getEmotionsData(this.id);

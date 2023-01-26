@@ -21,7 +21,7 @@
                     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="54.0" prefWidth="316.0">
                            <children>
                               <Label layoutX="180.0" prefHeight="23.0" prefWidth="146.0" text="della canzone da cercare" />
-                              <TextField layoutX="54.0" layoutY="-4.0" prefHeight="15.0" prefWidth="113.0" promptText="titolo" />
+                              <TextField fx:id="searchField" layoutX="54.0" layoutY="-4.0" prefHeight="15.0" prefWidth="113.0" promptText="titolo" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -40,7 +40,7 @@
               </tabs>
             </TabPane>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="230.0" layoutX="28.0" layoutY="129.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="391.0" />
-            <Button fx:id="searchButton" layoutX="356.0" layoutY="70.0" mnemonicParsing="false" text="cerca" />
+            <Button fx:id="searchButton" layoutX="356.0" layoutY="70.0" mnemonicParsing="false" onAction="#cercaCanzone" text="cerca" />
             <Label fx:id="filtroSelezionato" layoutX="327.0" layoutY="26.0" text="titolo" />
             <TableView fx:id="tabellaCanzoni" layoutX="41.0" layoutY="133.0" prefHeight="219.0" prefWidth="372.0" />
             <ChoiceBox fx:id="sceltaFiltro" layoutX="313.0" layoutY="21.0" prefHeight="25.0" prefWidth="113.0" />

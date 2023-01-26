@@ -7,9 +7,12 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 
 public class RicercaInRepositoryController extends SearchSongTableController {
@@ -18,6 +21,8 @@ public class RicercaInRepositoryController extends SearchSongTableController {
        dal controller appena dopo la finestra è stata "caricata" con successo 
        e contiene la tabella che vogliamo visualizzare la prima volta  */
 	String indirizzoTabellaPrecedente ; 
+	@FXML
+	private TextField searchField;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -29,7 +34,7 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		sceltaFiltro.setValue("");
 		
 		sceltaFiltro.setOnAction(event -> { ChangeFilter(); });
-		
+		/*
 		searchButton.setOnAction(event -> { 
 			ArrayList<Song> risultatiRicerca = new ArrayList<Song>();
 			try {
@@ -43,7 +48,7 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 			UpdateTable(songObservableList); 
 			
 		});
-		
+		*/
 		goBackButton.setOnAction(event -> { 
 			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(indirizzoTabellaPrecedente));
 	    try {
@@ -55,6 +60,14 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		
 		tabellaCanzoni.setPlaceholder(new Label("La tabella è vuota"));
 		
+	}
+	
+	public void cercaCanzone(ActionEvent e ) throws NumberFormatException, IOException {
+		String[] input = {searchField.getText()}; 
+		ObservableList<Song> listaCanzoni = FXCollections.observableList(Song.searchSong(filtroTitolo, input));
+		String[] rating = {"5","1","1","1","1","1","1","1","1"};
+		listaCanzoni.get(0).inserisciEmozioniBrano("pippo", rating);
+		UpdateTable(listaCanzoni);
 	}
 	
 	@Override

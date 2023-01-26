@@ -8,7 +8,10 @@ public class Login {
     private String userName, password;
     private boolean logged;
 
-    //Quando al costruttore si passa un array questo viene usato per fare la registrazione.
+    /**
+     * permette la registrazione di un nuovo utente.
+     * @param dati : array di valori contenenti tutti i dati necessari alla registrazione
+     */
     public Login(String[] dati) throws IOException {    
         //Aggiungiamo il nome utente al file UtentiRegistrati.csv
     	//L'ordine dei dati è: nome,cognome,cf,indirizzo,email,userId,password
@@ -22,6 +25,11 @@ public class Login {
     }
 
     //se si passano nome utente e password invece si effettua il login.
+    /**
+     * Permette di effettuare un login grazie usando le credenziali
+     * @param userName : nome utente
+     * @param password : password dell'account
+     */
     public Login(String userName, String password) throws IOException {
         //cerco fra gli utenti una coppia corrispondente di userName e password.
         List<String[]> users = getUsers();
@@ -35,11 +43,18 @@ public class Login {
             }
         }
     }
-    // I tre metodi seguenti servono a verificare l'unicità di un atttributo.
-    // Sono statici poichè il loro utilizzo è riferito a tutta la classe e non 
-    // a una particolare istanza.
-    // Si comportano tutti allo stesso modo: prendono come argomento un attributo
-    // e verificano che non siano presenti doppioni nei dati salavati.
+    /* I tre metodi seguenti servono a verificare l'unicità di un atttributo.
+     * Sono statici poichè il loro utilizzo è riferito a tutta la classe e non 
+     * a una particolare istanza.
+     * Si comportano tutti allo stesso modo: prendono come argomento un attributo
+     * e verificano che non siano presenti doppioni nei dati salavati.
+     */
+    
+    /**
+     * Permette di verificare la validità del codice fiscale
+     * @param cf : codice fiscale
+     * @return vero se il codice è valido, falso altrimenti
+     */
     public static boolean checkCf(String cf) throws IOException {
         boolean check = true;
         List<String[]> users = getUsers();
@@ -53,7 +68,11 @@ public class Login {
         return check; 
     }
     
-
+    /**
+     * Permette di verificare la validità dell'email
+     * @param email : email utente
+     * @return vero se l'email è valida, falso altrimenti
+     */
     public static boolean checkEmail(String email) throws IOException {
         boolean check = true;
         List<String[]> users = getUsers();
@@ -67,7 +86,11 @@ public class Login {
         return check; 
     }
 
-    
+    /**
+     * Permette di verificare la validità dello userId
+     * @param userId : codice utente
+     * @return vero se il codice è valido, falso altrimenti
+     */
     public static boolean checkUserId(String userId) throws IOException {
         boolean check = true;
         List<String[]> users = getUsers();
@@ -83,6 +106,10 @@ public class Login {
 
     // Il metodo isLogged è utile per verificare se una registrazione o un login
     // sono andati a buon fine.
+    /**
+     * Permette di verificare se il login/registrazione è andata a buon fine
+     * @return vero se l'utente è loggato, falso altrimenti
+     */
     public boolean isLogged() {
         return this.logged;
     }
