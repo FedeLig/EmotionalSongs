@@ -66,9 +66,7 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 	
 	public void cercaCanzone(ActionEvent e ) throws NumberFormatException, IOException {
 		String[] input = {searchField.getText()}; 
-		ObservableList<Song> listaCanzoni = FXCollections.observableList(Song.searchSong(filtroTitolo, input));
-		String[] rating = {"5","1","1","1","1","1","1","1","1"};
-		listaCanzoni.get(0).inserisciEmozioniBrano("pippo", rating);
+		ObservableList<Song> listaCanzoni = FXCollections.observableList(Song.searchSong(tipoRicerca, input));
 		UpdateTable(listaCanzoni);
 	}
 	
@@ -79,8 +77,9 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 	@Override 
     protected void  onHyperLinkCliked (ActionEvent e , int indice){
 		 
+		System.out.print(indice);
 		Song canzone = songObservableList.get(indice);
-		playlist.getListaCanzoni().add(canzone);
+		playlist.aggiungiCanzone(canzone);
 		
 	}
 	
