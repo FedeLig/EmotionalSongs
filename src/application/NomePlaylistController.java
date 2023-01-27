@@ -19,7 +19,7 @@ public class NomePlaylistController extends Controller  {
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
 		CreazionePlaylistController controller = new CreazionePlaylistController(); 
 		fxmlloader.setController(controller);
-		Playlist playlist = new Playlist("prova");
+		Playlist playlist = new Playlist("prova", "giacomino");
 		controller.setPlaylist(playlist);
 		setRoot(fxmlloader.load());
 		changeScene(e);

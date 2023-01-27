@@ -24,7 +24,7 @@ abstract class SearchSongTableController extends SongTableController {
 	protected ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
 	//filtroBrano ci permette di distinguere il metodo di ricerca che si sta usando
 	//Se filtroBrano == false allora si sta usando la ricerca per anno e autore. 
-	protected boolean filtroTitolo = true; 
+	protected int tipoRicerca = 1;
 	@FXML 
 	private Label filtroSelezionato ; 
 	
@@ -39,7 +39,6 @@ abstract class SearchSongTableController extends SongTableController {
     
     protected void ChangeFilter() {
     	
-    	this.filtroTitolo = ! filtroTitolo;
     	sceltaFiltro.setValue("");
     	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
     	
@@ -51,6 +50,7 @@ abstract class SearchSongTableController extends SongTableController {
         	if ( !(PreviousOption.equals("  titolo")) ) {
         		
         		filtroSelezionato.setText("titolo");
+        		tipoRicerca = 1;
         		// cambiamo tab 
         		selectionModel.select(0);
         		firstTab.setDisable(false);
@@ -66,6 +66,7 @@ abstract class SearchSongTableController extends SongTableController {
         	if ( !(PreviousOption.equals("  autore e anno")) ) {
         		
             	filtroSelezionato.setText("autore e anno");
+            	tipoRicerca = 2;
             	selectionModel.select(1);
             	firstTab.setDisable(true);
 			    secondTab.setDisable(false);

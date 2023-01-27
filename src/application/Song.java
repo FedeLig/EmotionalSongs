@@ -38,13 +38,16 @@ public class Song {
         
         this.id = Integer.parseInt(data[0]);
         this.name = data[1];
-        this.author = data[2];
-        this.album = data[3];
+        this.album = data[2];
+        this.author = data[3];
         this.duration = (int)Float.parseFloat(data[4]);
         this.year = Integer.parseInt(data[5]);
     }
     
     // getter necessari per i controller delle tabelle 
+    public int getId() {
+    	return id;
+    }
     public String getName() {
 		return name;
 	}
@@ -71,52 +74,87 @@ public class Song {
 	/**
 	 * Data in input una stringa si occupa di restituire una lista di canzoni i cui attributi matchano
 	 * i valori della stringa.
-	 * @param ricercaTitolo : se vero si effettua la ricerca in base al titolo, altrimenti per auote e anno
+	 * @param tipoRicerca : 1=titolo, 2=autore e anno, 3=artista, 4=album
 	 * @param input : valori della ricerca
 	 * @return lista di canzoni corrispondenti alla ricerca
 	 */
-    public static ArrayList<Song> searchSong(boolean ricercaTitolo, String[] input) throws IOException, NumberFormatException, NumberFormatException{
+    public static ArrayList<Song> searchSong(int tipoRicerca, String[] input) throws IOException, NumberFormatException, NumberFormatException{
         String[] data = new String[6];
         String line, searchLine;
         ArrayList<Song> songList = new ArrayList<Song>();
 
         String path = getPath() + (File.separator + "Songs.csv");
-        //System.out.println(path);
         BufferedReader br = new BufferedReader(new FileReader(path));
+        //leggo la prima riga che non contiene i dati di nessuna canzone
         br.readLine();
         //Raggruppo tutte le canzoni in cui appare il dato cercato
-        if(ricercaTitolo) {
-        	//caso di ricerca per titolo
-        	String titolo, titoloCercato;
-        	//leggo riga per riga il dataset canzoni
-        	while((line = br.readLine()) != null) {
-        		//separo i dati
-        		data = line.split(",,");
-        		//assegno alle variabili i valori della ricerca (case Insensitive)
-        		titolo = data[1].toLowerCase();
-        		titoloCercato = input[0].toLowerCase();
-        		if(titolo.contains(titoloCercato))
-        			//Se il titolo cercato è contenuto in quello della canzone la aggiungo alla lista dei risultati
-        			songList.add(new Song(Integer.parseInt(data[0])));
-        	}
-        }
-        else {
-        	//caso di rcerca per autore e anno
-        	//caso di ricerca per titolo
-        	String autore, anno, autoreCercato, annoCercato;
-        	//leggo riga per riga il dataset canzoni
-        	while((line = br.readLine()) != null) {
-        		//separo i dati
-        		data = line.split(",,");
-        		//assegno alle variabili i valori della ricerca (case Insensitive)
-        		autore = data[2].toLowerCase();
-        		autoreCercato = input[0].toLowerCase();
-        		anno = data[5];
-        		annoCercato = input[2];
-        		if(autore.contains(autoreCercato) && anno.equals(annoCercato))
-        			//Se l'anno e l'autore cercati sono contenuti in quelloi della canzone la aggiungo alla lista dei risultati
-        			songList.add(new Song(Integer.parseInt(data[0])));
-        	}
+        switch(tipoRicerca) {
+	        case 1:
+	        	//caso di ricerca per titolo
+	        	String titolo, titoloCercato;
+	        	//leggo riga per riga il dataset canzoni
+	        	while((line = br.readLine()) != null) {
+	        		//separo i dati
+	        		data = line.split(",,");
+	        		//assegno alle variabili i valori della ricerca (case Insensitive)
+	        		titolo = data[1].toLowerCase();
+	        		titoloCercato = input[0].toLowerCase();
+	        		if(titolo.contains(titoloCercato))
+	        			//Se il titolo cercato è contenuto in quello della canzone la aggiungo alla lista dei risultati
+	        			songList.add(new Song(Integer.parseInt(data[0])));
+	        	}
+	        	break;
+	        
+	        case 2:
+	        	//caso di rcerca per autore e anno
+	        	//caso di ricerca per titolo
+	        	String autore, anno, autoreCercato, annoCercato;
+	        	//leggo riga per riga il dataset canzoni
+	        	while((line = br.readLine()) != null) {
+	        		//separo i dati
+	        		data = line.split(",,");
+	        		//assegno alle variabili i valori della ricerca (case Insensitive)
+	        		autore = data[2].toLowerCase();
+	        		autoreCercato = input[0].toLowerCase();
+	        		anno = data[5];
+	        		annoCercato = input[1];
+	        		if(autore.contains(autoreCercato) && anno.equals(annoCercato))
+	        			//Se l'anno e l'autore cercati sono contenuti in quelloi della canzone la aggiungo alla lista dei risultati
+	        			songList.add(new Song(Integer.parseInt(data[0])));
+	        	}
+	        	break;
+	        case 3:
+	        	//caso di ricerca per autore
+	        	String autore1, autoreCercato1;
+	        	//leggo riga per riga il dataset canzoni
+	        	while((line = br.readLine()) != null) {
+	        		//separo i dati
+	        		data = line.split(",,");
+	        		//assegno alle variabili i valori della ricerca (case Insensitive)
+	        		autore1 = data[3].toLowerCase();
+	        		autoreCercato1 = input[0].toLowerCase();
+	        		if(autore1.contains(autoreCercato1))
+	        			//Se il titolo cercato è contenuto in quello della canzone la aggiungo alla lista dei risultati
+	        			songList.add(new Song(Integer.parseInt(data[0])));
+	        	}
+	        	
+	        	break;
+	        case 4:
+	        	//caso di ricerca per album
+	        	String album, albumCercato;
+	        	//leggo riga per riga il dataset canzoni
+	        	while((line = br.readLine()) != null) {
+	        		//separo i dati
+	        		data = line.split(",,");
+	        		//assegno alle variabili i valori della ricerca (case Insensitive)
+	        		album = data[2].toLowerCase();
+	        		albumCercato = input[0].toLowerCase();
+	        		if(album.contains(albumCercato))
+	        			//Se il titolo cercato è contenuto in quello della canzone la aggiungo alla lista dei risultati
+	        			songList.add(new Song(Integer.parseInt(data[0])));
+	        	}
+	        	
+	        	break;
         }
         br.close();
 
