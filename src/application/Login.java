@@ -16,7 +16,7 @@ public class Login {
         //Aggiungiamo il nome utente al file UtentiRegistrati.csv
     	//L'ordine dei dati è: nome,cognome,cf,indirizzo,email,userId,password
         String newLine = String.format("%s,%s,%s,%s,%s,%s,%s",dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],dati[6]);
-        String path = getPath() + (File.separator + "UtentiRegistrati.csv");
+        String path = getPath() + (File.separator + "UtentiRegistrati.dati.csv");
         BufferedWriter output = new BufferedWriter(new FileWriter(path, true));
         output.append(newLine + System.lineSeparator());
         output.close();
@@ -119,7 +119,7 @@ public class Login {
         //singolarmente.
         List<String[]> list = new ArrayList<String[]>();
         String line;
-        String path = getPath() + (File.separator + "UtentiRegistrati.csv");
+        String path = getPath() + (File.separator + "UtentiRegistrati.dati.csv");
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         while((line = br.readLine()) != null)

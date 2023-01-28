@@ -83,7 +83,7 @@ public class Song {
         String line, searchLine;
         ArrayList<Song> songList = new ArrayList<Song>();
 
-        String path = getPath() + (File.separator + "Songs.csv");
+        String path = getPath() + (File.separator + "Canzoni.dati.csv");
         BufferedReader br = new BufferedReader(new FileReader(path));
         //leggo la prima riga che non contiene i dati di nessuna canzone
         br.readLine();
@@ -106,15 +106,14 @@ public class Song {
 	        	break;
 	        
 	        case 2:
-	        	//caso di rcerca per autore e anno
-	        	//caso di ricerca per titolo
+	        	//caso di ricerca per autore e anno
 	        	String autore, anno, autoreCercato, annoCercato;
 	        	//leggo riga per riga il dataset canzoni
 	        	while((line = br.readLine()) != null) {
 	        		//separo i dati
 	        		data = line.split(",,");
 	        		//assegno alle variabili i valori della ricerca (case Insensitive)
-	        		autore = data[2].toLowerCase();
+	        		autore = data[3].toLowerCase();
 	        		autoreCercato = input[0].toLowerCase();
 	        		anno = data[5];
 	        		annoCercato = input[1];
@@ -169,7 +168,7 @@ public class Song {
     public void inserisciEmozioniBrano(String userId, String[] rating) throws IOException {
         boolean rated = false;
         String line, oldLine="", newLine = String.format("%d,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s",this.id,userId,rating[0],rating[1],rating[2],rating[3],rating[4],rating[5],rating[6],rating[7],rating[8]); 
-        String path = getPath() + (File.separator + "Emozioni.csv");
+        String path = getPath() + (File.separator + "Emozioni.dati.csv");
         //String[] data = new String[6];
         Writer output;
         //verifichiamo se questa canzone è già stata valutata o meno.
@@ -225,7 +224,7 @@ public class Song {
     //funzione che preleva i dati della IDesima canzone nel dataset
     private String[] getSongData(int id) throws IOException, FileNotFoundException {
         
-    	String path = getPath() + (File.separator + "Songs.csv"), line="";
+    	String path = getPath() + (File.separator + "Canzoni.dati.csv"), line="";
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         for(int i=0;i<=id; i++)
@@ -244,7 +243,7 @@ public class Song {
      */
     public List<String[]> getEmotionsData(int id) throws IOException, FileNotFoundException {
         boolean check = false;
-        String path = getPath() + (File.separator + "Emozioni.csv"), line;
+        String path = getPath() + (File.separator + "Emozioni.dati.csv"), line;
         String[] rating = new String[3];
         List<String[]> ratings = new ArrayList<String[]>();
         BufferedReader br = new BufferedReader(new FileReader(path));
