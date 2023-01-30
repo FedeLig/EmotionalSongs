@@ -16,10 +16,10 @@ import javafx.util.Callback;
 abstract class SongTableController extends Controller implements Initializable{
 	
 	@FXML
-	protected TableView<Song> tabellaCanzoni;
+	private TableView<Song> tabellaCanzoni;
 	
 	@FXML
-	protected  ObservableList<Song> songObservableList = FXCollections.observableArrayList();
+	private  ObservableList<Song> songObservableList = FXCollections.observableArrayList();
 	
 
 	// ---------- INIZIO CONTROLLI PER MANIPOLARE TABELLA ----------------
@@ -29,7 +29,7 @@ abstract class SongTableController extends Controller implements Initializable{
 	 * L'Ultima colonna di ogni riga contiene un Hyperlink : */
 	protected void UpdateTable(ObservableList<Song> listaCanzoni ) {
 		
-	 	Boolean PreviousTableIsNotEmpty = (!(tabellaCanzoni.getItems()).isEmpty()) ;
+	 	Boolean PreviousTableIsNotEmpty = (!(getTabellaCanzoni().getItems()).isEmpty()) ;
 	 	
 		/*condizione :  il risultato della ricerca è un vettore vuoto ? */
 		 if ( listaCanzoni.size() == 0 ) { 
@@ -37,12 +37,12 @@ abstract class SongTableController extends Controller implements Initializable{
 			 if(PreviousTableIsNotEmpty) {
 				 
 				    // togliamo i valori che erano presenti
-			 		tabellaCanzoni.getItems().clear();
+			 		getTabellaCanzoni().getItems().clear();
 			 	    // togliamo le colonne che erano presenti 
-			 		tabellaCanzoni.getColumns().clear(); 	 
+			 		getTabellaCanzoni().getColumns().clear(); 	 
 			 }
 			 
-		 	 tabellaCanzoni.setPlaceholder(new Label("Nessuna canzone presente"));
+		 	 getTabellaCanzoni().setPlaceholder(new Label("Nessuna canzone presente"));
 		 
 		 }
 		 else  {
@@ -55,18 +55,18 @@ abstract class SongTableController extends Controller implements Initializable{
 		    if(PreviousTableIsNotEmpty) {
 	 	
 		    	// togliamo i valori che erano presenti
-		 		tabellaCanzoni.getItems().clear();
+		 		getTabellaCanzoni().getItems().clear();
 		 	    // dice alla tabella da quali lista prendere i dati 
-		 		tabellaCanzoni.setItems(data); 
+		 		getTabellaCanzoni().setItems(data); 
 		 		// aggiorna la tabella usando la lista di dati più recente
-		 		tabellaCanzoni.refresh();
+		 		getTabellaCanzoni().refresh();
 		 		
 		 		
 		    }
 		    else { 
 		    	
 		    	// dice alla tabella da quali lista prendere i dati 
-		    	tabellaCanzoni.setItems(data); 
+		    	getTabellaCanzoni().setItems(data); 
 		    	// crea una nuova tabella usando la lista di dati più recente
 		    	createTableFromList(data);
 		    	
@@ -89,23 +89,23 @@ abstract class SongTableController extends Controller implements Initializable{
 		
 		TableColumn<Song,String> nameColumn = new TableColumn<>("nome");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song,String>("name"));
-		tabellaCanzoni.getColumns().add(nameColumn);
+		getTabellaCanzoni().getColumns().add(nameColumn);
 		
 		TableColumn<Song,String> authorColumn = new TableColumn<>("autore");
 		authorColumn.setCellValueFactory(new PropertyValueFactory<Song,String>("author"));
-		tabellaCanzoni.getColumns().add(authorColumn);
+		getTabellaCanzoni().getColumns().add(authorColumn);
 		
 		TableColumn<Song,String> albumColumn = new TableColumn<>("album");
 		albumColumn.setCellValueFactory(new PropertyValueFactory<Song,String>("album"));
-		tabellaCanzoni.getColumns().add(albumColumn);
+		getTabellaCanzoni().getColumns().add(albumColumn);
 		
 		TableColumn<Song,Integer> yearColumn = new TableColumn<>("anno");
 		yearColumn.setCellValueFactory(new PropertyValueFactory<Song,Integer>("year"));
-		tabellaCanzoni.getColumns().add(yearColumn);
+		getTabellaCanzoni().getColumns().add(yearColumn);
 		
 		TableColumn<Song,Integer> durationColumn = new TableColumn<>("durata");
 		durationColumn.setCellValueFactory(new PropertyValueFactory<Song,Integer>("duration"));
-		tabellaCanzoni.getColumns().add(durationColumn);
+		getTabellaCanzoni().getColumns().add(durationColumn);
          
 		
 
@@ -171,7 +171,7 @@ abstract class SongTableController extends Controller implements Initializable{
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
 	    StatsColumn.setCellFactory(cellFactory);
 
-	    tabellaCanzoni.getColumns().add(StatsColumn);
+	    getTabellaCanzoni().getColumns().add(StatsColumn);
 		
 	}
 	
@@ -179,5 +179,21 @@ abstract class SongTableController extends Controller implements Initializable{
 	abstract protected void  onHyperLinkCliked (ActionEvent e , int indice );
 	
 	abstract protected String getTestoHyperLink() ;
+
+	public ObservableList<Song> getSongObservableList() {
+		return songObservableList;
+	}
+
+	public void setSongObservableList(ObservableList<Song> songObservableList) {
+		this.songObservableList = songObservableList;
+	}
+
+	public TableView<Song> getTabellaCanzoni() {
+		return tabellaCanzoni;
+	}
+
+	public void setTabellaCanzoni(TableView<Song> tabellaCanzoni) {
+		this.tabellaCanzoni = tabellaCanzoni;
+	}
 	
 }

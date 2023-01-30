@@ -34,6 +34,9 @@ public class LoginController extends Controller{
 	        if(login.isLogged()) {
                 loginErrorLabel.setText("");
                 FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
+                MenuUtenteController controller = new MenuUtenteController();
+                fxmlloader.setController(controller);
+        		controller.setUserId(idUtente);
         		setRoot(fxmlloader.load());
         		changeScene(e);
             }

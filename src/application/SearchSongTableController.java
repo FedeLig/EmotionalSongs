@@ -1,8 +1,13 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -10,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 
 abstract class SearchSongTableController extends SongTableController {
  
@@ -18,15 +24,15 @@ abstract class SearchSongTableController extends SongTableController {
 	@FXML 
 	private Tab firstTab, secondTab ; 
 	@FXML 
-	protected Button searchButton ; 
+	private TextField  titleField ,authorField , yearField ; 
 	
 	@FXML
 	protected ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
 	//filtroBrano ci permette di distinguere il metodo di ricerca che si sta usando
 	//Se filtroBrano == false allora si sta usando la ricerca per anno e autore. 
-	protected int tipoRicerca = 1;
+	private int tipoRicerca = 1;
 	@FXML 
-	private Label filtroSelezionato ; 
+	private Label filtroSelezionato ;
 	
 	@FXML
 	protected Button goBackButton; 
@@ -37,7 +43,47 @@ abstract class SearchSongTableController extends SongTableController {
 	
     // ----------  CONTROLLI PER SCELTA FILTRO  ----------------
     
-    protected void ChangeFilter() {
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		listaOpzioni = new ArrayList<String>(Arrays.asList("  titolo","  autore e anno"));
+		
+		sceltaFiltro.setItems(FXCollections.observableArrayList(listaOpzioni));
+		 
+		sceltaFiltro.setValue("");
+		
+		sceltaFiltro.setOnAction(event -> { ChangeFilter(); });
+		
+		getTabellaCanzoni().setPlaceholder(new Label("La tabella è vuota"));
+		
+	}
+	
+	public void cercaBranoMusicale(ActionEvent e ) throws NumberFormatException, IOException {
+		
+		String[] input = new String[2] ; 
+		
+		if( tipoRicerca == 1 & !(titleField.getText().isEmpty())) {
+			
+			input[0] = titleField.getText();
+		}
+		else {
+			
+		   if ( tipoRicerca == 2 & !(authorField.getText().isEmpty()) & !(yearField.getText().isEmpty())){
+			   
+			input[0] = authorField.getText();
+			input[1] = yearField.getText(); 
+			
+		   }
+		}
+		
+		if(input[0] != null) {
+		   setSongObservableList(FXCollections.observableList(Song.searchSong(tipoRicerca, input)));
+		   UpdateTable(getSongObservableList()); 
+		}
+		
+	}
+	
+    private void ChangeFilter() {
     	
     	sceltaFiltro.setValue("");
     	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
@@ -76,6 +122,10 @@ abstract class SearchSongTableController extends SongTableController {
         }
     	
     	
+    }
+    
+    public String getFiltroSelezionato() {
+    	return filtroSelezionato.getText();
     }
 
 }

@@ -3,27 +3,25 @@
 /*------------------------------------------------ */
 
 .root{
-    -fx-background-color: linear-gradient(to right bottom,#0F5298,#61D8DE)
+    -fx-background-color: linear-gradient(to right bottom,#0F5298,#61D8DE) ; 
+    -fx-font-family:"Segoe UI";
+	-fx-font-weight: bold;
 }
 
 .label{    /* applica stile all' intera classe label */ 
-	-fx-font-family:"Segoe UI";
 	-fx-text-fill:"white";
-	-fx-font-weight: bold;
 }
+
 .button{
 	-fx-background-color: transparent ;
-	-fx-font-family:"Segoe UI";
 	-fx-text-fill:"white";
 	-fx-border-color: white;
 	-fx-border-radius: 12 ;
 	-fx-border-width: 1 1 1 1 ; 
-	-fx-font-weight: bold;
+	
 }
 .hyperlink{
-	-fx-font-family:"Segoe UI";
 	-fx-text-fill:"white";
-	-fx-font-weight: bold;
 	-fx-border-color: transparent;
 }
 .hyperlink:hover {
@@ -35,6 +33,54 @@
 	-fx-text-fill: "white";
 	-fx-border-color:"white";
 	-fx-border-width: 0 0 1 0 ;
+}
+
+
+/*------------------------------------------------ */
+/*----------    TEXT-AREA STYLING         -------- */
+/*------------------------------------------------ */
+
+.text-area {
+    -fx-background-color: transparent ;
+	-fx-text-fill:"white";
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+/*------------------------------------------------ */
+/*----------    SCROLL-BAR STYLING        -------- */
+/*------------------------------------------------ */
+
+.scroll-bar:vertical,
+.scroll-bar:vertical > .track,
+.scroll-bar:vertical > .track-background, 
+.scroll-bar:horizontal,
+.scroll-bar:horizontal > .track,
+.scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .increment-button, 
+.scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+} 
+.scroll-bar:vertical .thumb{
+	-fx-background-color: rgba(255,255,255,0.5);
+      
+}
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(255,255,255,0.5);
+    
 }
 
 /*------------------------------------------------ */
@@ -113,7 +159,6 @@
 .table-view .filler{
     -fx-background-color: transparent;
 }
-/* parte dove ci sono i nomi delle colonne */
 
 .table-view .column-header {
     -fx-background-color: transparent;
@@ -134,7 +179,6 @@
     -fx-background-color: transparent;
 }
 
-/* dentro tutte le celle  */
 .table-view .table-cell{
     -fx-text-fill: white;
     -fx-background-color: transparent ;
@@ -155,24 +199,3 @@
     -fx-border-radius: 0 0 0 0 ;
 } 
 
-.table-view > .virtual-flow > .scroll-bar:vertical,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
-.table-view > .virtual-flow > .scroll-bar:horizontal,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: transparent;
-}
-
-.table-view > .virtual-flow > .scroll-bar > .increment-button, 
-.table-view > .virtual-flow > .scroll-bar > .decrement-button {
-    -fx-opacity: 0;
-} 
-.table-view .virtual-flow .scroll-bar:vertical .thumb{
-	-fx-background-color: rgba(255,255,255,0.5);
-      
-}
-.table-view .virtual-flow .scroll-bar:horizontal .thumb {
-    -fx-background-color: rgba(255,255,255,0.5);
-    
-}

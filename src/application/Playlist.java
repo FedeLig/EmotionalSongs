@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,6 @@ public class Playlist {
 
 	private String nomePlaylist, autore; 
 	private ObservableList<Song> listaCanzoni;
-	
 	
 	public Playlist(String nomePlaylist, String userId) {
 		
@@ -34,9 +34,8 @@ public class Playlist {
 		this.nomePlaylist = nomePlaylist;
 		this.autore = userId;
 		this.listaCanzoni = listaCanzoni;
-		writePlaylist();
+		RegistraPlaylist();
 	}
-	
 	/**
 	 * Questo costruttore crea una palylist con tutti i brani dell'autore/album specificato in input
 	 * @param nomePlaylist : nome della playlist
@@ -51,8 +50,15 @@ public class Playlist {
 		this.autore = userId;
 		String[] argRicerca = {parametroRicerca};
 		this.listaCanzoni = FXCollections.observableList(Song.searchSong(tipoRicerca + 2, argRicerca));
-		writePlaylist();
+		RegistraPlaylist();
 		
+	}
+	public String getAutore() {
+		return autore;
+	}
+
+	public void setAutore(String autore) {
+		this.autore = autore;
 	}
 
 	public String getNomePlaylist() {
@@ -74,7 +80,11 @@ public class Playlist {
 	public void aggiungiCanzone(Song canzone) {
 		listaCanzoni.add(canzone);
 	}
-	
+	public void aggiungiCanzoni(ArrayList<Song> listaCanzoni) {
+		for(Song canzone : listaCanzoni) {
+			this.listaCanzoni.add(canzone);
+		}
+	}
 	public void svoutaListaCanzoni() {
 		
 		listaCanzoni.clear();  
@@ -84,10 +94,10 @@ public class Playlist {
 	 * salva in memoria la playlist
 	 * @throws IOException
 	 */
-	private void writePlaylist() throws IOException {
+	public void RegistraPlaylist() throws IOException {
 		String path, save  = String.format("%s,,%s",nomePlaylist,autore);
 		Writer output;
-		//creo la stringa che salverà la palylist sul file
+		//creo la stringa che salverà la playlist sul file
 		int i, length = listaCanzoni.size();
 		for(i=0;i<length; i++)
 			save += ",,"+listaCanzoni.get(i).getId();

@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,15 +32,49 @@ public class CreazionePlaylistController extends SongTableController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		songObservableList = playlist.getListaCanzoni();
+		setSongObservableList(playlist.getListaCanzoni());
 		
-		if (songObservableList.isEmpty()) 
-			tabellaCanzoni.setPlaceholder(new Label("La playlist non contiene canzoni"));
+		if (getSongObservableList().isEmpty()) 
+			getTabellaCanzoni().setPlaceholder(new Label("La playlist non contiene canzoni"));
 		else 
-			UpdateTable(songObservableList);
+			UpdateTable(getSongObservableList());
 		
 	}
-
+    @FXML
+	public void salvaPlaylist(ActionEvent e ) throws IOException {
+		
+		// serve creare un nuovo oggetto playlist ? 
+		
+		if(!(playlist.getListaCanzoni().isEmpty())) {
+		   playlist.RegistraPlaylist();
+		   System.out.println("la playlist e' stata salvata");
+		}
+		else {
+			System.out.println("la playlist è vuota");
+		}
+		
+	}
+    @FXML 
+    public void switchToRicercaAvanzataAutore(ActionEvent e) throws IOException {
+    	
+    	RicercaAvanzataController controller = new RicercaAvanzataController("autore");
+    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
+    	fxmlloader.setController(controller);
+    	controller.setPlaylist(playlist);
+    	setRoot(fxmlloader.load());
+		changeScene(e);
+    }
+    
+    @FXML 
+    public void switchToRicercaAvanzataAlbum(ActionEvent e) throws IOException {
+    	
+    	RicercaAvanzataController controller = new RicercaAvanzataController("album");
+    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
+    	fxmlloader.setController(controller);
+    	controller.setPlaylist(playlist);
+    	setRoot(fxmlloader.load());
+		changeScene(e);
+    }
 	@FXML
 	/**
 	 * Cambia la scena in "ricerca canzone"
@@ -63,17 +96,21 @@ public class CreazionePlaylistController extends SongTableController {
 	public void switchToMenuUtente(ActionEvent e) throws IOException { 
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
+		MenuUtenteController controller = new MenuUtenteController();
+	    fxmlloader.setController(controller);
+	    controller.setUserId(playlist.getAutore());
+	    playlist.svoutaListaCanzoni();
 		setRoot(fxmlloader.load());
 		changeScene(e);
-		playlist.svoutaListaCanzoni();
+		
 		
 	}
 
 	@Override
 	protected void onHyperLinkCliked(ActionEvent e ,int indice ) {
 		
-		songObservableList.remove(indice);
-		UpdateTable(songObservableList);
+		getSongObservableList().remove(indice);
+		UpdateTable(getSongObservableList());
 	}
 
 	@Override

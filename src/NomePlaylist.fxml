@@ -5,12 +5,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NomePlaylistController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutY="6.0" prefHeight="250.0" prefWidth="450.0">
          <children>
             <Button fx:id="confermaNome" layoutX="238.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToCreazionePlaylist" prefHeight="25.0" prefWidth="103.0" text="conferma" />
-            <TextField layoutX="146.0" layoutY="96.0" prefHeight="26.0" prefWidth="160.0" />
+            <TextField fx:id="nameField" layoutX="146.0" layoutY="96.0" prefHeight="26.0" prefWidth="160.0" />
             <Label layoutX="146.0" layoutY="75.0" text="inserire il nome della playlist : " />
             <Button fx:id="tornaAlMenu" layoutX="109.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="25.0" prefWidth="103.0" text="torna al menu " />
          </children>
