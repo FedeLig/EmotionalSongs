@@ -3,7 +3,6 @@ package application;
 import java.util.*;
 import java.io.*;
 
-// nota : se Song non fosse public RepositoryTableController non funzionerebbe 
 /**
  * Classe che gestisce le canzoni: permette di cercarle, ottenerne i dati
  * e valutare le emozioni che trasmettono.
