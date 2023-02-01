@@ -23,7 +23,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-
+/*
+ * @Author Ligas
+ */
 public class RicercaAvanzataController extends Controller implements Initializable{
 	
 	@FXML
