@@ -43,8 +43,9 @@ public class RicercaAvanzataController extends Controller implements Initializab
 	private int tipoRicerca  = 3  ; 
 	private ObservableList<Song> risultatiRicerca = FXCollections.observableArrayList();
 	private Property<ObservableList<Song>> listProperty ;
+	private Login utente ; 
 	
-	public RicercaAvanzataController(String opzioneDiRicerca ) { 
+	public RicercaAvanzataController(Login utente,String opzioneDiRicerca ) { 
 		
 		this.opzioneDiRicerca = opzioneDiRicerca ; 
 		listProperty = new SimpleObjectProperty<>(risultatiRicerca);
@@ -151,7 +152,7 @@ public class RicercaAvanzataController extends Controller implements Initializab
     public void switchToCreazionePlaylist(ActionEvent e) throws IOException {
         
     	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
-		CreazionePlaylistController controller = new CreazionePlaylistController(); 
+		CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
 		fxmlloader.setController(controller);
 		controller.setPlaylist(playlist);
 		setRoot(fxmlloader.load());

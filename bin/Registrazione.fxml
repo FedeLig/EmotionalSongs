@@ -54,5 +54,6 @@
          </tabs>
       </TabPane>
       <Label fx:id="errorLabel" alignment="CENTER" layoutX="32.0" layoutY="337.0" prefHeight="34.0" prefWidth="386.0" textAlignment="CENTER" />
+      <Button layoutX="177.0" layoutY="411.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" text="torna al menu" />
    </children>
 </AnchorPane>

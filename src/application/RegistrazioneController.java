@@ -137,7 +137,7 @@ public class RegistrazioneController extends Controller {
         this.errorLabel.setText(this.errore);
     }
     
-  //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
+    //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
   	private boolean inputCheck(String textField) {
   		if(textField.contains(",") || textField.isBlank())
   			return false;	
@@ -146,11 +146,19 @@ public class RegistrazioneController extends Controller {
   	}
   	
   	@FXML
-    public void switchToLogin(ActionEvent e ) throws IOException {
+    public void switchToLogin(ActionEvent event ) throws IOException {
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		setRoot(fxmlloader.load());
-		changeScene(e);
+		changeScene(event);
+		
+	}
+  	@FXML 
+  	public void switchToMenuIniziale(ActionEvent event )throws IOException {
+  		
+  		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
+		setRoot(fxmlloader.load());
+		changeScene(event);
 		
 	}
 

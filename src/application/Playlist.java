@@ -14,6 +14,7 @@ public class Playlist {
 
 	private String nomePlaylist, autore; 
 	private ObservableList<Song> listaCanzoni;
+	private ArrayList<Integer> listaIndiciPlaylist ;
 	
 	public Playlist(String nomePlaylist, String userId) {
 		
@@ -53,6 +54,19 @@ public class Playlist {
 		RegistraPlaylist();
 		
 	}
+	
+    public Playlist(String nomePlaylist, ArrayList<Integer> listaIndiciPlaylist) {
+		
+		this.nomePlaylist = nomePlaylist;
+		this.listaIndiciPlaylist = listaIndiciPlaylist ; 
+	}
+	
+    public Playlist(String nomePlaylist) {
+		
+		this.nomePlaylist = nomePlaylist;
+		this.listaCanzoni = FXCollections.observableArrayList();
+	} 
+    
 	public String getAutore() {
 		return autore;
 	}
@@ -114,4 +128,8 @@ public class Playlist {
     	String userDirectory = System.getProperty("user.dir");
         return (userDirectory + File.separator + "data");
     }
+
+	public ArrayList<Integer> getlistaIndiciPlaylist(){
+		return listaIndiciPlaylist ; 
+	}
 }

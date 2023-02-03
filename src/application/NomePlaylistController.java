@@ -16,8 +16,12 @@ public class NomePlaylistController extends Controller  {
 	@FXML
 	private TextField nameField ; 
 	
-	private String userId ; 
+	private Login utente ; 
 	
+
+	public NomePlaylistController(Login utente) {
+		this.utente = utente ; 
+	}
 
 	@FXML
     public void switchToCreazionePlaylist(ActionEvent e ) throws IOException {
@@ -29,9 +33,9 @@ public class NomePlaylistController extends Controller  {
 		if( !(nomePlaylist.isEmpty()) ) {
 			
 			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
-			CreazionePlaylistController controller = new CreazionePlaylistController(); 
+			CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
 			fxmlloader.setController(controller);
-			Playlist playlist = new Playlist(nomePlaylist,userId);
+			Playlist playlist = new Playlist(nomePlaylist,utente.getUserName());
 			controller.setPlaylist(playlist);
 			setRoot(fxmlloader.load());
 			changeScene(e);
@@ -44,16 +48,11 @@ public class NomePlaylistController extends Controller  {
     public void switchToMenuUtente(ActionEvent e ) throws IOException {
 
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-		MenuUtenteController controller = new MenuUtenteController();
+		MenuUtenteController controller = new MenuUtenteController(utente);
 	    fxmlloader.setController(controller);
-	    controller.setUserId(userId);
 		setRoot(fxmlloader.load());
 		changeScene(e);
 		
-	}
-	
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 	
 	

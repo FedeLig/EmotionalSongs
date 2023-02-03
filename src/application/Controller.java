@@ -7,14 +7,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Questa classe astratta contiene il metodo che tutte le classi che rappresentano un Controller ,
+ * ovvero il gestore di un interfaccia , usano per passare portare l'utente a un'altra interfaccia
+ * che contiene una funzionalità richiesta dall' utente 
+ * @author Ligas 
+ */
 public class Controller {
 
 	private Stage stage ;  
 	private Parent root ;
 	
-    public void changeScene(ActionEvent e ) throws IOException{
+	/**
+	 * Permette di passare da un'interfaccia grafica(scena) ad un'altra 
+	 * @param event : evento che scatena il metodo
+	 */
+    public void changeScene(ActionEvent event ) throws IOException{
 		
-		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		Scene scene = new Scene(root);
 		    
 		stage.setResizable(false);
@@ -24,8 +34,8 @@ public class Controller {
 		stage.setScene(scene);
 		stage.show();
 			
-}
-
+    }
+    
 	public Parent getRoot() {
 		return root;
 	}

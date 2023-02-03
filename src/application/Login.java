@@ -6,6 +6,7 @@ import java.io.*;
 public class Login {
     
     private String userName, password;
+    private List<Playlist> UserPlaylists ; 
     private boolean logged;
 
     /**
@@ -49,8 +50,8 @@ public class Login {
      * Si comportano tutti allo stesso modo: prendono come argomento un attributo
      * e verificano che non siano presenti doppioni nei dati salavati.
      */
-    
-    /**
+
+	/**
      * Permette di verificare la validità del codice fiscale
      * @param cf : codice fiscale
      * @return vero se il codice è valido, falso altrimenti
@@ -114,6 +115,48 @@ public class Login {
         return this.logged;
     }
 
+ // spostare il metodo in Login 
+ 	public static List<Playlist> getPlaylistsUtente(String userName) throws IOException {
+ 			
+ 		List<Playlist> playlistUtenteEsistenti = new ArrayList<Playlist>() ; 
+ 			
+ 		List<String[]> playlists = getPlaylists() ; 
+ 			
+ 		for(String[] playlist : playlists ) {
+ 				
+ 	        if(playlist[0].equals(userName)) {
+ 	            
+ 	           ArrayList<Integer> listaIndiciPlaylist = new ArrayList<Integer>() ; 
+ 	               
+ 	           for(int i = 2  ; i<=(playlist.length - 1) ; i++) {
+ 	               listaIndiciPlaylist.add(Integer.parseInt(playlist[i]));
+ 	           }
+ 	               
+ 	           playlistUtenteEsistenti.add(new Playlist(playlist[1],listaIndiciPlaylist)) ; 
+ 	        }
+ 	    }
+ 			
+ 		return playlistUtenteEsistenti ; 
+ 	}
+ 		
+ 	// spostare il metodo in Login 
+ 	private static List<String[]> getPlaylists() throws IOException {
+ 	      //ottengo i dati di tutti gli utenti e li divido in un array per potervi accedere singolarmente.
+ 	      List<String[]> list = new ArrayList<String[]>();
+ 	      String line;
+ 	      String path = getPath() + (File.separator + "Playlist.dati.csv");
+ 	      BufferedReader br = new BufferedReader(new FileReader(path));
+
+ 	      while((line = br.readLine()) != null)
+ 	      list.add(line.split(";"));
+
+ 	      list.remove(0);
+ 	        
+ 	      br.close();
+
+ 	      return list;
+ 	 }
+ 	
     private static List<String[]> getUsers() throws IOException {
         //ottengo i dati di tutti gli utenti e li divido in un array per potervi accedere 
         //singolarmente.
@@ -158,4 +201,18 @@ public class Login {
 
         return String.join(File.separator, directories); */
     }
+
+	public List<Playlist> getUserPlaylists() {
+		return UserPlaylists;
+	}
+
+	public void setUserPlaylists(List<Playlist> userPlaylists) {
+		UserPlaylists = userPlaylists;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+
 }

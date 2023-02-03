@@ -17,5 +17,6 @@
       <Hyperlink fx:id="LinkToRegistrazione" layoutX="256.0" layoutY="362.0" onAction="#switchToRegistrazione" prefHeight="26.0" prefWidth="74.0" text="Registrati" textFill="#faf0f0" underline="true" />
       <Label layoutX="130.0" layoutY="368.0" prefHeight="15.0" prefWidth="127.0" text="Non hai un account  ?" />
       <Label fx:id="loginErrorLabel" layoutX="48.0" layoutY="340.0" prefHeight="15.0" prefWidth="370.0" textAlignment="CENTER" />
+      <Button layoutX="177.0" layoutY="403.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" text="torna al menu" />
    </children>
 </AnchorPane>
