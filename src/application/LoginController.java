@@ -33,10 +33,10 @@ public class LoginController extends Controller{
 	        //Per vedere se il login è andato a buon fine usiamo il metodo isLogged
 	        if(login.isLogged()) {
                 loginErrorLabel.setText("");
+                login.setUserPlaylists(Login.getPlaylistsUtente(idUtente));
                 FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-                MenuUtenteController controller = new MenuUtenteController();
+                MenuUtenteController controller = new MenuUtenteController(login);
                 fxmlloader.setController(controller);
-        		controller.setUserId(idUtente);
         		setRoot(fxmlloader.load());
         		changeScene(e);
             }
@@ -47,16 +47,26 @@ public class LoginController extends Controller{
 			loginErrorLabel.setText("Errore: non possono essere lasciati spazi vuoti o contenenti virgole");	
 	}
 	
+    private boolean inputCheck(String textField) {
+		if(textField.contains(",") || textField.isBlank())
+			return false;	
+		else
+			return true;
+	}
+    
 	public void switchToRegistrazione(ActionEvent e ) throws IOException {
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Registrazione.fxml"));
 		setRoot(fxmlloader.load());
 		changeScene(e);
 	}
 	
-	private boolean inputCheck(String textField) {
-		if(textField.contains(",") || textField.isBlank())
-			return false;	
-		else
-			return true;
+    @FXML 
+    public void switchToMenuIniziale(ActionEvent event )throws IOException {
+  		
+  		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
+		setRoot(fxmlloader.load());
+		changeScene(event);
+		
 	}
+	
 }

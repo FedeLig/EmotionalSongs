@@ -8,7 +8,7 @@
 	-fx-font-weight: bold;
 }
 
-.label{    /* applica stile all' intera classe label */ 
+.label{    
 	-fx-text-fill:"white";
 }
 

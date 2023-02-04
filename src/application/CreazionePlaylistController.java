@@ -23,7 +23,11 @@ public class CreazionePlaylistController extends SongTableController {
 	private Button TornaAlMenu ;
 	
 	private Playlist playlist ; 
+	private Login utente; 
 	
+	public CreazionePlaylistController(Login utente) {
+		this.utente = utente; 
+	}
 	/**
 	 * il  metodo Initialize viene chiamato (una e una sola volta)
      * dal controller appena dopo la finestra è stata "caricata" con successo 
@@ -57,7 +61,7 @@ public class CreazionePlaylistController extends SongTableController {
     @FXML 
     public void switchToRicercaAvanzataAutore(ActionEvent e) throws IOException {
     	
-    	RicercaAvanzataController controller = new RicercaAvanzataController("autore");
+    	RicercaAvanzataController controller = new RicercaAvanzataController(utente,"autore");
     	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
     	fxmlloader.setController(controller);
     	controller.setPlaylist(playlist);
@@ -68,7 +72,7 @@ public class CreazionePlaylistController extends SongTableController {
     @FXML 
     public void switchToRicercaAvanzataAlbum(ActionEvent e) throws IOException {
     	
-    	RicercaAvanzataController controller = new RicercaAvanzataController("album");
+    	RicercaAvanzataController controller = new RicercaAvanzataController(utente,"album");
     	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
     	fxmlloader.setController(controller);
     	controller.setPlaylist(playlist);
@@ -82,8 +86,8 @@ public class CreazionePlaylistController extends SongTableController {
 	 */
     public void switchToAddSong(ActionEvent e) throws IOException {
         
-		AddSongToPlaylistController controller = new AddSongToPlaylistController();
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
+		AddSongToPlaylistController controller = new AddSongToPlaylistController(utente);
 		fxmlloader.setController(controller);
 		setRoot(fxmlloader.load());
 		controller = fxmlloader.getController();
@@ -96,9 +100,8 @@ public class CreazionePlaylistController extends SongTableController {
 	public void switchToMenuUtente(ActionEvent e) throws IOException { 
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-		MenuUtenteController controller = new MenuUtenteController();
+		MenuUtenteController controller = new MenuUtenteController(utente);
 	    fxmlloader.setController(controller);
-	    controller.setUserId(playlist.getAutore());
 	    playlist.svoutaListaCanzoni();
 		setRoot(fxmlloader.load());
 		changeScene(e);
