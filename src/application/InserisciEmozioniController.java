@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -47,6 +46,11 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		
 		listaVoti  = new int[9] ;
 		listaCommenti = new String[9];
+		// inizializziamo con i valori di default 
+		for(int i=0;i<9;i++) {
+			listaCommenti[i]  = "";
+			listaVoti[i] = 0 ;
+		}
 		commentoVisibile = new ArrayList<SimpleBooleanProperty>();
 		
 	}
@@ -189,7 +193,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		                    	if(listaVoti[indice] == votoInserito) {
 		                    	   button.setStyle("-fx-background-color: transparent;");
 		                    	   listaVoti[indice] = 0 ; 
-		                    	   listaCommenti[indice] = null ; 
+		                    	   listaCommenti[indice] = "" ; 
 		                    	   commentoVisibile.get(indice+2).setValue(true);
 		                    	}
 		                    	else {
@@ -205,8 +209,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		                    	   commentoVisibile.get(indice+2).setValue(false);
 		                    	   button.setStyle("-fx-background-color: white;");
 		                    	   listaVoti[indice] = votoInserito ; 
-		                    	}
-	            				System.out.println(((Integer)listaVoti[indice]).toString());		
+		                    	}	
 	            				
 		                    });
 	            			
@@ -275,8 +278,14 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		setRoot(fxmlloader.load());
 		changeScene(e);
 	}
-
-
+	
+	public void salvaEmozioni(ActionEvent e )throws IOException {
+	
+		Song.RegistraEmozioni(utente,idCanzone,listaVoti,listaCommenti);
+        switchToSelezionaCanzone(e);
+        
+	}
+	
 	public void setListaCommenti(String[] listaCommenti) {
 		
 		this.listaCommenti = listaCommenti ;

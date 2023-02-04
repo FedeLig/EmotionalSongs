@@ -213,6 +213,25 @@ public class Song {
             output.close();
         }
     }
+    
+ 	public static void RegistraEmozioni(Login utente , int idCanzone , int[] listaVoti , String[] listaCommenti) throws IOException {
+ 		
+ 		String path, save  = String.format("%s,,%d",utente.getUserName(),idCanzone);
+ 		Writer output;
+ 		//creo la stringa che salverà la playlist sul file
+ 		int i, length = listaVoti.length ;
+ 		for(i=0;i<length; i++)
+ 			save += ",,"+listaVoti[i]+",,"+listaCommenti[i];
+ 		
+ 		//apro il file in modalità append per aggiungere i dati di una canzone
+         //per associare i dati alla canzone uso l'id (posizione nel file Emozioni.dati.csv)
+ 		path = getPath() + (File.separator + "Emozioni.dati.csv");
+         output = new BufferedWriter(new FileWriter(path, true));
+         output.append(save + System.lineSeparator());
+         output.close();
+         
+         
+ 	}
 
     //per ottenere il filePath alla cartella /data (ogni OS)
     private static String getPath() {

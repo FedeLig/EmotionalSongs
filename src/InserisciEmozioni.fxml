@@ -12,8 +12,9 @@
          <children>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffffff00" height="360.0" layoutX="16.0" layoutY="105.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE" width="633.0" />
             <TableView fx:id="tabellaEmozioni" layoutX="27.0" layoutY="116.0" prefHeight="339.0" prefWidth="612.0" />
-            <Button layoutX="272.0" layoutY="500.0" mnemonicParsing="false" onAction="#switchToSelezionaCanzone" prefHeight="25.0" prefWidth="125.0" text="torna alle canzoni" />
+            <Button layoutX="271.0" layoutY="514.0" mnemonicParsing="false" onAction="#switchToSelezionaCanzone" prefHeight="25.0" prefWidth="125.0" text="torna alle canzoni" />
             <Label layoutX="189.0" layoutY="73.0" prefHeight="15.0" prefWidth="290.0" text="Inserisci le emozioni che vuoi associare al brano  : " />
+            <Button layoutX="538.0" layoutY="476.0" mnemonicParsing="false" onAction="#salvaEmozioni" prefHeight="26.0" prefWidth="110.0" text="salva  emozioni" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

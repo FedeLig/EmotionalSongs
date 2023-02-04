@@ -36,6 +36,8 @@ public class InserisciCommentoController extends Controller implements Initializ
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		areaCommento.setText(listaCommenti[indice]);
+		
 		areaCommento.setTextFormatter(new TextFormatter<String>(change -> change.getControlNewText().length() <= 256 ? change : null));
 		
 		caratteriRimasti.textProperty().bind(new SimpleIntegerProperty(256).subtract(Bindings.length(areaCommento.textProperty())).asString());
@@ -44,6 +46,7 @@ public class InserisciCommentoController extends Controller implements Initializ
 	
 	public void salvaCommento(ActionEvent event ) {
 		
+		listaCommenti[indice] = areaCommento.getText();
 		controllerPrecedente.setListaCommenti(listaCommenti);
 		closeStage(event);
 	}
