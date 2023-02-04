@@ -160,7 +160,7 @@ public class Song {
     }
 
     /**
-     * 
+     * permette di registrare la valutazione di un utente in merito ad una canzone.
      * @param userId
      * @throws IOException
      */
@@ -220,8 +220,11 @@ public class Song {
  		Writer output;
  		//creo la stringa che salverà la playlist sul file
  		int i, length = listaVoti.length ;
- 		for(i=0;i<length; i++)
+ 		for(i=0;i<length; i++) {
+ 			if(listaCommenti[i].equals(""))
+ 				listaCommenti[i] = " ";
  			save += ",,"+listaVoti[i]+",,"+listaCommenti[i];
+ 		}
  		
  		//apro il file in modalità append per aggiungere i dati di una canzone
          //per associare i dati alla canzone uso l'id (posizione nel file Emozioni.dati.csv)
@@ -259,23 +262,56 @@ public class Song {
      * @param id : indice del brano
      * @return array contenente ogni valutazione associata allo userId dell'utente che l'ha fatta
      */
-    public List<String[]> getEmotionsData(int id) throws IOException, FileNotFoundException {
-        boolean check = false;
+    public static List<String[]> getEmotionsData(int id) throws IOException, FileNotFoundException {
         String path = getPath() + (File.separator + "Emozioni.dati.csv"), line;
-        String[] rating = new String[3];
+        String[] rating = new String[19];
         List<String[]> ratings = new ArrayList<String[]>();
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         while((line = br.readLine()) != null) {
             rating = line.split(",,");
 
-            if(rating[0].equals( Integer.toString(this.id))) {
+            if(rating[1].equals( Integer.toString(id))) {
                 ratings.add(rating);
             }
         }
         br.close();
 
         return ratings;
+    }
+    
+    /**
+     * funzione che aggrega le valutazioni di una canzone
+     * @param id: id della canzone
+     * @return restituisce una lista di oggetti VisualizzaEmozioniDati.
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static ArrayList<VisualizzaEmozioniDati> getEmotionsResume(int id) throws FileNotFoundException, IOException {
+    	ArrayList<VisualizzaEmozioniDati> listaDatiEmozioni = new ArrayList<VisualizzaEmozioniDati>();
+    	List<String[]> valutazioni = getEmotionsData(id);
+   
+    	int emozione,valutazione,len = valutazioni.size(), numUtenti;
+    	float media = 0;
+    	//il ciclo legge più volte tutte le valutazioni, una volta per ciascuna emozione
+    	for(emozione=0;emozione<9;emozione++) {
+    		//inizializzo i dati
+    		media=0;
+    		numUtenti=0;
+    		//per ogni funzione
+    		for(valutazione = 0; valutazione<len;valutazione++) {
+    			//Il valore emozione serve per il costruttore di VisualizzaEmozioniDati
+    			//quindi lo adatto all'indice del voto nella valutazione.
+    			media += Float.parseFloat( valutazioni.get(valutazione)[(emozione * 2)+2] );
+    			numUtenti++;
+    		}
+    		//calcolo la media
+    		media/=numUtenti;
+    		//aggiungo l'elemento alla lista
+    		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozione,numUtenti,media));
+    	}
+    	
+    	return listaDatiEmozioni;
     }
 
     /**

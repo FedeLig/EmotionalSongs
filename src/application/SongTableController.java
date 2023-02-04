@@ -1,5 +1,8 @@
 package application;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -144,7 +147,12 @@ abstract class SongTableController extends Controller implements Initializable{
 	                    linkToStats.setOnAction((ActionEvent e) -> {
 	                    	int indice ; 
 	                    	getTableView().getItems().get(indice = getIndex());
-	                    	onHyperLinkCliked(e,indice);
+	                    	try {
+								onHyperLinkCliked(e,indice);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToStats.setVisited(false);
 	                    });
@@ -176,7 +184,7 @@ abstract class SongTableController extends Controller implements Initializable{
 	}
 	
 	
-	abstract protected void  onHyperLinkCliked (ActionEvent e , int indice );
+	abstract protected void  onHyperLinkCliked (ActionEvent e , int indice ) throws FileNotFoundException, IOException;
 	
 	abstract protected String getTestoHyperLink() ;
 

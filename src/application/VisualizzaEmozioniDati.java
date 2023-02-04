@@ -23,10 +23,47 @@ public class VisualizzaEmozioniDati {
 	 *  @param mediaVoti : media calcolata su tutte le valutazioni che gli utenti hanno dato all' emozione inserita
 	 *  @author Ligas
 	 */
-	public VisualizzaEmozioniDati(String nome ,String descrizione ,Integer numUtentiAssociati , Float mediaVoti) {
-		
-		this.nome = nome ; 
-		this.descrizione = descrizione;
+	public VisualizzaEmozioniDati(int emozione,Integer numUtentiAssociati , Float mediaVoti) {
+		switch(emozione) {
+            
+            case 1:
+                this.nome = "Amazement";
+                this.descrizione = "Feeling of wonder or happiness";
+                break;
+            case 2:
+                this.nome = "Solemnity";
+                this.descrizione = "Feeling of transcendence, inspiration. Thrills. ";
+                break;
+            case 3:
+                this.nome = "Tenderness";
+                this.descrizione = "Sensuality, affect, feeling of love";
+                break;
+            case 4:
+                this.nome = "Nostalgia";
+                this.descrizione = "Dreamy, melancholic, sentimental feelings ";
+                break;
+            case 5:
+                this.nome = "Calmness";
+                this.descrizione = "Relaxation, serenity, meditativeness ";
+                break;
+            case 6:
+                this.nome = "Power";
+                this.descrizione = "Feeling strong, heroic, triumphant, energetic ";
+                break;
+            case 7:
+                this.nome = "Joy";
+                this.descrizione = "Feels like dancing, bouncy feeling, animated, amused ";
+                break;
+            case 8:
+                this.nome = "Tension";
+                this.descrizione = "Feeling Nervous, impatient, irritated ";
+                break;
+            case 9:
+                this.nome = "Sadness";
+                this.descrizione = "Feeling Depressed, sorrowful";
+                break;
+			
+		}
 		this.numeUtentiAssociati = numUtentiAssociati ; 
 		this.mediaVoti = mediaVoti; 
 		

@@ -1,5 +1,6 @@
 package application;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		return "visualizza emozioni"; 
 	}
 	@Override 
-    protected void  onHyperLinkCliked (ActionEvent e ,int indice ){
+    protected void  onHyperLinkCliked (ActionEvent e ,int indice ) throws FileNotFoundException, IOException{
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
 		Parent parent = null;
@@ -77,48 +78,8 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 	}
 	
 	// 
-	private void setEmotionData(int indiceCanzone ) {
-		
-		//int[] numUtentiPerEmozione = new int[9];
-		//float[] sommaVotiPerEmozione = new float[9]; 
-		
-		// idUtente,IdCanzone,voto1°Emozione,Commento1°Emozione,voto9°Emozione ecc.
-		// se l'utente non inserisce un emozione o un commento si segna : ,,
-		
-		// scorre nel file Emozioni.dati.csv
-		   // se l'idCanzone corrisponde :  
-		   //     togli idCanzone 
-		   //     togli e salva idUtente
-		   //     String[18] dati = split per virgola 
-		   //     for(i=0 ; i<18 ; i+=2)
-		   //       // se l'emozione è stata votata
-		   //       if(!(dati[i].equals("")))
-		   //         numUtentiPerEmozione[i/2]++
-		   //         sommaVotiPerEmozione[i/2] = dato[i].parseFloat() 
-		   //         if(!(dati[i+1].equals("")))
-		   //            // usare separatore diverso 
-		   //            listaCommenti[i/2].add(idUtente + "," + dato[i+1]) 
-		   //       
-		
-		
-		//  boolean esistonoEmozioniAssociate = false; 
-		//  int j = 0;
-		
-		// while ( j < numUtentiPerEmozione.length ){
-		//   if(numUtentiPerEmozione[j] != 0 ) esistonoEmozioniAssociate  = true ; 
-	    //  }
-		// 	
-		//  
-		// if(esistonoEmozioniAssociate)
-		for(int i=0 ; i<9 ; i++) {
-		  
-		   String nome = Emozioni.getlistaEmozioni()[i].getNome() ; 
-		   String descrizione = Emozioni.getlistaEmozioni()[i].getDescrizione() ;
-		   int numUtenti = i%2==0 ? 0 : 1 ; 
-		   listaEmozioni.add(new VisualizzaEmozioniDati(nome,descrizione,numUtenti,(float) numUtenti));
-		   
-		}
-		//  return esistonoEmozioniAssociate ; 
+	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
+		this.listaEmozioni = Song.getEmotionsResume(indiceCanzone);
 	}
 	public void setIndirizzoTabellaPrecedente(String indirizzoTabellaPrecedente) {
 		this.indirizzoTabellaPrecedente = indirizzoTabellaPrecedente ; 
