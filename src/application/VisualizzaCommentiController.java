@@ -1,5 +1,6 @@
 package application;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,11 +30,11 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 	@FXML   
 	private Button commentoSuccessivo; 
 	
-    public VisualizzaCommentiController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni,ArrayList<ArrayList<String>>  listaCommenti ) {
+    public VisualizzaCommentiController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni,ArrayList<ArrayList<String>>  listaCommenti ) throws FileNotFoundException, IOException {
 		
 		this.canzoneSelezionata = canzoneSelezionata; 
 		this.ListaEmozioni = FXCollections.observableArrayList(listaEmozioni);
-		this.listaCommenti = listaCommenti ; 
+		this.listaCommenti = Song.getEmotionsComment(canzoneSelezionata.getId()) ; 
 		
 	}
 	@Override

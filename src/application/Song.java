@@ -291,7 +291,7 @@ public class Song {
     	ArrayList<VisualizzaEmozioniDati> listaDatiEmozioni = new ArrayList<VisualizzaEmozioniDati>();
     	List<String[]> valutazioni = getEmotionsData(id);
    
-    	int emozione,valutazione,len = valutazioni.size(), numUtenti;
+    	int emozione,valutazione,len = valutazioni.size(), numUtenti, voto;
     	float media = 0;
     	//il ciclo legge più volte tutte le valutazioni, una volta per ciascuna emozione
     	for(emozione=0;emozione<9;emozione++) {
@@ -302,17 +302,42 @@ public class Song {
     		for(valutazione = 0; valutazione<len;valutazione++) {
     			//Il valore emozione serve per il costruttore di VisualizzaEmozioniDati
     			//quindi lo adatto all'indice del voto nella valutazione.
-    			media += Float.parseFloat( valutazioni.get(valutazione)[(emozione * 2)+2] );
-    			numUtenti++;
+    			voto = Integer.parseInt(valutazioni.get(valutazione)[(emozione * 2)+2]);
+    			if(voto!=0) {
+	    			media += voto;
+	    			numUtenti++;
+    			}
     		}
     		//calcolo la media
     		media/=numUtenti;
     		//aggiungo l'elemento alla lista
-    		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozione,numUtenti,media));
+    		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozione+1,numUtenti,media));
     	}
     	
     	return listaDatiEmozioni;
     }
+    
+    public static ArrayList<ArrayList<String>> getEmotionsComment(int id) throws FileNotFoundException, IOException {
+    	ArrayList<ArrayList<String>> commenti = new ArrayList<ArrayList<String>>();
+    	List<String[]> valutazioni = getEmotionsData(id);
+    	int emozione,i,nValutazioni = valutazioni.size();
+    	String commento;
+    	//il ciclo legge più volte tutte le valutazioni, una volta per ciascuna emozione
+    	for(emozione=0;emozione<9;emozione++) {
+    		//ad ogni ciclo aggiungiamo i commenti della prossima emozione
+    		commenti.add(new ArrayList<String>());
+    		for(i=0;i<nValutazioni;i++) {
+    			//i commenti vengono aggiunti solo se non sono vuoti.
+    			//l'indice del ciclo viene adattato alla posizione del commmento
+    			commento = valutazioni.get(i)[emozione*2 +3];
+    			if(! commento.equals(" "))
+    				commenti.get(emozione).add(commento);
+    		}
+    	}
+    	
+    	
+    	return commenti;
+    	}
 
     /**
      * Stampa a schermo i dati di una canzone
