@@ -1,23 +1,23 @@
 package application;
 
 import java.io.IOException;
-
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
-public class RegistrazioneController extends Controller {
+public class RegistrazioneController extends Controller implements Initializable {
 
-	@FXML
-	private Label errorLabel;
 	@FXML 
 	private TextField nameField ,surnameField,codiceFiscaleField ,nomeViaField,civicoField,capField,comuneField,provinciaField,emailField,newIdField;
 	@FXML
@@ -35,6 +35,29 @@ public class RegistrazioneController extends Controller {
 	private String errore;
 	private String[] dati = new String[7];
 	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		BooleanBinding firstTabCondition  = (nameField.textProperty().isEmpty())
+				                      .or((surnameField.textProperty().isEmpty()))
+				                      .or((codiceFiscaleField.textProperty().isEmpty())); 
+		
+		toSecondTabButton.disableProperty().bind(firstTabCondition);
+		
+		BooleanBinding secondTabCondition = (nomeViaField.textProperty().isEmpty())
+                .or((civicoField.textProperty().isEmpty()))
+                .or((capField.textProperty().isEmpty()))
+                .or((provinciaField.textProperty().isEmpty())); 
+
+        toThirdTabButton.disableProperty().bind(secondTabCondition);
+		
+        BooleanBinding thirdTabCondition = (emailField.textProperty().isEmpty())
+                .or((newIdField.textProperty().isEmpty()))
+                .or((singInPasswordField.textProperty().isEmpty())); 
+
+        SubmitButton.disableProperty().bind(thirdTabCondition);
+		
+	}
 	   /* DI SEGUITO I METODI DI NAVIGAZIONE FRA LE TAB NELLA SCENA REGISTRAZIONE
      * Non servono solo a raccogliere i dati della registrazione,
      * si occupano di verificarne l'usabilità evitandoo:
@@ -72,7 +95,7 @@ public class RegistrazioneController extends Controller {
     		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
 
         //Alla fine di ogni fase si aggiorna sempre la errorLabel
-    	this.errorLabel.setText(errore);
+    	//this.errorLabel.setText(errore);
 	}
     //metodo per passare dalla seconda tab alla terza.
     //Al momento non sono presenti controlli particolari,
@@ -99,7 +122,7 @@ public class RegistrazioneController extends Controller {
         else
     		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
 
-        this.errorLabel.setText(this.errore);
+        //this.errorLabel.setText(this.errore);
 	}
     
   //Il comando per l'ultima tab effettua la registrazione e cambia scena.
@@ -134,7 +157,7 @@ public class RegistrazioneController extends Controller {
         }
         else
     		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
-        this.errorLabel.setText(this.errore);
+        //this.errorLabel.setText(this.errore);
     }
     
     //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
@@ -161,5 +184,6 @@ public class RegistrazioneController extends Controller {
 		changeScene(event);
 		
 	}
+	
 
 }

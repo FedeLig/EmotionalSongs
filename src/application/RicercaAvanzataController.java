@@ -47,6 +47,7 @@ public class RicercaAvanzataController extends Controller implements Initializab
 	
 	public RicercaAvanzataController(Login utente,String opzioneDiRicerca ) { 
 		
+		this.utente = utente ; 
 		this.opzioneDiRicerca = opzioneDiRicerca ; 
 		listProperty = new SimpleObjectProperty<>(risultatiRicerca);
 		

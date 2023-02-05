@@ -46,9 +46,20 @@ public class InserisciCommentoController extends Controller implements Initializ
 	
 	public void salvaCommento(ActionEvent event ) {
 		
-		listaCommenti[indice] = areaCommento.getText();
-		controllerPrecedente.setListaCommenti(listaCommenti);
-		closeStage(event);
+		String commentoInserito = areaCommento.getText() ; 
+        String messaggio ; 
+        
+        if (commentoInserito.isBlank()) {
+        	messaggio = "il commento non puo' essere vuoto" ; 
+        	System.out.println(messaggio);
+        }
+        else {
+            messaggio = "Il commento e' stato salvato" ; 
+		    listaCommenti[indice] = areaCommento.getText();
+		    controllerPrecedente.setListaCommenti(listaCommenti);
+		    System.out.println(messaggio);
+        }
+		
 	}
 	/**
 	 *  Chiude la finestra che contiene l'interfaccia grafica che la classe gestisce 

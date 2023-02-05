@@ -5,18 +5,37 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="665.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-  <AnchorPane layoutY="-4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="605.0" prefWidth="665.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
+  <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="750.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
          <children>
-            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffffff00" height="304.0" layoutX="37.0" layoutY="127.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE" width="592.0" />
-            <Button layoutX="278.0" layoutY="503.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="25.0" prefWidth="125.0" text="indietro" />
-            <Label layoutX="217.0" layoutY="97.0" prefHeight="15.0" prefWidth="231.0" text="Inserisci un commento e premi salva   : " />
-            <Label layoutX="491.0" layoutY="104.0" prefHeight="15.0" prefWidth="100.0" text="caretteri rimasti : " />
-            <Label fx:id="caratteriRimasti" layoutX="596.0" layoutY="104.0" prefHeight="15.0" prefWidth="33.0" text="256" />
-            <TextArea fx:id="areaCommento" layoutX="43.0" layoutY="143.0" prefHeight="273.0" prefWidth="581.0" wrapText="true" />
-            <Button layoutX="560.0" layoutY="444.0" mnemonicParsing="false" onAction="#salvaCommento" prefHeight="25.0" prefWidth="73.0" text="salva " />
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffffff00" height="304.0" layoutX="65.0" layoutY="123.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE" width="620.0" />
+            <Button layoutX="323.0" layoutY="481.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="32.0" prefWidth="107.0" text="indietro">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Label layoutX="142.0" layoutY="43.0" prefHeight="27.0" prefWidth="469.0" text="Inserisci un commento e clicca su salva per memorizzarlo : ">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="511.0" layoutY="89.0" prefHeight="27.0" prefWidth="141.0" text="caretteri rimasti : ">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="caratteriRimasti" layoutX="652.0" layoutY="89.0" prefHeight="15.0" prefWidth="33.0" text="256">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <TextArea fx:id="areaCommento" layoutX="78.0" layoutY="139.0" prefHeight="273.0" prefWidth="597.0" wrapText="true">
+               <font>
+                  <Font size="24.0" />
+               </font></TextArea>
+            <Button layoutX="602.0" layoutY="441.0" mnemonicParsing="false" onAction="#salvaCommento" prefHeight="29.0" prefWidth="82.0" text="salva ">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children></AnchorPane>
    </children>
 </AnchorPane>
