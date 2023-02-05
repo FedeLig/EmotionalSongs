@@ -308,8 +308,9 @@ public class Song {
 	    			numUtenti++;
     			}
     		}
-    		//calcolo la media
-    		media/=numUtenti;
+    		if(numUtenti!=0) 
+    		  //calcolo la media
+    		  media/=numUtenti;
     		//aggiungo l'elemento alla lista
     		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozione+1,numUtenti,media));
     	}

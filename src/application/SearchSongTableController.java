@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +34,7 @@ abstract class SearchSongTableController extends SongTableController {
 	private Label filtroSelezionato ;
 	
 	@FXML
-	protected Button goBackButton; 
+	protected Button goBackButton , searchButton ;
 	
     protected static ArrayList<String> listaOpzioni ;
     

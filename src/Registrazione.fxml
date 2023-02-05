@@ -8,21 +8,63 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistrazioneController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistrazioneController">
    <children>
-      <Label layoutX="142.0" layoutY="375.0" text="sei già registrato  ? " />
-      <Hyperlink fx:id="LinkToLogin" layoutX="259.0" layoutY="369.0" onAction="#switchToLogin" prefHeight="26.0" prefWidth="47.0" text="Accedi" textFill="#fcfbfb" underline="true" />
-      <TabPane fx:id="tabpane" layoutX="54.0" layoutY="59.0" prefHeight="278.0" prefWidth="342.0" styleClass="Registrazione.css" tabClosingPolicy="UNAVAILABLE">
+      <Label layoutX="274.0" layoutY="449.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="26.0" prefWidth="146.0" text="sei già registrato  ? ">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Hyperlink fx:id="LinkToLogin" layoutX="419.0" layoutY="445.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onAction="#switchToLogin" prefHeight="34.0" prefWidth="82.0" text="Accedi" textFill="#fcfbfb" underline="true">
+         <font>
+            <Font size="16.0" />
+         </font></Hyperlink>
+      <TabPane fx:id="tabpane" layoutX="156.0" layoutY="27.0" prefHeight="397.0" prefWidth="448.0" styleClass="Registrazione.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="firstTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="342.0">
                      <children>
-                        <TextField fx:id="surnameField" layoutX="66.0" layoutY="98.0" prefHeight="26.0" prefWidth="193.0" promptText="cognome" />
-                        <TextField fx:id="nameField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="nome" />
-                        <Button fx:id="toSecondTabButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#changeToSecondTab" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="codiceFiscaleField" layoutX="66.0" layoutY="145.0" prefHeight="26.0" prefWidth="193.0" promptText="codice fiscale" />
+                        <TextField fx:id="nameField" layoutX="47.0" layoutY="115.0" prefHeight="26.0" prefWidth="350.0" promptText="nome">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="surnameField" layoutX="49.0" layoutY="171.0" prefHeight="41.0" prefWidth="346.0" promptText="cognome">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="codiceFiscaleField" layoutX="49.0" layoutY="232.0" prefHeight="41.0" prefWidth="346.0" promptText="codice fiscale">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="toSecondTabButton" layoutX="352.0" layoutY="309.0" mnemonicParsing="false" onAction="#changeToSecondTab" prefHeight="15.0" prefWidth="54.0" text="next">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Button>
+                        <Circle fill="#fafafa02" layoutX="102.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="#fafafa02" layoutX="224.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="#fafafa02" layoutX="354.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f7fa00" height="9.0" layoutX="136.0" layoutY="39.0" stroke="#f7f6f6" strokeType="INSIDE" width="52.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="9.0" layoutX="262.0" layoutY="39.0" stroke="#fcfbfb" strokeType="INSIDE" width="52.0" />
+                        <Label layoutX="95.0" layoutY="27.0" prefHeight="16.0" prefWidth="18.0" text="1">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="218.0" layoutY="26.0" prefHeight="16.0" prefWidth="18.0" text="2">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="348.0" layoutY="26.0" prefHeight="16.0" prefWidth="18.0" text="3">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
               </content>
@@ -31,12 +73,45 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="342.0">
                      <children>
-                        <Button fx:id="toThirdTabButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#changeToThirdTab" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="nomeViaField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="nome via " />
-                        <TextField fx:id="civicoField" layoutX="114.0" layoutY="98.0" prefHeight="26.0" prefWidth="50.0" promptText="civico" />
-                        <TextField fx:id="capField" layoutX="176.0" layoutY="98.0" prefHeight="26.0" prefWidth="43.0" promptText="cap" />
-                        <TextField fx:id="comuneField" layoutX="102.0" layoutY="145.0" prefHeight="26.0" prefWidth="61.0" promptText="comune" />
-                        <TextField fx:id="provinciaField" layoutX="176.0" layoutY="145.0" prefHeight="26.0" prefWidth="63.0" promptText="provincia" />
+                        <Button fx:id="toThirdTabButton" layoutX="352.0" layoutY="309.0" mnemonicParsing="false" onAction="#changeToThirdTab" prefHeight="15.0" prefWidth="54.0" text="next">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Button>
+                        <TextField fx:id="nomeViaField" layoutX="47.0" layoutY="115.0" prefHeight="26.0" prefWidth="350.0" promptText="nome via ">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="civicoField" layoutX="127.0" layoutY="171.0" prefHeight="42.0" prefWidth="82.0" promptText="civico">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="capField" layoutX="232.0" layoutY="171.0" prefHeight="42.0" prefWidth="112.0" promptText="cap">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="comuneField" layoutX="93.0" layoutY="232.0" prefHeight="41.0" prefWidth="115.0" promptText="comune">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="provinciaField" layoutX="232.0" layoutY="232.0" prefHeight="41.0" prefWidth="116.0" promptText="provincia">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <Circle fill="WHITE" layoutX="102.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="#fafafa02" layoutX="224.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="#fafafa02" layoutX="354.0" layoutY="45.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="9.0" layoutX="136.0" layoutY="39.0" stroke="#f7f6f6" strokeType="INSIDE" width="52.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="9.0" layoutX="262.0" layoutY="39.0" stroke="#fcfbfb" strokeType="INSIDE" width="52.0" />
+                        <Label layoutX="218.0" layoutY="26.0" prefHeight="16.0" prefWidth="18.0" text="2">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="348.0" layoutY="26.0" prefHeight="16.0" prefWidth="18.0" text="3">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -44,16 +119,40 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="newIdField" layoutX="66.0" layoutY="98.0" prefHeight="26.0" prefWidth="193.0" promptText="idutente" />
-                        <Button fx:id="SubmitButton" layoutX="217.0" layoutY="195.0" mnemonicParsing="false" onAction="#singIn" prefHeight="15.0" prefWidth="54.0" text="next" />
-                        <TextField fx:id="emailField" layoutX="66.0" layoutY="55.0" prefHeight="26.0" prefWidth="193.0" promptText="email" />
-                        <PasswordField fx:id="singInPasswordField" layoutX="66.0" layoutY="145.0" prefHeight="26.0" prefWidth="200.0" promptText="password" />
+                        <TextField fx:id="emailField" layoutX="47.0" layoutY="115.0" prefHeight="26.0" prefWidth="350.0" promptText="email">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <TextField fx:id="newIdField" layoutX="49.0" layoutY="171.0" prefHeight="26.0" prefWidth="350.0" promptText="id utente ">
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
+                        <PasswordField fx:id="singInPasswordField" layoutX="49.0" layoutY="232.0" prefHeight="26.0" prefWidth="350.0" promptText="password">
+                           <font>
+                              <Font size="18.0" />
+                           </font></PasswordField>
+                        <Button fx:id="SubmitButton" layoutX="352.0" layoutY="309.0" mnemonicParsing="false" onAction="#singIn" prefHeight="15.0" prefWidth="54.0" text="next">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Button>
+                        <Circle fill="WHITE" layoutX="102.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="WHITE" layoutX="224.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Circle fill="#fafafa02" layoutX="354.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="9.0" layoutX="136.0" layoutY="39.0" stroke="#f7f6f6" strokeType="INSIDE" width="52.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="9.0" layoutX="262.0" layoutY="39.0" stroke="#fcfbfb" strokeType="INSIDE" width="52.0" />
+                        <Label layoutX="348.0" layoutY="26.0" prefHeight="16.0" prefWidth="18.0" text="3">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="32.0" layoutY="337.0" prefHeight="34.0" prefWidth="386.0" textAlignment="CENTER" />
-      <Button layoutX="177.0" layoutY="411.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" text="torna al menu" />
+      <Button layoutX="327.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" prefHeight="34.0" prefWidth="122.0" text="torna al menu">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
    </children>
 </AnchorPane>

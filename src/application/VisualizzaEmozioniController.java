@@ -49,7 +49,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		this.canzoneSelezionata = canzoneSelezionata; 
 		this.ListaEmozioni = listaEmozioni ; 
 		this.listaCommenti = listaCommenti ; 
-		EsistonoEmozioniAssociate = canzoneSelezionata.getId()%2 == 0  ?  true : false ; 
+		EsistonoEmozioniAssociate =  true  ; 
 	}
 	
 	@Override

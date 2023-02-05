@@ -5,17 +5,23 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="450.0" prefWidth="450.0">
+      <AnchorPane prefHeight="550.0" prefWidth="750.0">
          <children>
-            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="250.0" layoutX="55.0" layoutY="111.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="339.0" />
-            <TableView fx:id="tabellaPlaylist" layoutX="64.0" layoutY="123.0" prefHeight="220.0" prefWidth="321.0" />
-            <Label layoutX="155.0" layoutY="79.0" prefHeight="23.0" prefWidth="140.0" text="seleziona  una  playlist : " />
-            <Button fx:id="TornaAlMenu" layoutX="171.0" layoutY="386.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="25.0" prefWidth="107.0" text="torna al menu" />
+            <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="350.0" layoutX="23.0" layoutY="111.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="700.0" />
+            <TableView fx:id="tabellaPlaylist" layoutX="29.0" layoutY="111.0" prefHeight="350.0" prefWidth="690.0" />
+            <Label layoutX="172.0" layoutY="57.0" prefHeight="27.0" prefWidth="408.0" text="seleziona  una  playlist dalla tua libreria personale : ">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Button fx:id="TornaAlMenu" layoutX="322.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="25.0" prefWidth="107.0" text="torna al menu">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>
 </AnchorPane>
-

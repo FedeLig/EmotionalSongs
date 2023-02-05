@@ -2,32 +2,37 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.CubicCurve?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="448.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-  <AnchorPane layoutY="-7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="448.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-7.0">
+  <AnchorPane layoutX="1.0" layoutY="-3.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-3.0">
          <children>
-            <GridPane layoutX="114.0" layoutY="166.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="215.0" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="119.0" AnchorPane.topAnchor="166.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button fx:id="toSearchButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToRicercaRepository" prefHeight="25.0" prefWidth="215.0" text="ricerca in repository" />
-                  <Button fx:id="newPlaylistButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToNomePlaylist" prefHeight="25.0" prefWidth="215.0" text="crea una playlist" GridPane.rowIndex="2" />
-                  <Button fx:id="seePlaylistsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToVisualizzaPlaylist" prefHeight="25.0" prefWidth="213.0" text="visualizza le tue playlist" textAlignment="CENTER" GridPane.rowIndex="4" />
-               </children>
-            </GridPane>
-            <Button layoutX="165.0" layoutY="406.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" text="esci dall'account" />
+            <Button fx:id="toSearchButton" layoutX="215.0" layoutY="192.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToRicercaRepository" prefHeight="40.0" prefWidth="320.0" text="ricerca in repository">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="newPlaylistButton" layoutX="215.0" layoutY="260.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToNomePlaylist" prefHeight="40.0" prefWidth="320.0" text="crea una playlist">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="seePlaylistsButton" layoutX="215.0" layoutY="324.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToVisualizzaPlaylist" prefHeight="40.0" prefWidth="320.0" text="visualizza le tue playlist" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="298.0" layoutY="508.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" prefHeight="34.0" prefWidth="154.0" text="esci dal tuo account ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <CubicCurve controlX1="-86.0" controlX2="-15.79998779296875" controlY1="-63.99999237060547" controlY2="-63.99999237060547" endX="-15.79998779296875" endY="-34.99999237060547" fill="#ffffff00" layoutX="426.0" layoutY="165.0" startX="-86.0" startY="-34.99999237060547" stroke="#eceaea" />
+            <Circle fill="#f2f2f200" layoutX="375.0" layoutY="100.0" radius="48.0" stroke="#fcfafa" strokeType="INSIDE" />
+            <Circle fill="#ffffff00" layoutX="375.0" layoutY="83.0" radius="17.0" stroke="WHITE" strokeType="INSIDE" />
          </children>
       </AnchorPane>
    </children>
