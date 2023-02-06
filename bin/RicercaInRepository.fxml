@@ -60,7 +60,7 @@
             <TableView fx:id="tabellaCanzoni" layoutX="33.0" layoutY="129.0" prefHeight="350.0" prefWidth="690.0" />
             <ChoiceBox fx:id="sceltaFiltro" layoutX="464.0" layoutY="21.0" prefHeight="26.0" prefWidth="116.0" />
             <Label fx:id="filtroSelezionato" layoutX="479.0" layoutY="26.0" text="titolo" />
-            <Label layoutX="161.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="27.0" prefWidth="327.0" text="scegli il filtro da usare per la ricerca :">
+            <Label layoutX="136.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="27.0" prefWidth="327.0" text="scegli il filtro da usare per la ricerca :">
                <font>
                   <Font size="18.0" />
                </font></Label>

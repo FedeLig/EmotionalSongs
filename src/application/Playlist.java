@@ -109,7 +109,7 @@ public class Playlist {
 	 * @throws IOException
 	 */
 	public void RegistraPlaylist() throws IOException {
-		String path, save  = String.format("%s,,%s",nomePlaylist,autore);
+		String path, save  = String.format("%s,,%s",autore,nomePlaylist);
 		Writer output;
 		//creo la stringa che salverà la playlist sul file
 		int i, length = listaCanzoni.size();
@@ -131,5 +131,11 @@ public class Playlist {
 
 	public ArrayList<Integer> getlistaIndiciPlaylist(){
 		return listaIndiciPlaylist ; 
+	}
+
+	public void setListaIndiciCanzoni(ArrayList<Integer> listaIndiciCanzoni) {
+		
+		listaIndiciPlaylist  = listaIndiciCanzoni ; 
+		
 	}
 }

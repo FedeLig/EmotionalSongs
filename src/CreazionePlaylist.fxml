@@ -29,7 +29,7 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="TornaAlMenu" layoutX="322.0" layoutY="504.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="25.0" prefWidth="107.0" text="torna al menu">
+            <Button fx:id="TornaAlMenu" layoutX="312.0" layoutY="503.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="126.0" text="torna al menu">
                <font>
                   <Font size="14.0" />
                </font></Button>

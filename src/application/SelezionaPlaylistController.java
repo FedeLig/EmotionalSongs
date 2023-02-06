@@ -141,27 +141,5 @@ public class SelezionaPlaylistController extends Controller implements Initializ
 		
     }
     
-    public ArrayList<Playlist> driver(){
-    	
-    	ArrayList<Playlist> playlistUtente = new ArrayList<Playlist>() ; 
-    	
-    	int  n = 10 ; 
-    
-    	for(int i=0 ; i<n ; i++ ) {
-    		
-    		StringBuilder str = new StringBuilder();
-    		
-    		for(int j=0 ; j<n ; j++ ) {
-        		
-        		str.append(((Integer)(new Random().nextInt(9 - 0 + 1) + 0)).toString()) ; 
-        	}
-        	
-    		playlistUtente.add(new Playlist(str.toString()));
-    		
-    	}
-    	
-    	return playlistUtente ;
-
-    }
 
 }
