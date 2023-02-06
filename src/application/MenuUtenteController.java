@@ -35,13 +35,12 @@ public class MenuUtenteController extends Controller  {
      @FXML
 	 public void switchToRicercaRepository(ActionEvent e ) throws IOException {
 			
-		   RicercaInRepositoryController controller = new RicercaInRepositoryController();
+		   RicercaInRepositoryController controller = new RicercaInRepositoryController(utente,"/MenuUtente.fxml");
 		   FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
 		   fxmlloader.setController(controller);
-		   controller.setUtente(utente);
-		   controller.setIndirizzoTabellaPrecedente("/MenuUtente.fxml");
 		   setRoot(fxmlloader.load());
 		   changeScene(e);
+		   
      }
 	 /**
 	 * Porta l'utente all'interfaccia che contiene la funzionalità

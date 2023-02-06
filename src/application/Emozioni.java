@@ -8,7 +8,7 @@ package application;
 public enum Emozioni {
 
 	AMAZAMENT("Amazement","Feeling of wonder or happiness"),
-	SOLEMNITY("Solemnity","Feeling od transcendence, inspiration , Thrills"),
+	SOLEMNITY("Solemnity","Feeling of transcendence, inspiration , Thrills"),
 	TENDERNESS("Tenderness","Sensuality, affect, feeling of love"),
 	NOSTALGIA("Nostalgia","Dreamy, melancholic ,sentimental feelings"),
 	CALMNESS("Calmness","Relaxation, serenity , meditativeness"),

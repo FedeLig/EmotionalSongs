@@ -10,7 +10,7 @@
    <children>
       <AnchorPane prefHeight="550.0" prefWidth="750.0">
          <children>
-            <Button fx:id="confermaNome" layoutX="475.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToCreazionePlaylist" prefHeight="25.0" prefWidth="103.0" text="conferma">
+            <Button fx:id="confermaNome" layoutX="456.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToCreazionePlaylist" prefHeight="31.0" prefWidth="122.0" text="conferma">
                <font>
                   <Font size="14.0" />
                </font></Button>
@@ -18,11 +18,11 @@
                <font>
                   <Font size="18.0" />
                </font></TextField>
-            <Label layoutX="191.0" layoutY="171.0" prefHeight="27.0" prefWidth="396.0" text="inserire il nome della playlist che si vuole creare : ">
+            <Label layoutX="191.0" layoutY="171.0" prefHeight="27.0" prefWidth="519.0" text="inserire il nome della playlist che si vuole creare : ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="tornaAlMenu" layoutX="315.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="32.0" prefWidth="121.0" text="torna al menu ">
+            <Button fx:id="tornaAlMenu" layoutX="300.0" layoutY="415.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="32.0" prefWidth="150.0" text="torna al menu ">
                <font>
                   <Font size="14.0" />
                </font></Button>

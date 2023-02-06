@@ -19,11 +19,10 @@ public class MenuInizialeController extends Controller {
 	@FXML
     public void switchToRicercaRepository(ActionEvent e ) throws IOException {
 		
-		RicercaInRepositoryController controller = new RicercaInRepositoryController();
+		RicercaInRepositoryController controller = new RicercaInRepositoryController(null,"/MenuIniziale.fxml");
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
 		fxmlloader.setController(controller);
 		setRoot(fxmlloader.load());
-		controller.setIndirizzoTabellaPrecedente("/MenuIniziale.fxml");
 		changeScene(e);
 	}
 	
