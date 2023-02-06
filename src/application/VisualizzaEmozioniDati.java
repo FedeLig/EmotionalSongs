@@ -96,6 +96,10 @@ public class VisualizzaEmozioniDati {
 	public Float getMediaVoti() {
 		return mediaVoti;
 	}
+	public ArrayList<String> getListaCommenti() {
+		
+		return listaCommenti ;
+	}
 
 	
 }

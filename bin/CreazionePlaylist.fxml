@@ -13,39 +13,39 @@
          <children>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="350.0" layoutX="23.0" layoutY="111.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="700.0" />
             <TableView fx:id="tabellaCanzoni" layoutX="28.0" layoutY="111.0" prefHeight="350.0" prefWidth="690.0" />
-            <Label layoutX="135.0" layoutY="6.0" prefHeight="27.0" prefWidth="373.0" text="cerca un brano per aggiungerlo alla playlist  : ">
+            <Label layoutX="113.0" layoutY="6.0" prefHeight="27.0" prefWidth="396.0" text="cerca un brano per aggiungerlo alla playlist  : ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="271.0" layoutY="83.0" prefHeight="27.0" prefWidth="204.0" text="brani presenti nella playlist : ">
+            <Label layoutX="271.0" layoutY="83.0" prefHeight="27.0" prefWidth="298.0" text="brani presenti nella playlist : ">
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Button fx:id="RicercaCanzone" layoutX="520.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToAddSong" prefHeight="31.0" prefWidth="118.0" text="vai alla ricerca">
+            <Button fx:id="RicercaCanzone" layoutX="510.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToAddSong" prefHeight="31.0" prefWidth="138.0" text="vai alla ricerca">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="salvaPlaylistButton" layoutX="616.0" layoutY="472.0" mnemonicParsing="false" onAction="#salvaPlaylist" prefHeight="25.0" prefWidth="107.0" text="salva playlist">
+            <Button fx:id="salvaPlaylistButton" layoutX="586.0" layoutY="472.0" mnemonicParsing="false" onAction="#salvaPlaylist" prefHeight="31.0" prefWidth="137.0" text="salva playlist">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="TornaAlMenu" layoutX="312.0" layoutY="503.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="126.0" text="torna al menu">
+            <Button fx:id="TornaAlMenu" layoutX="306.0" layoutY="503.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="138.0" text="torna al menu">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Label layoutX="132.0" layoutY="46.0" prefHeight="27.0" prefWidth="274.0" text=" oppure aggiungi tutti i brani di :  ">
+            <Label layoutX="113.0" layoutY="46.0" prefHeight="27.0" prefWidth="297.0" text=" oppure aggiungi tutti i brani di :  ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="526.0" layoutY="48.0" prefHeight="23.0" prefWidth="14.0" text="o">
+            <Label layoutX="530.0" layoutY="48.0" prefHeight="23.0" prefWidth="19.0" text="o" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Button fx:id="tuttiBraniAutore" layoutX="414.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAutore" prefHeight="30.0" prefWidth="97.0" text="un autore">
+            <Button fx:id="tuttiBraniAutore" layoutX="405.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAutore" prefHeight="31.0" prefWidth="107.0" text="un autore">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="tuttiBraniAlbum" layoutX="550.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAlbum" prefHeight="30.0" prefWidth="97.0" text="un album">
+            <Button fx:id="tuttiBraniAlbum" layoutX="558.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAlbum" prefHeight="31.0" prefWidth="107.0" text="un album">
                <font>
                   <Font size="14.0" />
                </font></Button>

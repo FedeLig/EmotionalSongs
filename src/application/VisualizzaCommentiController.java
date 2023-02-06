@@ -13,15 +13,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 public class VisualizzaCommentiController extends Controller implements Initializable {
 
 	private Song canzoneSelezionata ; 
-	private ObservableList<VisualizzaEmozioniDati> ListaEmozioni;
-	private ArrayList<ArrayList<String>> listaCommenti ;
+	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
+	private ArrayList<String> listaCommenti ;
 	private SimpleIntegerProperty pos = new SimpleIntegerProperty(0);
+	private String emozione ; 
    
 	@FXML
 	private TextArea areaCommenti ; 
@@ -29,64 +33,68 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 	private Button commentoPrecedente; 
 	@FXML   
 	private Button commentoSuccessivo; 
+	@FXML
+	private Label utenteLabel , emozioneEVotoLabel;
 	
-    public VisualizzaCommentiController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni,ArrayList<ArrayList<String>>  listaCommenti ) throws FileNotFoundException, IOException {
+    public VisualizzaCommentiController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni, int indice ) throws FileNotFoundException, IOException {
 		
 		this.canzoneSelezionata = canzoneSelezionata; 
-		this.ListaEmozioni = FXCollections.observableArrayList(listaEmozioni);
-		//this.listaCommenti = Song.getEmotionsComment(canzoneSelezionata.getId()) ; 
+		this.listaEmozioni = listaEmozioni ;
+		this.listaCommenti = listaEmozioni.get(indice).getListaCommenti() ;  
+		emozione = Emozioni.values()[indice].getNome() ; 
 		
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		// cambiare condizione a pos != listaCommenti.get(indice).size() -1 
-		BooleanBinding condizione1 = pos.isNotEqualTo(0);
+		
+		BooleanBinding condizione1 = pos.isEqualTo(listaCommenti.size()-1);
 		commentoSuccessivo.disableProperty().bind(condizione1);
 		
 		BooleanBinding condizione2 = pos.isEqualTo(0);
 		commentoPrecedente.disableProperty().bind(condizione2);
-		StringBuilder commento = new StringBuilder();
 		
-		commento.append("\n");
-		for(int i = 0 ; i<256 ; i++ ) { 
-			commento.append("a"); 
-		}
-		
-		areaCommenti.setText(commento.toString());
+		String[] dati = new String[2] ; 
+		dati = listaCommenti.get((pos.intValue())).split(",,") ; 
+		utenteLabel.setText("Utente : " + dati[0]);
+		emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+		areaCommenti.setText(dati[2]);
 		
 	}
 	
 	public void nextComment(ActionEvent e ) {
 		
-        StringBuilder commento = new StringBuilder();
-		
-        commento.append("\n");
-		for(int i = 0 ; i<256 ; i++ ) { 
-			commento.append("b"); 
-		}
-		areaCommenti.setText(commento.toString());
-		
-		pos.set(1);
+        pos.set(pos.intValue()+1);
+        String[] dati = new String[2] ; 
+		dati = listaCommenti.get((pos.intValue())).split(",,") ; 
+		utenteLabel.setText("Utente : " + dati[0]);
+		emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+		areaCommenti.setText(dati[2]);
 		
 	}
 	
     public void previousComment(ActionEvent e ) {
 		
-        StringBuilder commento= new StringBuilder();
-		
-        commento.append("\n");
-		for(int i = 0 ; i<256 ; i++ ) { 
-			commento.append("a"); 
-		}
-		areaCommenti.setText(commento.toString());
-		pos.set(0);
+    	pos.set(pos.intValue()-1);
+    	String[] dati = new String[2] ; 
+		dati = listaCommenti.get((pos.intValue())).split(",,") ; 
+		utenteLabel.setText("Utente : " + dati[0]);
+		emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+		areaCommenti.setText(dati[2]);
 		
 	}
 
-	public void switchToVisualizzaEmozioni(ActionEvent e ) throws IOException {
+    /**
+	 *  Chiude la finestra che contiene l'interfaccia grafica che la classe gestisce 
+	 *  e ci riporta all' interfaccia grafica precedente 
+	 *  @param event : azione che scatena l'esecuzione del metodo
+	 */
+	public void closeStage(ActionEvent event) {
 		
-		//
-	}
+        Node  source = (Node)  event.getSource(); 
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+        
+    }
 	
 }

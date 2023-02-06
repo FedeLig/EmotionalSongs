@@ -12,19 +12,19 @@
   <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="750.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0">
          <children>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffffff00" height="304.0" layoutX="65.0" layoutY="123.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE" width="620.0" />
-            <Button layoutX="323.0" layoutY="481.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="32.0" prefWidth="107.0" text="indietro">
+            <Button layoutX="315.0" layoutY="482.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="32.0" prefWidth="122.0" text="indietro">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Label layoutX="142.0" layoutY="43.0" prefHeight="27.0" prefWidth="469.0" text="Inserisci un commento e clicca su salva per memorizzarlo : ">
+            <Label layoutX="142.0" layoutY="43.0" prefHeight="27.0" prefWidth="585.0" text="Inserisci un commento e clicca su salva per memorizzarlo : ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="511.0" layoutY="89.0" prefHeight="27.0" prefWidth="141.0" text="caretteri rimasti : ">
+            <Label layoutX="490.0" layoutY="89.0" prefHeight="27.0" prefWidth="154.0" text="caretteri rimasti : ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="caratteriRimasti" layoutX="652.0" layoutY="89.0" prefHeight="15.0" prefWidth="33.0" text="256">
+            <Label fx:id="caratteriRimasti" layoutX="643.0" layoutY="89.0" prefHeight="27.0" prefWidth="62.0" text="256">
                <font>
                   <Font size="18.0" />
                </font></Label>
@@ -32,7 +32,7 @@
                <font>
                   <Font size="24.0" />
                </font></TextArea>
-            <Button layoutX="602.0" layoutY="441.0" mnemonicParsing="false" onAction="#salvaCommento" prefHeight="29.0" prefWidth="82.0" text="salva ">
+            <Button layoutX="577.0" layoutY="441.0" mnemonicParsing="false" onAction="#salvaCommento" prefHeight="31.0" prefWidth="107.0" text="salva ">
                <font>
                   <Font size="14.0" />
                </font></Button>

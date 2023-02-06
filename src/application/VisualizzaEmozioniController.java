@@ -6,8 +6,10 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -15,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -36,17 +39,22 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	private Label commentHeader ; 
 	
 	private Song canzoneSelezionata ; 
-	private ObservableList<VisualizzaEmozioniDati> ListaEmozioni;
+	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
+	private Login utente ; 
+	private int iterazione = 0 ; 
+	private int riga  = 0 ; 
 	
-	// non servirà quando ObservableList funzionerà 
-	private boolean EsistonoEmozioniAssociate ; 
+	private boolean EsistonoEmozioniAssociate = false; 
 	
-	public VisualizzaEmozioniController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
+	public VisualizzaEmozioniController(Login utente, Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
 		
+		this.utente = utente ; 
 		this.canzoneSelezionata = canzoneSelezionata; 
-		this.ListaEmozioni = listaEmozioni ; 
-		EsistonoEmozioniAssociate =  true  ; 
+		this.listaEmozioni = listaEmozioni ; 
 		
+		for(int i = 0 ; i < listaEmozioni.size() && !EsistonoEmozioniAssociate ; i++)
+		   if ( listaEmozioni.get(i).getNumeUtentiAssociati()!= 0)
+		        EsistonoEmozioniAssociate = true ;  
 	}
 	
 	@Override
@@ -69,7 +77,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		// condizione : listaEmozioni.size() != 0 
 		if ( EsistonoEmozioniAssociate ) {
 			
-			tabellaEmozioni.setItems(ListaEmozioni);
+			tabellaEmozioni.setItems(listaEmozioni);
 			createTable();
 			
 		}else {
@@ -78,20 +86,16 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		
 	}
 	
-	/**
-	 *  Chiude la finestra che contiene l'interfaccia grafica che la classe gestisce 
-	 *  e ci riporta all' interfaccia grafica precedente 
-	 *  @param event : azione che scatena l'esecuzione del metodo
-	 */
-	public void closeStage(ActionEvent event) {
+	public void switchToRicercaInRepository(ActionEvent event ) throws IOException {
 		
-		tabellaEmozioni.getColumns().clear();
-		tabellaEmozioni.getItems().clear();
-        Node  source = (Node)  event.getSource(); 
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
-        
-    }
+		String indirizzoTabella = utente == null ? "/MenuIniziale.fxml" : "/MenuUtente.fxml"  ; 
+		RicercaInRepositoryController controller = new RicercaInRepositoryController(utente,indirizzoTabella);
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
+		fxmlloader.setController(controller);
+		setRoot(fxmlloader.load());
+		changeScene(event);
+		
+	}
 	
 	/**
 	 *  Chiude la finestra che contiene l'interfaccia grafica che la classe gestisce 
@@ -151,7 +155,14 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToStats.setVisited(false);
 	                    });
+	                    
+	                    iterazione++;
+	                    if(iterazione>3 && iterazione < 12) {
+	                       riga++;
+	                    }
+	                
 	                 }
+	                
 	                
 	                /* update item è un metodo che viene chiamato per ogni cella dopo
 	                 *  che è stato determinato il tipo da inserire e colloca l'elemento 
@@ -163,7 +174,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                        setGraphic(null);
 	                    } else {
 	                    	
-	                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 ) 
+	                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 && listaEmozioni.get(riga).getListaCommenti().size() != 0 ) 
 	                             setGraphic(linkToStats);
 	                    }
 	                }
@@ -182,6 +193,24 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 
 	 private void  onHyperLinkCliked (ActionEvent e, int indice ) throws IOException {
 	     
+		    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaCommenti.fxml"));
+			Parent parent = null;
+			
+			VisualizzaCommentiController controller = new VisualizzaCommentiController(canzoneSelezionata,listaEmozioni,indice);
+			fxmlloader.setController(controller);
+			try {
+				parent = fxmlloader.load();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			Scene dialog = new Scene(parent);
+	        Stage stage = new Stage();
+	        
+	        stage.setTitle("Emotional Songs");
+	        stage.setResizable(false);
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.setScene(dialog);
+	        stage.showAndWait();
          
 	}
 }

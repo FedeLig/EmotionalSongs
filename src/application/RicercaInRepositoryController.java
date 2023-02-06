@@ -26,6 +26,11 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 	
 	ArrayList<VisualizzaEmozioniDati> listaEmozioni ; 
 	
+	public RicercaInRepositoryController(Login utente, String indirizzoTabellaPrecedente) {
+		this.utente = utente ;
+		this.indirizzoTabellaPrecedente = indirizzoTabellaPrecedente ; 
+	}
+
 	/**
 	 * torna alla scena precedente : che può essere il menu Iniziale o il menu Utente , 
 	 * a seconda dell' esecuzione del programma
@@ -50,30 +55,16 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 	@Override 
     protected void  onHyperLinkCliked (ActionEvent e ,int indice ) throws FileNotFoundException, IOException{
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
-		Parent parent = null;
 		
 		Song canzoneSelezionata = getSongObservableList().get(indice) ; 
 		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
 		setEmotionData(canzoneSelezionata.getId());
 		
-	
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
+		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
 		fxmlloader.setController(controller);
-		try {
-			parent = fxmlloader.load();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		Scene dialog = new Scene(parent);
-        Stage stage = new Stage();
-        
-        stage.setTitle("Emotional Songs");
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(dialog);
-        stage.showAndWait();
-       
+		setRoot(fxmlloader.load());
+	    changeScene(e);
 		
 	}
 	

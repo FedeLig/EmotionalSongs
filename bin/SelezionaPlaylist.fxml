@@ -13,11 +13,11 @@
          <children>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="350.0" layoutX="23.0" layoutY="111.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="700.0" />
             <TableView fx:id="tabellaPlaylist" layoutX="29.0" layoutY="111.0" prefHeight="350.0" prefWidth="690.0" />
-            <Label layoutX="172.0" layoutY="57.0" prefHeight="27.0" prefWidth="434.0" text="seleziona  una  playlist dalla tua libreria personale : ">
+            <Label layoutX="172.0" layoutY="57.0" prefHeight="27.0" prefWidth="547.0" text="seleziona  una  playlist dalla tua libreria personale : ">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="TornaAlMenu" layoutX="322.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="25.0" prefWidth="107.0" text="torna al menu">
+            <Button fx:id="TornaAlMenu" layoutX="294.0" layoutY="483.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="158.0" text="torna al menu">
                <font>
                   <Font size="14.0" />
                </font></Button>
