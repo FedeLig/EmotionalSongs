@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 /**
  *  Questa classe serve come riferimento per la tabella  contenuta in VisualizzaEmozioniController ,
  *  la quale contiene informazioni riguardanti le emozioni associate ad una particolare canzone .
@@ -14,6 +16,7 @@ public class VisualizzaEmozioniDati {
 	private String descrizione ; 
 	private Integer numeUtentiAssociati ; 
 	private Float mediaVoti ; 
+	private ArrayList<String> listaCommenti  = new ArrayList<String>() ; 
 
 	/**
 	 *  Costruttore di base 
@@ -23,6 +26,15 @@ public class VisualizzaEmozioniDati {
 	 *  @param mediaVoti : media calcolata su tutte le valutazioni che gli utenti hanno dato all' emozione inserita
 	 *  @author Ligas
 	 */
+	public VisualizzaEmozioniDati(String nome ,String descrizione ,Integer numUtentiAssociati , Float mediaVoti ,ArrayList<String> listaCommenti) {
+		
+		this.nome = nome ; 
+		this.descrizione = descrizione ; 
+		this.numeUtentiAssociati = numUtentiAssociati ; 
+		this.mediaVoti = mediaVoti; 
+		this.listaCommenti.addAll(listaCommenti) ;
+		
+	}
 	public VisualizzaEmozioniDati(int emozione,Integer numUtentiAssociati , Float mediaVoti) {
 		switch(emozione) {
             

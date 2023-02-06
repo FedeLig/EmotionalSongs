@@ -25,7 +25,6 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 	Login utente ; 
 	
 	ArrayList<VisualizzaEmozioniDati> listaEmozioni ; 
-	ArrayList<ArrayList<String>> listaCommenti ;
 	
 	/**
 	 * torna alla scena precedente : che può essere il menu Iniziale o il menu Utente , 
@@ -55,11 +54,11 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		Parent parent = null;
 		
 		Song canzoneSelezionata = getSongObservableList().get(indice) ; 
-		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ;
-		listaCommenti = new ArrayList<ArrayList<String>>() ; 
+		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
 		setEmotionData(canzoneSelezionata.getId());
 		
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni),listaCommenti);
+	
+		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
 		fxmlloader.setController(controller);
 		try {
 			parent = fxmlloader.load();
@@ -74,12 +73,13 @@ public class RicercaInRepositoryController extends SearchSongTableController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(dialog);
         stage.showAndWait();
+       
 		
 	}
 	
 	// 
 	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
-		this.listaEmozioni = Song.getEmotionsResume(indiceCanzone);
+		this.listaEmozioni = Song.VisualizzaEmozioniBrano(indiceCanzone);
 	}
 	public void setIndirizzoTabellaPrecedente(String indirizzoTabellaPrecedente) {
 		this.indirizzoTabellaPrecedente = indirizzoTabellaPrecedente ; 

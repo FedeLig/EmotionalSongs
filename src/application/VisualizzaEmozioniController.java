@@ -2,12 +2,10 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
@@ -39,17 +37,16 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	
 	private Song canzoneSelezionata ; 
 	private ObservableList<VisualizzaEmozioniDati> ListaEmozioni;
-	private ArrayList<ArrayList<String>> listaCommenti ; 
 	
 	// non servirà quando ObservableList funzionerà 
 	private boolean EsistonoEmozioniAssociate ; 
 	
-	public VisualizzaEmozioniController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni,ArrayList<ArrayList<String>>  listaCommenti ) {
+	public VisualizzaEmozioniController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
 		
 		this.canzoneSelezionata = canzoneSelezionata; 
 		this.ListaEmozioni = listaEmozioni ; 
-		this.listaCommenti = listaCommenti ; 
 		EsistonoEmozioniAssociate =  true  ; 
+		
 	}
 	
 	@Override
@@ -185,11 +182,6 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 
 	 private void  onHyperLinkCliked (ActionEvent e, int indice ) throws IOException {
 	     
-		 FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaCommenti.fxml"));
-		 VisualizzaCommentiController controller = new VisualizzaCommentiController(canzoneSelezionata,ListaEmozioni,listaCommenti); 
-		 fxmlloader.setController(controller); 
-		 setRoot(fxmlloader.load());
-         changeScene(e);
          
 	}
 }

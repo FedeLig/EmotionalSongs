@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,10 +48,16 @@ public class CreazionePlaylistController extends SongTableController {
     @FXML
 	public void salvaPlaylist(ActionEvent e ) throws IOException {
 		
-		// serve creare un nuovo oggetto playlist ? 
-		
 		if(!(playlist.getListaCanzoni().isEmpty())) {
 		   playlist.RegistraPlaylist();
+		   int i = 0  ;
+		   ArrayList<Integer> listaIndiciCanzoni = new ArrayList<Integer>() ;
+		   while ( i < playlist.getListaCanzoni().size()  ) {
+			     listaIndiciCanzoni.add(playlist.getListaCanzoni().get(i).getId());
+			     i++ ; 
+		   }
+		   playlist.setListaIndiciCanzoni(listaIndiciCanzoni);
+		   utente.addToUserplaylists(playlist);
 		   System.out.println("la playlist e' stata salvata");
 		}
 		else {

@@ -209,6 +209,10 @@ public class Login {
 	public void setUserPlaylists(List<Playlist> userPlaylists) {
 		UserPlaylists = userPlaylists;
 	}
+	
+	public void addToUserplaylists(Playlist playlist) {
+		this.UserPlaylists.add(playlist);
+	}
 
 	public String getUserName() {
 		return userName;

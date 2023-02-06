@@ -13,7 +13,7 @@
          <children>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="350.0" layoutX="23.0" layoutY="111.0" opacity="0.59" stroke="WHITE" strokeLineCap="ROUND" strokeType="INSIDE" width="700.0" />
             <TableView fx:id="tabellaCanzoni" layoutX="28.0" layoutY="111.0" prefHeight="350.0" prefWidth="690.0" />
-            <Label layoutX="221.0" layoutY="51.0" prefHeight="27.0" prefWidth="308.0" text="seleziona  una  canzone dalla playlist : ">
+            <Label layoutX="212.0" layoutY="51.0" prefHeight="27.0" prefWidth="326.0" text="seleziona  una  canzone dalla playlist : " textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>

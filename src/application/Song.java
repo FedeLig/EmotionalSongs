@@ -158,12 +158,13 @@ public class Song {
 
         return(songList);
     }
-
+    
     /**
      * permette di registrare la valutazione di un utente in merito ad una canzone.
      * @param userId
      * @throws IOException
      */
+    /*
     public void inserisciEmozioniBrano(String userId, String[] rating) throws IOException {
         boolean rated = false;
         String line, oldLine="", newLine = String.format("%d,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s,,%s",this.id,userId,rating[0],rating[1],rating[2],rating[3],rating[4],rating[5],rating[6],rating[7],rating[8]); 
@@ -213,7 +214,7 @@ public class Song {
             output.close();
         }
     }
-    
+    */
  	public static void RegistraEmozioni(Login utente , int idCanzone , int[] listaVoti , String[] listaCommenti) throws IOException {
  		
  		String path, save  = String.format("%s,,%d",utente.getUserName(),idCanzone);
@@ -235,12 +236,6 @@ public class Song {
          
          
  	}
-
-    //per ottenere il filePath alla cartella /data (ogni OS)
-    private static String getPath() {
-    	String userDirectory = System.getProperty("user.dir");
-        return (userDirectory + File.separator + "data");
-    }	
 
     //funzione che preleva i dati della IDesima canzone nel dataset
     private String[] getSongData(int id) throws IOException, FileNotFoundException {
@@ -318,6 +313,77 @@ public class Song {
     	return listaDatiEmozioni;
     }
     
+    public static ArrayList<VisualizzaEmozioniDati> VisualizzaEmozioniBrano(int id ) throws IOException, FileNotFoundException  {
+    	
+        
+        
+        ArrayList<VisualizzaEmozioniDati> listaDatiEmozioni = new ArrayList<VisualizzaEmozioniDati>();
+        
+        String[] utenteEId = new String[1] ; 
+        String[] votiECommenti = new String[18];
+        
+        int[] numUtenti = {0,0,0,0,0,0,0,0,0};
+        float[] mediaVoti = {0,0,0,0,0,0,0,0,0};
+        ArrayList<ArrayList<String>> listaCommenti = new ArrayList<ArrayList<String>>();
+        for(int i = 0 ; i < 9 ; i++) {
+        	listaCommenti.add(new ArrayList<String>());
+        }
+        
+        String path = getPath() + (File.separator + "Emozioni.dati.csv"), line;
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        
+        // salta la prima riga 
+        br.readLine();
+        
+        while((line = br.readLine()) != null) {
+
+        	// trova l'indice che separa ( utente,,IdCanzone )  da voti e commenti
+        	int indice = line.indexOf(",,", line.indexOf(",,") + 1 ); 
+        	
+        	utenteEId = line.substring(0,indice).split(",,");
+        	votiECommenti = line.substring(indice+2).split(",,");
+        	
+        	if(id == Integer.parseInt(utenteEId[1])){
+        	
+        	   for(int i = 0 ; i< votiECommenti.length-1 ; i+=2) {
+        		
+        		   if(Integer.parseInt(votiECommenti[i]) != 0 ) {
+        		      numUtenti[i/2]++ ; 
+        		      mediaVoti[i/2]+= (float) Integer.parseInt(votiECommenti[i]);
+        		      if(! ( votiECommenti[i+1].equals(" ")) )
+        		         listaCommenti.get(i/2).add(utenteEId[0] + ",," + votiECommenti[i] + ",," + votiECommenti[i+1]);
+        		    }
+        		
+        	   }
+        	}
+        	
+            
+        }
+	     
+        for(int i = 0 ; i< 9 ; i++) {
+        	if(numUtenti[i]!=0) 
+      		  //calcolo la media
+      		  mediaVoti[i]/=numUtenti[i];
+        	String nome = Emozioni.values()[i].getNome();
+        	String descrizione = Emozioni.values()[i].getDescrizione() ; 
+        	listaDatiEmozioni.add(new VisualizzaEmozioniDati(nome,descrizione,numUtenti[i],mediaVoti[i],listaCommenti.get(i))) ; 
+        }
+       
+        br.close();
+
+        return listaDatiEmozioni ; 
+    }
+    /*
+     if(id == Integer.parseInt(utenteEId[1])) {
+        	        System.out.print(utenteEId[0]);
+        	        System.out.print(utenteEId[1]);
+        	        for(int i=0 ; i < votiECommenti.length ; i++ ) { 
+        	     	   System.out.print("indice : " + ((Integer)i).toString() + votiECommenti[i] + " "+ "a" + ",,");
+        	        }
+     }
+     */
+    
+    /*
     public static ArrayList<ArrayList<String>> getEmotionsComment(int id) throws FileNotFoundException, IOException {
     	ArrayList<ArrayList<String>> commenti = new ArrayList<ArrayList<String>>();
     	List<String[]> valutazioni = getEmotionsData(id);
@@ -338,20 +404,32 @@ public class Song {
     	
     	
     	return commenti;
-    	}
-
+    }
+    */
+    
+    //per ottenere il filePath alla cartella /data (ogni OS)
+    private static String getPath() {
+    	String userDirectory = System.getProperty("user.dir");
+        return (userDirectory + File.separator + "data");
+    }	
+    
+    // -- vecchio : cancellare 
+    
     /**
      * Stampa a schermo i dati di una canzone
      */
+    /*
     public void printSongData() {
         String line = String.format("Nome: %s \nArtista: %s \n",this.name,this.author);
         System.out.print(line);
     }
+    */
     
     /**
      * Stampa a schermo i valori delle emozioni di una canzone, per ciascun utente che l'ha valutata
      * @throws IOException
      */
+    /*
     public void printEmotionsData() throws IOException {
         int i;
         List<String[]> ratings = getEmotionsData(this.id);
@@ -364,5 +442,6 @@ public class Song {
             System.out.println(line);
         }
     }
-
+    */
+    
 }

@@ -34,7 +34,7 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 		
 		this.canzoneSelezionata = canzoneSelezionata; 
 		this.ListaEmozioni = FXCollections.observableArrayList(listaEmozioni);
-		this.listaCommenti = Song.getEmotionsComment(canzoneSelezionata.getId()) ; 
+		//this.listaCommenti = Song.getEmotionsComment(canzoneSelezionata.getId()) ; 
 		
 	}
 	@Override
@@ -86,12 +86,7 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 
 	public void switchToVisualizzaEmozioni(ActionEvent e ) throws IOException {
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(canzoneSelezionata,ListaEmozioni,listaCommenti); 
-		fxmlloader.setController(controller); 
-		setRoot(fxmlloader.load());
-        changeScene(e);
-        
+		//
 	}
 	
 }
