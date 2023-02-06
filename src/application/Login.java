@@ -148,7 +148,7 @@ public class Login {
  	      BufferedReader br = new BufferedReader(new FileReader(path));
 
  	      while((line = br.readLine()) != null)
- 	      list.add(line.split(";"));
+ 	      list.add(line.split(",,"));
 
  	      list.remove(0);
  	        
