@@ -1,3 +1,7 @@
+/*Progetto di 
+ * Edoardo Picazio 748815 VA
+ * Federico Ligas 749063 VA
+ */
 package emotionalsongs;
 
 import javafx.application.Application;
