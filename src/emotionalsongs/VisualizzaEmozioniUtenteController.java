@@ -123,7 +123,7 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 
 	            final TableCell<ArrayList<StringProperty>, Void> cell = new TableCell<ArrayList<StringProperty>, Void>(){
 
-	                private final Hyperlink linkToComment= new Hyperlink("commento");
+	                private final Hyperlink linkToComment= new Hyperlink("Commento inserito");
 	                
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
