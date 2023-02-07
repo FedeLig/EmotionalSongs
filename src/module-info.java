@@ -4,5 +4,5 @@ module HelloFX {
 	requires javafx.fxml;
 	requires javafx.base;
 	
-	opens application to javafx.graphics, javafx.fxml, javafx.base;
+	opens emotionalsongs to javafx.graphics, javafx.fxml, javafx.base;
 }
