@@ -101,7 +101,7 @@ public class Playlist {
 	}
 	
 	/**
-	 * salva in memoria la playlist
+	 * salva in memoria la playlist nel file Playlist.dati.csv
 	 * @throws IOException
 	 */
 	public void RegistraPlaylist() throws IOException {

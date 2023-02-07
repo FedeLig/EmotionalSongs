@@ -3,10 +3,22 @@ package application;
 import java.util.*;
 import java.io.*;
 
+/**
+ * Classe c
+ * @author Edoardo Picazio 
+ */
 public class Login {
-    
+	/**
+	 * </>userName</> : nome dell' utente corrente , </>password</> : password dell' utente corrente , 
+	 */
     private String userName, password;
+    /**
+	 * </>UserPlaylists</> : lista delle playlist dell'utente corrente 
+	 */
     private List<Playlist> UserPlaylists ; 
+    /**
+	 * </>logged</> : indica se un utente è loggato 
+	 */
     private boolean logged;
 
     /**
@@ -24,8 +36,7 @@ public class Login {
         //segnamo che l'utente è loggato
         this.logged = true;
     }
-
-    //se si passano nome utente e password invece si effettua il login.
+    
     /**
      * Permette di effettuare un login grazie usando le credenziali
      * @param userName : nome utente
@@ -115,7 +126,12 @@ public class Login {
         return this.logged;
     }
 
- // spostare il metodo in Login 
+
+    /**
+     * Ritorna la lista delle playlist di un utente dato in input 
+     * @param utente : utente di cui vogliamo trovare le playlist 
+     * @return lista delle playlist di un utente 
+     */
  	public static List<Playlist> getPlaylistsUtente(String userName) throws IOException {
  			
  		List<Playlist> playlistUtenteEsistenti = new ArrayList<Playlist>() ; 
@@ -139,7 +155,10 @@ public class Login {
  		return playlistUtenteEsistenti ; 
  	}
  		
- 	// spostare il metodo in Login 
+ 	/**
+     * Ritorna tutte le playlist contenute nel file  Playlist.dati.csv
+     * @return lista di tutte playlist 
+     */
  	private static List<String[]> getPlaylists() throws IOException {
  	      //ottengo i dati di tutti gli utenti e li divido in un array per potervi accedere singolarmente.
  	      List<String[]> list = new ArrayList<String[]>();
@@ -156,7 +175,10 @@ public class Login {
 
  	      return list;
  	 }
- 	
+ 	/**
+     * Ritorna tutte gli utenti contenuti nel file  UtentiRegistrati.dati.csv
+     * @return lista di tutte playlist 
+     */
     private static List<String[]> getUsers() throws IOException {
         //ottengo i dati di tutti gli utenti e li divido in un array per potervi accedere 
         //singolarmente.
@@ -174,7 +196,10 @@ public class Login {
 
         return list;
     }
-    //per ottenere il filePath alla cartella /data (ogni OS)
+    
+    /**
+     * Permette di ottenere il filePath alla cartella /data (ogni OS)
+     */
     private static String getPath() {
         //ottengo la directory del progetto
         String userDirectory = System.getProperty("user.dir");
@@ -202,18 +227,35 @@ public class Login {
         return String.join(File.separator, directories); */
     }
 
+
+    /**
+	 * Ritorna la lista delle playlist dell' utente corrente 
+	 * @return  lista delle playlist dell'utente corrente 
+	 */
 	public List<Playlist> getUserPlaylists() {
 		return UserPlaylists;
 	}
 
+    /**
+	 * imposta la lista delle playlist dell' utente corrente 
+	 * @param userPlaylists :  lista delle playlist dell'utente corrente 
+	 */
 	public void setUserPlaylists(List<Playlist> userPlaylists) {
 		UserPlaylists = userPlaylists;
 	}
-	
+
+    /**
+	 * Aggiunge una playlist in input alla lista delle playlist dell' utente 
+	 * @param playlist 
+	 */
 	public void addToUserplaylists(Playlist playlist) {
 		this.UserPlaylists.add(playlist);
 	}
 
+    /**
+	 * ritorna l'identificatore dell' utente 
+	 * @return lo username (  id utente ) 
+	 */
 	public String getUserName() {
 		return userName;
 	}

@@ -27,21 +27,59 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * Classe che si occupa della gestione della scena descritta da InserisciEmozioni.fxml
+ * , permette all' utente di inserire le emozioni provate , votarle e eventualmente lo
+ *  indirizza verso la scena per inserire un commento per un' emozione 
+ * @author Federico Ligas
+ */
 public class InserisciEmozioniController extends Controller implements Initializable {
-
+	/**
+	 * </>tabellaEmozioni</> : tabella che contiene le emozioni , i voti e un link di testo ai commenti
+	 */
 	@FXML 
 	private TableView<ArrayList<StringProperty>> tabellaEmozioni ; 
-	
+	/**
+	 * </>data</> : dati della tabella 
+	 */
 	private ObservableList<ArrayList<StringProperty>> data = FXCollections.observableArrayList();
+	/**
+	 * </>idCanzone</> : identificatore della canzone a cui l'utente vuole associare delle emozioni
+	 */
 	private int idCanzone ; 
+	/**
+	 * </>commentoVisibile</> : lista di booleani che indica se il commento può essere inserito
+	 * <p> i valori contenuti rappresentano le righe della tabella e assumono true se l'emozione è stata votata altrimenti false 
+	 */
 	private ArrayList<SimpleBooleanProperty> commentoVisibile ;
+	/**
+	 * </>rigaCommento</> : valore per contare le righe durante la creazione dei link di testo che reindirizzano nella tabella 
+	 */
 	private int rigaCommento = 0 ; 
+	/**
+	 * </>listaCommenti</> : lista dei commenti inserite
+	 */
 	private String[] listaCommenti ;
+	/**
+	 * </>playlist</> : playlist a cui appartiene la canzone da valutare 
+	 */
 	private Playlist playlist ; 
+	/**
+	 * </>listaVoti</> : lista dei voti inseriti 
+	 */
 	private int[] listaVoti ;
+	/**
+	 * </>utente</> : utente che sta inserendo l'emozione 
+	 */
 	private Login utente; 
+	/**
+	 * </>ControllerCorrente</> : controller che sta gestendo la scena 
+	 */
 	private InserisciEmozioniController controllerCorrente ; 
 	
+	/**
+	 * costruttore di base 
+	 */
 	public InserisciEmozioniController() {
 		
 		listaVoti  = new int[9] ;
@@ -56,6 +94,12 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	}
 	
 
+    /**
+	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
+     * e inizializza gli elementi che sono contenuti nella scena .
+     * @param arg0 : Il path usato per risolvere i path relativi per l'oggetto "radice" o il valore null se il path non &egrave noto
+     * @param arg1 : Le risorse usate per localizzare l'oggetto "radice" , o null se la radice non viene trovata 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -83,7 +127,9 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		
 		
 	}
-
+	/**
+	 * aggiunge un link di testo alla tabella 
+	 */
 	private void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
@@ -144,7 +190,9 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	    tabellaEmozioni.getColumns().add(commentColumn);
 		
 	}
-	
+	/**
+	 * aggiunge i bottoni per votare l'emozione  alla tabella 
+	 */
 	private void addButtonsToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
@@ -240,6 +288,13 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		
 	}
 	    
+
+     /**
+	 * porta l'utente alla scena per inserire un commento quando un link di testo viene clickato
+	 * @param e : evento che scatena il metodo
+	 * @param indice : indice della riga che contiene l'Hyperlink clickato 
+	 * @throws IOException : un file non viene trovato 
+	 */
     private void onHyperLinkCliked(ActionEvent e, int indice) throws IOException {
     	
     	FXMLLoader nextFxmlloader = new FXMLLoader(getClass().getResource("/InserisciCommento.fxml"));
@@ -262,13 +317,20 @@ public class InserisciEmozioniController extends Controller implements Initializ
         stage.showAndWait();
 			
 	}
-	
+    /**
+	 * imposta il valore della variabile </>playlist</> con la playlist che contiene la canzone che stiamo valutando
+	 * @param playlist : playlist a cui appartiene la canzone da valutare 
+	 */
 	public void setPlaylist(Playlist playlist) {
 		
 		this.playlist = playlist ; 
 		
 	}
-	
+
+    /**
+    * torna alla scena per selezionare le canzoni di una playlist dell'utente
+    * @param e : evento che scatena il metodo
+    */
 	public void switchToSelezionaCanzone(ActionEvent e ) throws IOException {
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
@@ -278,7 +340,11 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		setRoot(fxmlloader.load());
 		changeScene(e);
 	}
-	
+	/**
+	 * salva le emozioni inserite dall'utente nel file Emozioni.dati.csv 
+	 * @param e : evento che scatena il metodo
+	 * @throws IOException : il file non viene trovato 
+	 */
 	public void salvaEmozioni(ActionEvent e )throws IOException {
 	
 		boolean almenoUnVoto = false;
@@ -297,22 +363,34 @@ public class InserisciEmozioniController extends Controller implements Initializ
 			createAlert("Errore : E' necesssario associare \n        almeno un emozione");
         
 	}
-	
+	/**
+	 * imposta il valore della variabile </>listaCommenti</> 
+	 * @param listaCommenti : lista dei commenti inserite
+	 */
 	public void setListaCommenti(String[] listaCommenti) {
 		
 		this.listaCommenti = listaCommenti ;
 	}
 
-
+	/**
+	 * imposta il valore della variabile </>idCanzone</> 
+	 * @param idCanzone : identificatore della canzone a cui l'utente vuole associare delle emozioni
+	 */
 	public void setIdCanzone(int idCanzone) {
 		this.idCanzone = idCanzone;
 	}
-	
+	/**
+	 * imposta il valore della variabile </>utente</> 
+	 * @param utente : playlist dell' utente a cui dobbiamo aggiungere le canzoni
+	 */
 	public void setUtente(Login utente) {
 		this.utente = utente; 
 	}
 
-
+	/**
+	 * imposta il valore della variabile </>controllerCorrente</> 
+	 * @param controllerCorrente : controller che sta gestendo la scena 
+	 */
 	public void setControllerCorrente(InserisciEmozioniController controllerCorrente) {
 		this.controllerCorrente = controllerCorrente ; 
 		

@@ -6,16 +6,25 @@ import javafx.fxml.FXMLLoader;
 
 /**
  * Classe che si occupa della gestione della scena descritta da RicercaInRepository.fxml
- * , quando è richiesto ricercare una canzone per aggiungerla ad una playlist
+ * , quando &egrave richiesto ricercare una canzone per aggiungerla ad una playlist
  * nota : la scena RicercaInRepository.fxml può essere usata anche da RicercaInRepositoryController in altri contesti
- * @see RicercaInRepository.fxml
- * @author Ligas
+ * @author Federico Ligas
  */
 public class AddSongToPlaylistController extends SearchSongTableController {
 	
+	/**
+	 * </>playlist</> : playlist dell' utente a cui dobbiamo aggiungere le canzoni
+	 */
 	private Playlist playlist ; 
+	/**
+	 * </>utente</> : utente che ha effettuato il Login
+	 */
 	private Login utente ; 
 	
+	/**
+	 * costruttore di base 
+	 * @param utente : utente che ha effettuato il Login 
+	 */
 	public AddSongToPlaylistController(Login utente) {
 		this.utente = utente ; 
 	}
@@ -34,15 +43,27 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		changeScene(e);
 		
 	}
-	
+	/**
+	 * ritorna il testo contenuto del link di testo contenuto nella tabella 
+	 * @return  "Aggiungi"
+	 */
 	@Override 
 	protected   String getTestoHyperLink(){
 		return "Aggiungi" ; 
 	}
+	/**
+	 * Aggiunge la canzone della riga a cui appartiene il link di testo clickato
+	 * @param e : evento che scatena il metodo
+	 * @param indice : indice della riga che contiene il link di testo clickato 
+	 * @throws IOException : 
+	 */
 	@Override 
     protected void  onHyperLinkCliked (ActionEvent e , int indice) throws IOException{
 		
+		// prende la canzone nella riga selezionata
 		Song canzone = getSongObservableList().get(indice);
+		
+		// aggiunge la canzone alla playlist solo se non è già presente 
 		if(playlist.contiene(canzone)) {
 	       createAlert("Errore : La canzone e' gia' presente");
 		}
@@ -52,7 +73,10 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		}
 		
 	}
-	
+	/**
+	 * imposta il valore della variabile </>playlist</> con la playlist in fase di creazione
+	 * @param playlist : playlist dell' utente a cui dobbiamo aggiungere le canzoni
+	 */
 	public void setPlaylist( Playlist playlist ) {
 		this.playlist = playlist ; 
 	}
