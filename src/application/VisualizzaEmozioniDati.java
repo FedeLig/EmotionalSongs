@@ -39,40 +39,40 @@ public class VisualizzaEmozioniDati {
 		switch(emozione) {
             
             case 1:
-                this.nome = "Amazement";
-                this.descrizione = "Feeling of wonder or happiness";
+                this.nome = "Meraviglia";
+                this.descrizione = "Sensazione di stupore o felicità";
                 break;
             case 2:
-                this.nome = "Solemnity";
-                this.descrizione = "Feeling of transcendence, inspiration. Thrills. ";
+                this.nome = "Solennità";
+                this.descrizione = "sensazione di trascendenza, ispirazione. Brividi. ";
                 break;
             case 3:
-                this.nome = "Tenderness";
-                this.descrizione = "Sensuality, affect, feeling of love";
+                this.nome = "Tenerezza";
+                this.descrizione = "Sensualità, affetto, amore";
                 break;
             case 4:
                 this.nome = "Nostalgia";
-                this.descrizione = "Dreamy, melancholic, sentimental feelings ";
+                this.descrizione = "Sognante, melanconico, sentimentale";
                 break;
             case 5:
-                this.nome = "Calmness";
-                this.descrizione = "Relaxation, serenity, meditativeness ";
+                this.nome = "Calma";
+                this.descrizione = "Rilassamento, serenità ";
                 break;
             case 6:
-                this.nome = "Power";
-                this.descrizione = "Feeling strong, heroic, triumphant, energetic ";
+                this.nome = "Potere";
+                this.descrizione = "Sensazione di forza, eroismo, trionfo, energia ";
                 break;
             case 7:
-                this.nome = "Joy";
-                this.descrizione = "Feels like dancing, bouncy feeling, animated, amused ";
+                this.nome = "Gioia";
+                this.descrizione = "Voglia di ballare, eccitazione";
                 break;
             case 8:
-                this.nome = "Tension";
-                this.descrizione = "Feeling Nervous, impatient, irritated ";
+                this.nome = "Tensione";
+                this.descrizione = "Nervosismo impazienza, irritazione ";
                 break;
             case 9:
-                this.nome = "Sadness";
-                this.descrizione = "Feeling Depressed, sorrowful";
+                this.nome = "Tristezza";
+                this.descrizione = "Sesnsazione di depressione, sofferenza";
                 break;
 			
 		}
