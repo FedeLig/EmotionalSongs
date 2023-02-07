@@ -12,26 +12,36 @@ import javafx.scene.control.Button;
  */
 public class MenuUtenteController extends Controller  {
 	
+	/**
+	 * </>toSearchButton</> : bottone che porta alla ricerca in repository
+	 */
 	@FXML
 	private Button toSearchButton ;
+	/**
+	 * </>newPlaylistButton</> : bottone che porta alla creazione di una nuova playlist 
+	 */
 	@FXML
 	private Button newPlaylistButton ;
-	
+	/**
+	 * </>utente</> : utente corrente 
+	 */
 	private Login utente ;
 	
-	// adattare in modo che prenda il login , togliere IOException 
-	public MenuUtenteController(Login utente) throws IOException {
+	/**
+	 * costruttore di base 
+	 *@param utente : utente corrente 
+     */
+	public MenuUtenteController(Login utente)  {
 			
 		this.utente = utente ; 
 		
 	}
 		
-	 /**
-	 * Porta l'utente all'interfaccia che contiene la funzionalità
-	 * di ricerca nella Repository di canzoni 
+	/**
+	 * Porta l'utente alla ricerca in repository 
 	 *@param e : evento che scatena l'azione 
-	 *@throws IOException : cosa potrebbe accadere  
-	 */
+	 *@throws IOException : file non trovato 
+     */
      @FXML
 	 public void switchToRicercaRepository(ActionEvent e ) throws IOException {
 			
@@ -42,12 +52,11 @@ public class MenuUtenteController extends Controller  {
 		   changeScene(e);
 		   
      }
-	 /**
-	 * Porta l'utente all'interfaccia che contiene la funzionalità
-	 * al primo passo della funzionalità di creazione delle playlist : la scelta del nome di essa 
-	 *@param e : evento che scatena l'azione 
-	 *@throws IOException : cosa potrebbe accadere 
-	 */
+     /**
+	  * Porta l'utente al primo passo della creazione delle playlist : l'inserimento del nome 
+	  *@param e : evento che scatena l'azione 
+	  *@throws IOException : file non trovato 
+	  */
 	 @FXML
 	  public void switchToNomePlaylist(ActionEvent e ) throws IOException {
 			
@@ -58,11 +67,10 @@ public class MenuUtenteController extends Controller  {
 		  changeScene(e);
 			
 	  }
-	  /**
-	  * Porta l'utente all'interfaccia che contiene la funzionalità
-	  * di visualizzazione delle playlist da lui create 
+	 /**
+	  * Porta l'utente alla visualizzazione delle playlist 
 	  *@param e : evento che scatena l'azione 
-	  *@throws IOException : cosa potrebbe accadere 
+	  *@throws IOException : file non trovato 
 	  */
 	  @FXML
 	   public void switchToVisualizzaPlaylist(ActionEvent e ) throws IOException {
@@ -74,6 +82,11 @@ public class MenuUtenteController extends Controller  {
 			changeScene(e);
 			
 	   }
+	  /**
+	   * Porta l'utente al menu inizale 
+	   *@param e : evento che scatena l'azione 
+	   *@throws IOException : file non trovato 
+		*/
 	   @FXML 
 	  	public void switchToMenuIniziale(ActionEvent event )throws IOException {
 	  		

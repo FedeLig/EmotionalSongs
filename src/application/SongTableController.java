@@ -16,20 +16,30 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+/**
+ * Classe astratta che viene eredita dai controller che gestiscono tabelle di tipo </>Song</> , 
+ * permette di crearle da una lista e aggiornarle quando tale lista cambia 
+ * @author Federico Ligas
+ */
+
 abstract class SongTableController extends Controller implements Initializable{
 	
+	/**
+	 * </>tabellaCanzoni</> : tabella che contiene delle canzoni 
+	 */
 	@FXML
 	private TableView<Song> tabellaCanzoni;
-	
+	/**
+	 * </>songObservableList</> : lista delle canzoni contenute nella tabella 
+	 */
 	@FXML
 	private  ObservableList<Song> songObservableList = FXCollections.observableArrayList();
 	
-
-	// ---------- INIZIO CONTROLLI PER MANIPOLARE TABELLA ----------------
 	
-	/* il metodo seguente prende come parametro il vettore risultato della ricerca nella repository
-	 * e lo trasforma in una tabella dove ogni riga corrisponde ai dati di una canzone .
-	 * L'Ultima colonna di ogni riga contiene un Hyperlink : */
+	/**
+	 * Permette di aggiornare la tabella ai nuovi valori di una lista di canzoni 
+	 * @param listaCanzoni : lista di canzoni da mettere nella tabella 
+	 */
 	protected void UpdateTable(ObservableList<Song> listaCanzoni ) {
 		
 	 	Boolean PreviousTableIsNotEmpty = (!(getTabellaCanzoni().getItems()).isEmpty()) ;
@@ -71,7 +81,7 @@ abstract class SongTableController extends Controller implements Initializable{
 		    	// dice alla tabella da quali lista prendere i dati 
 		    	getTabellaCanzoni().setItems(data); 
 		    	// crea una nuova tabella usando la lista di dati più recente
-		    	createTableFromList(data);
+		    	createTableFromList();
 		    	
 		    	
 		    }
@@ -79,8 +89,10 @@ abstract class SongTableController extends Controller implements Initializable{
 		 } 
 		 
 	}	
-	
-	private void createTableFromList( ObservableList<Song> list ) {
+	/**
+	 * Crea una tabella di tipo </>Song</> 
+	 */
+	private void createTableFromList() {
 		
 		/* sommariamente : 
 	     * setCellValueFactory : specifica come popolare tutte le celle della colonna che la chiama  
@@ -126,7 +138,9 @@ abstract class SongTableController extends Controller implements Initializable{
        
        nota : Una funzione di callback o richiamo è una funzione che è passata come parametro in 
        un'altra funzione e solitamente è usata per gestire dei particolari eventi */
-	
+	/**
+	 * aggiunge un link di testo per ogni riga della tabella 
+	 */
 	protected void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
@@ -183,25 +197,37 @@ abstract class SongTableController extends Controller implements Initializable{
 		
 	}
 	
-	
+	/**
+	 * azione che il link di testo svolge quando viene clickato 
+	 */
 	abstract protected void  onHyperLinkCliked (ActionEvent e , int indice ) throws FileNotFoundException, IOException;
-	
+	/**
+	 * testo contenuto dal link di testo della tabella 
+	 */
 	abstract protected String getTestoHyperLink() ;
 
+	/**
+	 * ritorna la lista di canzoni contenute nella tabella 
+	 * return lista di canzoni contenute nella tabella 
+	 */
 	public ObservableList<Song> getSongObservableList() {
 		return songObservableList;
 	}
 
+	/**
+	 * imposta la lista di canzoni contenute nella tabella
+	 * @param lista di canzoni da mettere nella tabella 
+	 */
 	public void setSongObservableList(ObservableList<Song> songObservableList) {
 		this.songObservableList = songObservableList;
 	}
-
+	/**
+	 * ritorna la tabella delle canzoni 
+	 * @return tabella delle canzoni 
+	 */
 	public TableView<Song> getTabellaCanzoni() {
 		return tabellaCanzoni;
 	}
-
-	public void setTabellaCanzoni(TableView<Song> tabellaCanzoni) {
-		this.tabellaCanzoni = tabellaCanzoni;
-	}
+	
 	
 }

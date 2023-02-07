@@ -24,28 +24,65 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-/*
- * @Author Ligas
+/**
+ * Classe che si occupa della gestione della scena descritta da RicercaAvanzata.fxml
+ * , permette di cercare e aggiungere ad una playlist tutte le canzoni appartenti ad un album ,
+ * o composte da un particolare autore 
+ * @author Federico Ligas
  */
 public class RicercaAvanzataController extends Controller implements Initializable{
 	
+
+     /**
+	 * </>TabellaRicerca</> : tabella dei risultati della ricerca 
+	 */
 	@FXML
 	private TableView<Song> TabellaRicerca ; 
+	 /**
+      * </>tabpane</> : struttura che ospita delle scene 
+	  */
 	@FXML
 	private TabPane tabpane ; 
+	/**
+     * </>firstTab</> : prima scena contenuta ,</>secondTab</> : seconda scena contenuta 
+	  */
 	@FXML 
 	private Tab firstTab, secondTab ;
-	
+	/**
+     * </>authorField </> : area di testo per l 'autore ,</>albumField</> : area di testo per l'album 
+	  */
 	@FXML
 	private TextField authorField , albumField; 
-	
+	/**
+     * </>playlist</> : playlist a cui aggiungeremo le canzoni 
+	 */
 	private Playlist playlist ; 
+	/**
+     * </>opzioneDiRicerca</> : opzione possibili per la ricerca 
+	 */
 	private String opzioneDiRicerca ; 
+	/**
+     * </>opzioneDiRicerca</> : tipo di ricerca impostato 
+	 */
 	private int tipoRicerca  = 3  ; 
+	/**
+     * </>risultatiRicerca</> : risultati della ricerca 
+	 */
 	private ObservableList<Song> risultatiRicerca = FXCollections.observableArrayList();
+	/**
+     * </>listProperty</> : proprietà che collega il contenuto della lista dei dati alla tabella 
+	 */
 	private Property<ObservableList<Song>> listProperty ;
+	/**
+     * </>utente</> : utente corrente 
+	 */
 	private Login utente ; 
 	
+	/**
+     * costruttore di base 
+     * @param utente : utente corrente 
+     * @param opzioneDiRicerca : opzione per la ricerca selezionata 
+	 */
 	public RicercaAvanzataController(Login utente,String opzioneDiRicerca ) { 
 		
 		this.utente = utente ; 
@@ -54,6 +91,12 @@ public class RicercaAvanzataController extends Controller implements Initializab
 		
 	}
 
+	/**
+	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
+     * e inizializza gli elementi che sono contenuti nella scena .
+     * @param arg0 : Il path usato per risolvere i path relativi per l'oggetto "radice" o il valore null se il path non &egrave noto
+     * @param arg1 : Le risorse usate per localizzare l'oggetto "radice" , o null se la radice non viene trovata 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -75,7 +118,9 @@ public class RicercaAvanzataController extends Controller implements Initializab
  
 		
 	}
-	
+	/**
+     * aggiunge un link di testo ad ogni riga della tabella 
+	 */
 	protected void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
@@ -157,6 +202,12 @@ public class RicercaAvanzataController extends Controller implements Initializab
 		
 	}
 	
+
+	 /**
+	 * porta alla scena per la creazione delle playlist 
+	 * @param event : evento che scatena il metodo
+	 * @throws IOException : il file non viene trovato 
+	 */
     public void switchToCreazionePlaylist(ActionEvent e) throws IOException {
         
     	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
@@ -167,7 +218,13 @@ public class RicercaAvanzataController extends Controller implements Initializab
 		changeScene(e);
 		
     }
-    
+    /**
+	 * Permette di ricerca un autore o un album per poi poter
+	 * aggiungere tutte le canzoni di un autore o un album presente nei risultati 
+	 * @param event : evento che scatena il metodo
+	 * @throws IOException : il file non viene trovato 
+	 * @throws NumberFormatException : 
+	 */
     public void ricercaAvanzata(ActionEvent e ) throws NumberFormatException, IOException {
     	
         String[] input = new String[1] ; 

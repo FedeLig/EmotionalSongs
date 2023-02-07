@@ -15,13 +15,22 @@ import javafx.stage.Stage;
 
 /**
  * Questa classe astratta contiene il metodo che tutte le classi che rappresentano un Controller ,
- * ovvero il gestore di un interfaccia , usano per passare portare l'utente a un'altra interfaccia
+ * ovvero il gestore di un interfaccia(scena) , usano per passare portare l'utente a un'altra interfaccia
  * che contiene una funzionalità richiesta dall' utente 
- * @author Ligas 
+ * @author Federico Ligas 
+ * @author Edoardo Picazio 
  */
 public class Controller {
 
+	/**
+	 * </>stage</> : contenitore di alto livello che contiene una scena 
+	 */
 	private Stage stage ;  
+	/**
+	 * </>root</> : il nodo "radice" della scena 
+	 * <p> Gli elementi presenti una scena in JavaFX sono detti nodi , e sono organizzati in una gerarchia ad albero , 
+	 * <p> il nodo radice è il nodo piu alto nella gerarchia e non ha padri 
+	 */
 	private Parent root ;
 	
 	/**
@@ -41,7 +50,10 @@ public class Controller {
 		stage.show();
 			
     }
-    
+    /**
+	 * Crea un piccola finestra (Alert) che contiene un messaggio che si vuole comunicare all'utente
+	 * @param messaggio :  segnala un errore o il completamente di un'azione 
+	 */
     public void createAlert(String messaggio) throws IOException {
     	
     	Alert alert = new Alert(AlertType.INFORMATION);
@@ -63,11 +75,17 @@ public class Controller {
     	
     	
     }
-    
+    /**
+	 * Ritorna il nodo radice della scena 
+	 * @return l'elemento piu in alto nella gerarchia degli elementi della scena 
+	 */
 	public Parent getRoot() {
 		return root;
 	}
-
+	/**
+	 * Imposta la radice della scena 
+	 * @param root : elemento piu in alto nella gerarchia degli elementi della scena 
+	 */
 	public void setRoot(Parent root) {
 		this.root = root;
 	}

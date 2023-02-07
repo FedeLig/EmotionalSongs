@@ -17,32 +17,65 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
+
+/**
+ * Classe astratta ereditata dai Controller che permettono di cercare canzoni,
+ * contiene degli elementi comuni a questi tipi di interfacce di ricerca 
+ * @author Federico Ligas
+ */
 abstract class SearchSongTableController extends SongTableController {
  
+	/**
+     * </>tabpane </> : struttura che ospita delle scene 
+	  */
 	@FXML
 	private TabPane tabpane ; 
+	/**
+     * </>firstTab</> : prima scena contenuta ,</>secondTab</> : seconda scena contenuta 
+	  */
 	@FXML 
 	private Tab firstTab, secondTab ; 
+	/**
+     * </>titleField</> : area di testo per il titolo della canzone ,</>authorField</> : area di testo per il nome dell'autore ,</>yearField</> :  area di testo per l'anno della canzone
+	  */
 	@FXML 
 	private TextField  titleField ,authorField , yearField ; 
-	
+	/**
+     * </>sceltaFiltro</> : menu di scelta del filtro 
+	  */
 	@FXML
 	protected ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
-	//filtroBrano ci permette di distinguere il metodo di ricerca che si sta usando
-	//Se filtroBrano == false allora si sta usando la ricerca per anno e autore. 
+	/**
+     * </>tipoRicerca</> : indica il tipo di ricerca selezionata 
+	  */
 	private int tipoRicerca = 1;
+	/**
+     * </>filtroSelezionato</> : indica il tipo di filtro selezionato per la ricerca 
+	  */
 	@FXML 
 	private Label filtroSelezionato ;
-	
+	/**
+     * </>goBackButton</> : buttone per tornare indietro alla tabella precedente , </>searchButton</> : buttone per cercare 
+	  */
 	@FXML
 	protected Button goBackButton , searchButton ;
-	
+	/**
+     * </>listaOpzioni</> : lista delle opzioni possibile per la ricerca 
+	 */
     protected static ArrayList<String> listaOpzioni ;
-    
+    /**
+     * </>PreviousOption</> : opzione scelta precedentemente 
+	 */
 	private static String PreviousOption = "  titolo" ;  
 	
     // ----------  CONTROLLI PER SCELTA FILTRO  ----------------
     
+	/**
+	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
+     * e inizializza gli elementi che sono contenuti nella scena .
+     * @param arg0 : Il path usato per risolvere i path relativi per l'oggetto "radice" o il valore null se il path non &egrave noto
+     * @param arg1 : Le risorse usate per localizzare l'oggetto "radice" , o null se la radice non viene trovata 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		

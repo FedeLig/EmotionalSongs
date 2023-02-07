@@ -14,17 +14,44 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
+
+/**
+ * Classe che si occupa della gestione della scena descritta da InserisciCommento.fxml
+ * , permette di inserire il commento per un 'emozione votata 
+ * @author Federico Ligas
+ */
 public class InserisciCommentoController extends Controller implements Initializable {
 
+	/**
+	 * </>listaCommenti</> : c
+	 */
 	private String[] listaCommenti  ;
+	/**
+	 * </>indice</> : indice della riga selezionata nella tabella in cui si inseriscono le emozioni 
+	 */
 	private int indice ; 
+	/**
+	 * </>controllerPrecedente</> : controller della scena precedente 
+	 */
 	private InserisciEmozioniController controllerPrecedente ; 
 	
+	/**
+	 * </>areaCommento</> : area di Testo che permette di inserire il commento
+	 */
 	@FXML 
 	private TextArea areaCommento ; 
+	/**
+	 * </>caratteriRimasti</> : quanti caratteri possiamo ancora inserire nel commento
+	 */
 	@FXML
 	private Label caratteriRimasti ; 
 	
+	/**
+	 * costruttore di base 
+	 * @param listaCommenti : indice della riga selezionata nella tabella in cui si inseriscono le emozioni 
+	 * @param indice : indice della riga selezionata nella tabella in cui si inseriscono le emozioni 
+	 * @param controllerPrecedente : controller della scena precedente 
+	 */
 	public InserisciCommentoController( String[] listaCommenti , int indice , InserisciEmozioniController controllerPrecedente ) {
 
 		this.listaCommenti = listaCommenti ;
@@ -33,7 +60,13 @@ public class InserisciCommentoController extends Controller implements Initializ
 		
 	}
 
-	// serve ? 
+
+     /**
+	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
+     * e inizializza gli elementi che sono contenuti nella scena .
+     * @param arg0 : Il path usato per risolvere i path relativi per l'oggetto "radice" o il valore null se il path non &egrave noto
+     * @param arg1 : Le risorse usate per localizzare l'oggetto "radice" , o null se la radice non viene trovata 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -44,7 +77,10 @@ public class InserisciCommentoController extends Controller implements Initializ
 		caratteriRimasti.textProperty().bind(new SimpleIntegerProperty(256).subtract(Bindings.length(areaCommento.textProperty())).asString());
 		
 	}
-	
+	/**
+	 *  Salva il commento nella lista commenti se non è vuoto 
+	 *  @param event : azione che scatena l'esecuzione del metodo
+	 */
 	public void salvaCommento(ActionEvent event ) throws IOException {
 		
 		String commentoInserito = areaCommento.getText() ; 

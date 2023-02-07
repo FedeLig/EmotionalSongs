@@ -2,8 +2,7 @@ package application;
 
 /**
  *  Contiene la lista delle emozioni che l' utente può associare ad un canzone 
- *  e i metodi che ci permettono di ... 
- *  @author Ligas
+ *  @author Federico Ligas
  */
 public enum Emozioni {
 
@@ -17,9 +16,18 @@ public enum Emozioni {
 	TENSION("Tension","Feeling Nervous, impatient ,irritated"),
 	SADNESS("Sadness","Feeling Depressed, sorrowful");
 	
-	
+	/**
+	 * </>nome</> : nome dell'emozione 
+	 */
 	private final String nome ; 
+	/**
+	 * </>descrizione</> : descrizione associata all' emozione 
+	 * <p> Può essere una definizione , una spiegazione o un insieme di sinomini 
+	 */
 	private final String descrizione ; 
+	/**
+	 * </>listaEmozioni</> : lista che contiene i valori delle emozioni definita da </>Emozioni</>
+	 */
 	private static Emozioni[] listaEmozioni  = Emozioni.values();
 	
 	Emozioni(String nome, String descrizione) {
@@ -40,7 +48,9 @@ public enum Emozioni {
 	public String getDescrizione() {
 		return descrizione;
 	}
-	
+	/** 
+	 *  @return ritorna la lista che contiene i valori delle emozioni definita da </>Emozioni</>
+	 */
 	public static Emozioni[] getlistaEmozioni() {
 		return listaEmozioni ; 
 	}

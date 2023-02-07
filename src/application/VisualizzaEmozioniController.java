@@ -59,7 +59,12 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		        EsistonoEmozioniAssociate = true ;  
 	}
 	
-
+	/**
+	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
+     * e inizializza gli elementi che sono contenuti nella scena .
+     * @param arg0 : Il path usato per risolvere i path relativi per l'oggetto "radice" o il valore null se il path non &egrave noto
+     * @param arg1 : Le risorse usate per localizzare l'oggetto "radice" , o null se la radice non viene trovata 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
