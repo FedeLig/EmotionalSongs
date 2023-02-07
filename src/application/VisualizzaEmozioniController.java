@@ -41,14 +41,16 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	private Song canzoneSelezionata ; 
 	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
 	private Login utente ; 
+	private Playlist playlist ; 
 	private int iterazione = 0 ; 
 	private int riga  = 0 ; 
 	
 	private boolean EsistonoEmozioniAssociate = false; 
 	
-	public VisualizzaEmozioniController(Login utente, Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
+	public VisualizzaEmozioniController(Login utente, Playlist playlist, Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
 		
 		this.utente = utente ; 
+		this.playlist = playlist ; 
 		this.canzoneSelezionata = canzoneSelezionata; 
 		this.listaEmozioni = listaEmozioni ; 
 		
@@ -57,6 +59,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		        EsistonoEmozioniAssociate = true ;  
 	}
 	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -86,6 +89,23 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		
 	}
 	
+    public void tornaAlPrecedente(ActionEvent event ) throws IOException {
+		
+		if(playlist == null ) {
+			
+			switchToRicercaInRepository(event);
+		}
+		else {
+			
+			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
+			SelezionaCanzoneController controller = new SelezionaCanzoneController(utente,playlist);
+			fxmlloader.setController(controller);
+			setRoot(fxmlloader.load());
+			changeScene(event);	
+		}
+		
+		
+	}
 	public void switchToRicercaInRepository(ActionEvent event ) throws IOException {
 		
 		String indirizzoTabella = utente == null ? "/MenuIniziale.fxml" : "/MenuUtente.fxml"  ; 

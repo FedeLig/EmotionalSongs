@@ -40,10 +40,16 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		return "Aggiungi" ; 
 	}
 	@Override 
-    protected void  onHyperLinkCliked (ActionEvent e , int indice){
+    protected void  onHyperLinkCliked (ActionEvent e , int indice) throws IOException{
 		
 		Song canzone = getSongObservableList().get(indice);
-		playlist.aggiungiCanzone(canzone);
+		if(playlist.contiene(canzone)) {
+	       createAlert("Errore : La canzone e' gia' presente");
+		}
+		else{
+		  playlist.aggiungiCanzone(canzone);
+		  createAlert("La canzone e' stata aggiunta");
+		}
 		
 	}
 	

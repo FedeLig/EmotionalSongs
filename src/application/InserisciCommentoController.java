@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -44,20 +45,20 @@ public class InserisciCommentoController extends Controller implements Initializ
 		
 	}
 	
-	public void salvaCommento(ActionEvent event ) {
+	public void salvaCommento(ActionEvent event ) throws IOException {
 		
 		String commentoInserito = areaCommento.getText() ; 
         String messaggio ; 
         
         if (commentoInserito.isBlank()) {
         	messaggio = "il commento non puo' essere vuoto" ; 
-        	System.out.println(messaggio);
+        	createAlert(messaggio);
         }
         else {
             messaggio = "Il commento e' stato salvato" ; 
 		    listaCommenti[indice] = areaCommento.getText();
 		    controllerPrecedente.setListaCommenti(listaCommenti);
-		    System.out.println(messaggio);
+		    createAlert(messaggio);
         }
 		
 	}

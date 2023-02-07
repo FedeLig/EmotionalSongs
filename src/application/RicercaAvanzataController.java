@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.Property;
@@ -111,7 +112,13 @@ public class RicercaAvanzataController extends Controller implements Initializab
 							String[] argRicerca = {argomentoDiRicerca};
 							try {
 	                        	
-								playlist.aggiungiCanzoni(Song.searchSong(tipoRicerca,argRicerca));
+								ArrayList<Song> listaRisultati = Song.searchSong(tipoRicerca,argRicerca) ; 
+								
+								for( Song risultato : listaRisultati) {
+								    if(!(playlist.contiene(risultato))) {
+								       playlist.aggiungiCanzone(risultato);
+								    }
+								}
 								
 							} catch (NumberFormatException | IOException e1) {
 								e1.printStackTrace();

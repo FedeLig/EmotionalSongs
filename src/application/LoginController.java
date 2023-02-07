@@ -54,14 +54,11 @@ public class LoginController extends Controller implements Initializable {
         		setRoot(fxmlloader.load());
         		changeScene(e);
             }
-		}
-	        /*
-	        else 
-	            //loginErrorLabel.setText("Errore: credenziali errate");	 
+		    else 
+	        	createAlert("Errore : credenziali errate");	 
 		}
 		else
-			//loginErrorLabel.setText("Errore: non possono essere lasciati spazi vuoti o contenenti virgole");
-			 * */	
+			createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");		
 			 
 	}
 	

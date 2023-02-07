@@ -94,11 +94,7 @@ public class Playlist {
 	public void aggiungiCanzone(Song canzone) {
 		listaCanzoni.add(canzone);
 	}
-	public void aggiungiCanzoni(ArrayList<Song> listaCanzoni) {
-		for(Song canzone : listaCanzoni) {
-			this.listaCanzoni.add(canzone);
-		}
-	}
+	
 	public void svoutaListaCanzoni() {
 		
 		listaCanzoni.clear();  
@@ -137,5 +133,20 @@ public class Playlist {
 		
 		listaIndiciPlaylist  = listaIndiciCanzoni ; 
 		
+	}
+
+	public boolean contiene(Song canzoneDaInserire ) {
+		
+		boolean canzoneContenuta = false ; 
+		
+		int i = 0 ; 
+		while(!canzoneContenuta && i < listaCanzoni.size()) {
+			
+			if(listaCanzoni.get(i).getId() == canzoneDaInserire.getId())
+               canzoneContenuta = true ; 
+			i++; 
+		}
+		
+		return canzoneContenuta;
 	}
 }

@@ -2,9 +2,15 @@ package application;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +40,28 @@ public class Controller {
 		stage.setScene(scene);
 		stage.show();
 			
+    }
+    
+    public void createAlert(String messaggio) throws IOException {
+    	
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("");
+    	alert.setHeaderText(null);
+    	alert.setGraphic(null);
+    	
+    	DialogPane dialogPane = alert.getDialogPane();
+    	dialogPane.setPrefWidth(300);
+    	dialogPane.setPrefHeight(100);
+    	dialogPane.getStylesheets().add(
+    	   getClass().getResource("application.css").toExternalForm());
+    	
+    	HBox content = new HBox(new Label(messaggio) );
+        content.setAlignment(Pos.BOTTOM_CENTER);
+        
+        alert.getDialogPane().setContent(content);
+    	alert.showAndWait();
+    	
+    	
     }
     
 	public Parent getRoot() {

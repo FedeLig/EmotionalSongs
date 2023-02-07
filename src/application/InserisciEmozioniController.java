@@ -281,8 +281,20 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	
 	public void salvaEmozioni(ActionEvent e )throws IOException {
 	
-		Song.RegistraEmozioni(utente,idCanzone,listaVoti,listaCommenti);
-        switchToSelezionaCanzone(e);
+		boolean almenoUnVoto = false;
+		for (int i = 0; i < listaVoti.length; i++){
+		    if (listaVoti[i] != 0){
+		    	almenoUnVoto  = true;
+		        break;
+		    }
+		}
+		if(almenoUnVoto) {
+		  Song.RegistraEmozioni(utente,idCanzone,listaVoti,listaCommenti);
+		  createAlert("Le emozioni sono state salvate");
+          switchToSelezionaCanzone(e);
+		}
+		else
+			createAlert("Errore : E' necesssario associare \n        almeno un emozione");
         
 	}
 	

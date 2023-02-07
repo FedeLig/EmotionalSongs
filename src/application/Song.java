@@ -411,7 +411,41 @@ public class Song {
     private static String getPath() {
     	String userDirectory = System.getProperty("user.dir");
         return (userDirectory + File.separator + "data");
-    }	
+    }
+
+	public static ArrayList<String> getEmozioniUtente(Login utente, ArrayList<Integer> listaIndiciCanzoni) throws IOException {
+		
+		ArrayList<String> canzoniValutate = new ArrayList<String>();
+		
+		for(int i = 0 ; i< listaIndiciCanzoni.size() ; i++ ) {
+			canzoniValutate.add(" ");
+		}
+		
+		String[] utenteEId = new String[1] ; 
+		String votiECommenti ; 
+		
+		String path = getPath() + (File.separator + "Emozioni.dati.csv"), line;
+	    BufferedReader br = new BufferedReader(new FileReader(path));
+	        
+	    // salta la prima riga 
+	    br.readLine();
+	    
+	        
+	    while((line = br.readLine()) != null) {
+
+	        // trova l'indice che separa ( utente,,IdCanzone )  da voti e commenti
+	        int indice = line.indexOf(",,", line.indexOf(",,") + 1 ); 
+	        	
+	        utenteEId = line.substring(0,indice).split(",,");
+	        votiECommenti = line.substring(indice+2);
+	        	
+	        if(utente.getUserName().equals(utenteEId[0]) && listaIndiciCanzoni.contains(Integer.valueOf(utenteEId[1]))) 
+	           canzoniValutate.set(listaIndiciCanzoni.indexOf(Integer.parseInt(utenteEId[1])),votiECommenti);
+	            
+	    }
+		
+		return canzoniValutate ;
+	}	
     
     // -- vecchio : cancellare 
     
