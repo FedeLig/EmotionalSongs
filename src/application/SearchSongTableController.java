@@ -15,6 +15,7 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 abstract class SearchSongTableController extends SongTableController {
  
@@ -54,6 +55,8 @@ abstract class SearchSongTableController extends SongTableController {
 		sceltaFiltro.setOnAction(event -> { ChangeFilter(); });
 		
 		getTabellaCanzoni().setPlaceholder(new Label("La tabella è vuota"));
+		
+		yearField.setTextFormatter(new TextFormatter <> (change -> change.getControlNewText().matches("^[0-9]{0,4}") ? change : null));
 		
 	}
 	

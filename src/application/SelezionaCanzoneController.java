@@ -1,5 +1,6 @@
 package application;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,8 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class SelezionaCanzoneController extends SongTableController {
 
@@ -22,7 +28,11 @@ public class SelezionaCanzoneController extends SongTableController {
 	
 	private ObservableList<Playlist> elencoPlaylistUtente; 
 	
-	private Login utente; 
+	private Login utente;
+	
+	private ArrayList<String> canzoniValutate = new ArrayList<String>() ;
+	
+	private ArrayList<VisualizzaEmozioniDati> listaEmozioni ; 
 
 	public SelezionaCanzoneController( Login utente , Playlist playlist ) {
 		
@@ -34,7 +44,6 @@ public class SelezionaCanzoneController extends SongTableController {
 		
 		for(Integer indice : ListaIndiciCanzoni) {
 			try {
-				
 				canzoniPlaylist.add(new Song(indice));
 				
 			} catch (NumberFormatException | IOException e) {
@@ -43,6 +52,14 @@ public class SelezionaCanzoneController extends SongTableController {
 			} 
 		}
 		
+		try {
+			canzoniValutate.addAll(Song.getEmozioniUtente(utente,ListaIndiciCanzoni));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -50,29 +67,120 @@ public class SelezionaCanzoneController extends SongTableController {
 		setSongObservableList(FXCollections.observableArrayList(canzoniPlaylist));
 		UpdateTable(getSongObservableList()); 
 	}
+	@Override
+	protected void addHyperlinkToTable() {
+		 // usiamo la wrapper class di void per inizializzare colonna 
+		
+	    TableColumn<Song,Void> StatsColumn = new TableColumn<Song,Void>("");
 
+	    Callback<TableColumn<Song,Void>, TableCell<Song,Void>> cellFactory = new Callback<TableColumn<Song,Void>, TableCell<Song,Void>>() {
+
+	        @Override
+	        public TableCell<Song,Void> call(final TableColumn<Song,Void> param) {
+
+	            final TableCell<Song,Void> cell = new TableCell<Song,Void>(){
+
+	            	
+	                private final Hyperlink linkToInsert = new Hyperlink(getTestoHyperLink());
+	                private final Hyperlink linkToStats  = new Hyperlink("prospetto riassuntivo utenti");
+	                
+	                private final HBox hyperlinks = new HBox(linkToInsert,linkToStats) ; 
+	                
+	                {
+	                
+	                    linkToInsert.setOnAction((ActionEvent e) -> {
+	           
+	                    	int indice ; 
+	                    	getTableView().getItems().get(indice = getIndex());
+	                    	onHyperLinkCliked(e,indice);
+	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
+	                    	linkToInsert.setVisited(false);
+	                    });
+	                    
+	                    linkToStats.setOnAction((ActionEvent e) -> {
+	                    	
+	                    	int indice ; 
+	                    	getTableView().getItems().get(indice = getIndex());
+	                    	try {
+								switchToVisualizzaEmozioni(e,indice);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
+	                    	linkToStats.setVisited(false);
+	                    	
+	                    });
+	                 }
+	                
+	                /* update item è un metodo che viene chiamato per ogni cella dopo
+	                 *  che è stato determinato il tipo da inserire e colloca l'elemento 
+	                    che la cella deve contenere  */
+	                @Override
+	                public void updateItem(Void item, boolean empty) {
+	                    super.updateItem(item, empty);
+	                    if (empty) {
+	                        setGraphic(null);
+	                    } else {
+	                        setGraphic(hyperlinks);
+	                    }
+	                }
+
+					
+	              };
+	            
+	            return cell;
+	        }
+	    };
+
+	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
+	    StatsColumn.setCellFactory(cellFactory);
+
+	    getTabellaCanzoni().getColumns().add(StatsColumn);
+	    
+	}
 	@Override
 	protected void onHyperLinkCliked(ActionEvent e, int indice) {
 		
 		Song CanzoneSelezionata = canzoniPlaylist.get(indice);
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/InserisciEmozioni.fxml"));
+		if((canzoniValutate.get(indice).equals(" "))) {
+			
+		    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/InserisciEmozioni.fxml"));
 	   
-	    try {
-			setRoot(fxmlloader.load());
-			changeScene(e);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	        try {
+			   setRoot(fxmlloader.load());
+			   changeScene(e);
+		    } catch (IOException e1) {
+			   e1.printStackTrace();
+		    }
 	    
-	    InserisciEmozioniController controller = fxmlloader.getController() ;
-		controller.setUtente(utente);
-		controller.setIdCanzone(CanzoneSelezionata.getId());
-		controller.setPlaylist(playlist);
-		controller.setControllerCorrente(controller);
-		
+	        InserisciEmozioniController controller = fxmlloader.getController() ;
+		    controller.setUtente(utente);
+		    controller.setIdCanzone(CanzoneSelezionata.getId());
+		    controller.setPlaylist(playlist);
+		    controller.setControllerCorrente(controller);
+		}
+		else {
+			
+			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioniUtente.fxml"));
+			
+			VisualizzaEmozioniUtenteController controller  = new VisualizzaEmozioniUtenteController(utente,CanzoneSelezionata,canzoniValutate.get(indice),playlist);
+			fxmlloader.setController(controller);
+			try {
+				   setRoot(fxmlloader.load());
+				   changeScene(e);
+			    } catch (IOException e1) {
+				   e1.printStackTrace();
+		    }
+			
+		}
 	}
 
+	@Override
+	protected String getTestoHyperLink() {
+		return "Inserisci o visualizza emozione" ;
+	}
 	
 	@FXML
     public void switchToMenuUtente(ActionEvent e) throws IOException {
@@ -99,9 +207,25 @@ public class SelezionaCanzoneController extends SongTableController {
 	public void setElencoPlaylistUtente( ObservableList<Playlist> elencoPlaylistUtente ) {
 		this.elencoPlaylistUtente =  elencoPlaylistUtente ; 
 	}
-
-	@Override
-	protected String getTestoHyperLink() {
-		return "Inserisci Emozione" ;
+	
+	private void switchToVisualizzaEmozioni(ActionEvent e, int indice) throws IOException {
+		
+		Song CanzoneSelezionata = canzoniPlaylist.get(indice);
+		
+		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
+		setEmotionData(CanzoneSelezionata.getId());
+		
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
+		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,playlist,CanzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
+		fxmlloader.setController(controller); 
+		setRoot(fxmlloader.load());
+		changeScene(e);
+		
 	}
+	
+	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
+		this.listaEmozioni = Song.VisualizzaEmozioniBrano(indiceCanzone);
+	}
+
+	
 }

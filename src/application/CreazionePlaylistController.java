@@ -58,10 +58,10 @@ public class CreazionePlaylistController extends SongTableController {
 		   }
 		   playlist.setListaIndiciCanzoni(listaIndiciCanzoni);
 		   utente.addToUserplaylists(playlist);
-		   System.out.println("la playlist e' stata salvata");
+		   createAlert("la playlist e' stata salvata");
 		}
 		else {
-			System.out.println("la playlist è vuota");
+		   createAlert("Errore : la playlist è vuota");
 		}
 		
 	}

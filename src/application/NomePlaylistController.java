@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -39,9 +40,7 @@ public class NomePlaylistController extends Controller  implements Initializable
 		
 		String nomePlaylist = nameField.getText();
 		
-		// aggiungere altri controlli ? es. lunghezza , no 2 playlist con stesso nome ? 
-		
-		if( !(nomePlaylist.isEmpty()) ) {
+		if( checkNomePlaylist(nomePlaylist)) {
 			
 			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
 			CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
@@ -52,6 +51,8 @@ public class NomePlaylistController extends Controller  implements Initializable
 			changeScene(e);
 			
 		}
+		else 
+			createAlert("Errore : hai già creato una \n  playlist con questo nome  ");
 		
 	}
 	
@@ -63,6 +64,24 @@ public class NomePlaylistController extends Controller  implements Initializable
 	    fxmlloader.setController(controller);
 		setRoot(fxmlloader.load());
 		changeScene(e);
+		
+	}
+	
+	public boolean checkNomePlaylist(String nomePlaylist ) {
+	 
+		boolean accettabile = true ; 
+		
+		List<Playlist> listaPlaylistUtente = utente.getUserPlaylists();
+		
+		int i = 0 ; 
+		
+		while(i < listaPlaylistUtente.size() && accettabile ) {
+			if(listaPlaylistUtente.get(i).getNomePlaylist().equals(nomePlaylist))
+			  accettabile = false ; 
+			i++;
+		}
+		
+		return accettabile ; 
 		
 	}
 	

@@ -61,7 +61,7 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		setEmotionData(canzoneSelezionata.getId());
 		
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
+		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,null,canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
 		fxmlloader.setController(controller);
 		setRoot(fxmlloader.load());
 	    changeScene(e);

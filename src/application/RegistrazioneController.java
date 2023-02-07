@@ -32,7 +32,6 @@ public class RegistrazioneController extends Controller implements Initializable
 	private Tab firstTab,secondTab,thirdTab; 
 	
 	/*Attributi di calcolo */
-	private String errore;
 	private String[] dati = new String[7];
 	
 	@Override
@@ -86,13 +85,13 @@ public class RegistrazioneController extends Controller implements Initializable
 			    dati[2] = cf;
                 //Se i dati rispettano tutti i criteri cancelliamo la stringa
                 //di errore in modo da cancellare eventuali messaggi.
-                this.errore = "";
+               
     		}
     		else 
-    			this.errore = "Errore: il codice fiscale inserito è già in uso";
+    			createAlert("Errore : il codice fiscale inserito è già in uso");
     	}
     	else 
-    		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
+    		createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
 
         //Alla fine di ogni fase si aggiorna sempre la errorLabel
     	//this.errorLabel.setText(errore);
@@ -117,10 +116,10 @@ public class RegistrazioneController extends Controller implements Initializable
             String indirizzo = String.format("%s;%s;%s;%s;%s;",via,civico,cap,comune,provincia);
             dati[3] = indirizzo;
 
-            this.errore = "";
+            
         }	    
         else
-    		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
+        	createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
 
         //this.errorLabel.setText(this.errore);
 	}
@@ -140,12 +139,11 @@ public class RegistrazioneController extends Controller implements Initializable
             Login login;
             //Struttura if-else per verificare ciascun errore in ordine.
             if(! Login.checkEmail(email))    
-                this.errore = "Errore: email già in uso";
+            	createAlert( "Errore : email già in uso");
             else if(! Login.checkUserId(userId))
-                this.errore = "Errore: userId già in uso";
+            	createAlert( "Errore : userId già in uso");
             else{
                 login = new Login(dati);
-                this.errore = "";
                 
                 if(login.isLogged()) {
                 	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
@@ -156,7 +154,7 @@ public class RegistrazioneController extends Controller implements Initializable
             }
         }
         else
-    		this.errore = "Errore: non possono essere lasciati spazi vuoti o contenenti virgole";
+        	createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
         //this.errorLabel.setText(this.errore);
     }
     
