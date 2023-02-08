@@ -23,6 +23,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+/**
+ * Classe che serve a gestire la scena di visualizzazione dei commenti
+ * @author kurapica
+ *
+ */
 public class VisualizzaCommentiController extends Controller implements Initializable {
 
 	private Song canzoneSelezionata ; 

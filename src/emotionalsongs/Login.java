@@ -8,7 +8,8 @@ import java.util.*;
 import java.io.*;
 
 /**
- * Classe c
+ * Classe che gestisce l'accesso e la registrazione degli utenti.
+ * permette anche di ottenere le playlist create da un utente
  * @author Edoardo Picazio 
  */
 public class Login {
@@ -38,6 +39,8 @@ public class Login {
         output.append(newLine + System.lineSeparator());
         output.close();
         //segnamo che l'utente è loggato
+        this.userName = dati[5];
+        this.password = dati[6];
         this.logged = true;
     }
     

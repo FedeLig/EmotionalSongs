@@ -27,6 +27,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * classe che serve a gestire la visualizzazione delle emozioni inserite dall'utente
+ * @author kurapica
+ *
+ */
 public class VisualizzaEmozioniUtenteController extends Controller implements Initializable {
 
 	@FXML 

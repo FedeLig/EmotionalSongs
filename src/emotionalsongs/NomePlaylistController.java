@@ -16,7 +16,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-
+/**
+ * Classe che gestisce l'inserimento del nome della playlist
+ * @author Ligas
+ *
+ */
 public class NomePlaylistController extends Controller  implements Initializable {
 	@FXML 
 	private Button confermaNome ;

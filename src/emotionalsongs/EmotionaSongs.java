@@ -15,7 +15,7 @@ import javafx.scene.Scene;
  * presentando all'utente il menu iniziale.
  * @author Picazio
  */
-public class Main extends Application {
+public class EmotionaSongs extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {

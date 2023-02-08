@@ -13,13 +13,23 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+/**
+ * La classe playlist permette di creare nuove playlist e ottenere dati di quelle esistenti
+ * @author kurapica
+ *
+ */
 public class Playlist {
 
 	private String nomePlaylist, autore; 
 	private ObservableList<Song> listaCanzoni;
 	private ArrayList<Integer> listaIndiciPlaylist ;
 	
+	/**
+	 * Costruttore che prende in input solo il nome della playlist e dell'utente
+	 * i brani venogno aggiunti in seguito
+	 * @param nomePlaylist
+	 * @param userId
+	 */
 	public Playlist(String nomePlaylist, String userId) {
 		
 		this.nomePlaylist = nomePlaylist;

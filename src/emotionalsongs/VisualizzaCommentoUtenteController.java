@@ -14,6 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+/**
+ * Classe che gestisce la visualizzazione del commento scritto dall'utente
+ * @author kurapica
+ *
+ */
 public class VisualizzaCommentoUtenteController extends Controller implements Initializable {
 
 	@FXML

@@ -20,6 +20,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
+/**
+ * classe che gestisce la scena di registrazione utente
+ * @author kurapica
+ *
+ */
 public class RegistrazioneController extends Controller implements Initializable {
 
 	@FXML 
