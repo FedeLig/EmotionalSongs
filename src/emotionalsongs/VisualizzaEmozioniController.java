@@ -160,7 +160,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	private void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
-	    TableColumn<VisualizzaEmozioniDati, Void> StatsColumn = new TableColumn<VisualizzaEmozioniDati, Void>("");
+	    TableColumn<VisualizzaEmozioniDati, Void> CommentsColumn = new TableColumn<VisualizzaEmozioniDati, Void>("");
 
 	    Callback<TableColumn<VisualizzaEmozioniDati, Void>, TableCell<VisualizzaEmozioniDati, Void>> cellFactory = new Callback<TableColumn<VisualizzaEmozioniDati, Void>, TableCell<VisualizzaEmozioniDati, Void>>() {
 
@@ -169,15 +169,15 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 
 	            final TableCell<VisualizzaEmozioniDati, Void> cell = new TableCell<VisualizzaEmozioniDati, Void>(){
 
-	                private final Hyperlink linkToStats = new Hyperlink("commenti");
+	                private final Hyperlink linkToComments = new Hyperlink("commenti");
 	                
 	                {
 	                	 
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                    linkToStats.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                	linkToComments.setOnAction((ActionEvent e) -> {
+	                    	
+	                    	int indice = getIndex();
 							try {
 								onHyperLinkCliked(e,indice);
 							} catch (IOException e1) {
@@ -186,7 +186,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 							}
 							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
-	                    	linkToStats.setVisited(false);
+							linkToComments.setVisited(false);
 	                    });
 	                    
 	                 }
@@ -206,13 +206,11 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                    	
 	                    	if ( row != null && !(row.isEmpty())) {
 	                    		
-	                    		int indice ; 
-		                    	getTableView().getItems().get(indice = getIndex());
+	                    		int indice = row.getIndex(); 
 		                    	
 		                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 && listaEmozioni.get(indice).getListaCommenti().size() != 0 ) 
-		                             setGraphic(linkToStats);
-		                    	//else
-		                    	//    setGraphic(new Label("        "));
+		                             setGraphic(linkToComments);
+		                   
 	                    	}
 	                    	
 	                    	
@@ -225,10 +223,10 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	    };
 
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
-	    StatsColumn.setCellFactory(cellFactory);
-	    StatsColumn.setMinWidth(150);
+	    CommentsColumn.setCellFactory(cellFactory);
+	    CommentsColumn.setMinWidth(150);
 
-	    tabellaEmozioni.getColumns().add(StatsColumn);
+	    tabellaEmozioni.getColumns().add(CommentsColumn);
 		
 	}
 

@@ -99,8 +99,7 @@ public class SelezionaCanzoneController extends SongTableController {
 	                
 	                    linkToInsert.setOnAction((ActionEvent e) -> {
 	           
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    	int indice = getIndex();
 	                    	onHyperLinkCliked(e,indice);
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToInsert.setVisited(false);
@@ -108,8 +107,7 @@ public class SelezionaCanzoneController extends SongTableController {
 	                    
 	                    linkToView.setOnAction((ActionEvent e) -> {
 	         	           
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    	int indice = getIndex();
 	                    	
 							switchToVisualizzaEmozioniUtente(e,indice);
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
@@ -118,8 +116,7 @@ public class SelezionaCanzoneController extends SongTableController {
 	                    
 	                    linkToStats.setOnAction((ActionEvent e) -> {
 	                    	
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    	int indice = getIndex();
 	                    	try {
 	                    		switchToVisualizzaEmozioni(e,indice);
 							} catch (IOException e1) {
@@ -143,8 +140,7 @@ public class SelezionaCanzoneController extends SongTableController {
 	                    } else {
 	                    	TableRow<Song> row = getTableRow();
 	                    	if ( row != null && !(row.isEmpty())) {
-	                    		int indice ; 
-		                    	getTableView().getItems().get(indice = getIndex());
+	                    		int indice = getIndex();
 		                    	HBox hyperlinks = canzoniValutate.get(indice).equals(" ") ? new HBox(linkToInsert,linkToStats) 
 		                    			                                                  : new HBox(linkToView,linkToStats) ;
 		                        setGraphic(hyperlinks);

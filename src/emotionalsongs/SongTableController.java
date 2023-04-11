@@ -163,8 +163,7 @@ abstract class SongTableController extends Controller implements Initializable{
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
 	                    linkToStats.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    	int indice  = getIndex();
 	                    	try {
 								onHyperLinkCliked(e,indice);
 							} catch (IOException e1) {

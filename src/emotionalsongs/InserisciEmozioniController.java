@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -56,10 +57,6 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	 * <p> i valori contenuti rappresentano le righe della tabella e assumono true se l'emozione è stata votata altrimenti false 
 	 */
 	private ArrayList<SimpleBooleanProperty> commentoVisibile ;
-	/**
-	 * </>rigaCommento</> : valore per contare le righe durante la creazione dei link di testo che reindirizzano nella tabella 
-	 */
-	private int rigaCommento = 0 ; 
 	/**
 	 * </>listaCommenti</> : lista dei commenti inserite
 	 */
@@ -152,8 +149,8 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
 	                	linkToComment.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                		
+	                    	int indice  = getIndex();
 							try {
 								onHyperLinkCliked(e,indice);
 							} catch (IOException e1) {
@@ -166,8 +163,11 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	                    });
 	                	
 	                	commentoVisibile.add(new SimpleBooleanProperty(true));
-	                	linkToComment.disableProperty().bind(commentoVisibile.get(rigaCommento));
-	                	rigaCommento++;
+	                	
+	                	TableRow<ArrayList<StringProperty>> row = getTableRow();
+	                	
+	                	if(row != null && !(row.isEmpty()))
+	                	  linkToComment.disableProperty().bind(commentoVisibile.get(getIndex()));
 	                	
 	                 }
 	                
@@ -235,8 +235,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	            			
 	            			button.setOnAction(event -> {
 	            				
-	            				int indice ; 
-		                    	getTableView().getItems().get(indice = getIndex());
+	            				int indice = getIndex();
 		                    	Button buttoneClickato = (Button) event.getTarget();
 		                    	HBox bottoniRiga = (HBox) buttoneClickato.getParent();
 		                    	Integer votoInserito = Integer.valueOf(buttoneClickato.getText());

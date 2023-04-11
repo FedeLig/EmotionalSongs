@@ -127,14 +127,14 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 
 	            final TableCell<ArrayList<StringProperty>, Void> cell = new TableCell<ArrayList<StringProperty>, Void>(){
 
-	                private final Hyperlink linkToComment= new Hyperlink("Commento inserito");
+	                private final Hyperlink linkToComment= new Hyperlink("commento");
 	                
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
 	                	linkToComment.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                		
+	                    	int  indice = getIndex();
 	                    	
 							try {
 								onHyperLinkCliked(e,indice);
@@ -164,13 +164,11 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 	                    	
 	                    	if ( row != null && !(row.isEmpty())) {
 	                    		
-	                    		int indice ; 
-		                    	getTableView().getItems().get(indice = getIndex());
+	                    		int indice = getIndex();
 		                    	
 		                    	if(!(commenti[indice].equals(" "))) 
 			                          setGraphic(linkToComment);
-		                    	//else
-		                    	//    setGraphic(new Label("        "));
+		                   
 	                    	}
 	                    	
 	                    }

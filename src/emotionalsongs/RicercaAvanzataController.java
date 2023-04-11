@@ -142,8 +142,7 @@ public class RicercaAvanzataController extends Controller implements Initializab
 	                
 	                    link.setOnAction((ActionEvent e) -> {
 	                    	
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    	int indice = getIndex();
 	                    	Song canzone = getRisultatiRicerca().get(indice);
 	                    	String argomentoDiRicerca ;
 	                        
