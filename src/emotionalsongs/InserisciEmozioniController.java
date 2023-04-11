@@ -364,7 +364,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
           switchToSelezionaCanzone(e);
 		}
 		else
-			createAlert("Errore : E' necesssario associare \n        almeno un emozione");
+		  createAlert("Errore : E' necesssario associare \n        almeno un emozione");
         
 	}
 	/**

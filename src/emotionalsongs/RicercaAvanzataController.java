@@ -36,7 +36,6 @@ import javafx.util.Callback;
  */
 public class RicercaAvanzataController extends Controller implements Initializable{
 	
-
      /**
 	 * </>TabellaRicerca</> : tabella dei risultati della ricerca 
 	 */
@@ -173,9 +172,6 @@ public class RicercaAvanzataController extends Controller implements Initializab
 								e1.printStackTrace();
 							}
 							
-							if(playlist.getListaCanzoni().isEmpty()) {
-								System.out.println("ccc");
-							}
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	link.setVisited(false);
 	                    });

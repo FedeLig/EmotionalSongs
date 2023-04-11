@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -25,12 +23,11 @@ import javafx.stage.Stage;
 
 /**
  * Classe che serve a gestire la scena di visualizzazione dei commenti
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class VisualizzaCommentiController extends Controller implements Initializable {
 
-	private Song canzoneSelezionata ; 
 	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
 	private ArrayList<String> listaCommenti ;
 	private SimpleIntegerProperty pos = new SimpleIntegerProperty(0);
@@ -45,9 +42,8 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 	@FXML
 	private Label utenteLabel , emozioneEVotoLabel;
 	
-    public VisualizzaCommentiController(Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni, int indice ) throws FileNotFoundException, IOException {
+    public VisualizzaCommentiController(ObservableList<VisualizzaEmozioniDati> listaEmozioni, int indice ) throws FileNotFoundException, IOException {
 		
-		this.canzoneSelezionata = canzoneSelezionata; 
 		this.listaEmozioni = listaEmozioni ;
 		this.listaCommenti = listaEmozioni.get(indice).getListaCommenti() ;  
 		emozione = Emozioni.values()[indice].getNome() ; 

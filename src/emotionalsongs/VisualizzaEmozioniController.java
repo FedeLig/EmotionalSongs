@@ -18,6 +18,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,7 +32,7 @@ import javafx.util.Callback;
  *  , di vedere un prospetto riassuntivo delle emozioni che sono state associate alla canzone dagli utenti 
  *  e di accedere ad eventuali commenti che gli utenti hanno lasciato riguardo un emozione valutata 
  *  @see application.StatisticheCanzone.fxml 
- *  @author Ligas
+ *  @author Federico Ligas
  */
 public class VisualizzaEmozioniController extends Controller implements Initializable {
 
@@ -46,8 +47,6 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
 	private Login utente ; 
 	private Playlist playlist ; 
-	private int iterazione = 0 ; 
-	private int riga  = 0 ; 
 	
 	private boolean EsistonoEmozioniAssociate = false; 
 	
@@ -173,6 +172,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                private final Hyperlink linkToStats = new Hyperlink("commenti");
 	                
 	                {
+	                	 
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
 	                    linkToStats.setOnAction((ActionEvent e) -> {
@@ -189,11 +189,6 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                    	linkToStats.setVisited(false);
 	                    });
 	                    
-	                    iterazione++;
-	                    if(iterazione>3 && iterazione < 12) {
-	                       riga++;
-	                    }
-	                
 	                 }
 	                
 	                
@@ -207,8 +202,20 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                        setGraphic(null);
 	                    } else {
 	                    	
-	                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 && listaEmozioni.get(riga).getListaCommenti().size() != 0 ) 
-	                             setGraphic(linkToStats);
+	                    	TableRow<VisualizzaEmozioniDati> row = getTableRow();
+	                    	
+	                    	if ( row != null && !(row.isEmpty())) {
+	                    		
+	                    		int indice ; 
+		                    	getTableView().getItems().get(indice = getIndex());
+		                    	
+		                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 && listaEmozioni.get(indice).getListaCommenti().size() != 0 ) 
+		                             setGraphic(linkToStats);
+		                    	//else
+		                    	//    setGraphic(new Label("        "));
+	                    	}
+	                    	
+	                    	
 	                    }
 	                }
 	              };
@@ -219,6 +226,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
 	    StatsColumn.setCellFactory(cellFactory);
+	    StatsColumn.setMinWidth(150);
 
 	    tabellaEmozioni.getColumns().add(StatsColumn);
 		
@@ -229,7 +237,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaCommenti.fxml"));
 			Parent parent = null;
 			
-			VisualizzaCommentiController controller = new VisualizzaCommentiController(canzoneSelezionata,listaEmozioni,indice);
+			VisualizzaCommentiController controller = new VisualizzaCommentiController(listaEmozioni,indice);
 			fxmlloader.setController(controller);
 			try {
 				parent = fxmlloader.load();

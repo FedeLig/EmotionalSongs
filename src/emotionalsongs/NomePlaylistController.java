@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 
 /**
  * Classe che gestisce l'inserimento del nome della playlist
- * @author Ligas
+ * @author Federico Ligas
  *
  */
 public class NomePlaylistController extends Controller  implements Initializable {

@@ -7,21 +7,16 @@ package emotionalsongs;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
  * Classe che si occupa della gestione della scena descritta da RicercaInRepository.fxml
  * , quando è richiesto ricercare una canzone per poter visualizzare il prospetto riassuntivo delle emozioni degli utenti
  * nota : la scena RicercaInRepository.fxml può essere usata anche da RicercaInRepositoryController in altri contesti
  * @see RicercaInRepository.fxml
- * @author Ligas
+ * @author Federico Ligas
  */
 public class RicercaInRepositoryController extends SearchSongTableController {
 	
@@ -59,7 +54,6 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 	@Override 
     protected void  onHyperLinkCliked (ActionEvent e ,int indice ) throws FileNotFoundException, IOException{
 		
-		
 		Song canzoneSelezionata = getSongObservableList().get(indice) ; 
 		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
 		setEmotionData(canzoneSelezionata.getId());
@@ -72,7 +66,6 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		
 	}
 	
-	// 
 	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
 		this.listaEmozioni = Song.VisualizzaEmozioniBrano(indiceCanzone);
 	}

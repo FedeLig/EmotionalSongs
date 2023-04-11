@@ -67,10 +67,7 @@ abstract class SearchSongTableController extends SongTableController {
      * </>listaOpzioni</> : lista delle opzioni possibile per la ricerca 
 	 */
     protected static ArrayList<String> listaOpzioni ;
-    /**
-     * </>PreviousOption</> : opzione scelta precedentemente 
-	 */
-	private static String PreviousOption = "  titolo" ;  
+  
 	
     // ----------  CONTROLLI PER SCELTA FILTRO  ----------------
     
@@ -93,6 +90,8 @@ abstract class SearchSongTableController extends SongTableController {
 		
 		getTabellaCanzoni().setPlaceholder(new Label("La tabella è vuota"));
 		
+		filtroSelezionato.setText("titolo");
+		
 		yearField.setTextFormatter(new TextFormatter <> (change -> change.getControlNewText().matches("^[0-9]{0,4}") ? change : null));
 		
 	}
@@ -105,6 +104,8 @@ abstract class SearchSongTableController extends SongTableController {
 	public void cercaBranoMusicale(ActionEvent e ) throws NumberFormatException, IOException {
 		
 		String[] input = new String[2] ; 
+		
+		tipoRicerca = (filtroSelezionato.getText()).equals("titolo") ? 1 : 2 ; 
 		
 		if( tipoRicerca == 1 & !(titleField.getText().isEmpty())) {
 			
@@ -130,37 +131,32 @@ abstract class SearchSongTableController extends SongTableController {
     private void ChangeFilter() {
     	
     	sceltaFiltro.setValue("");
+    	
     	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
     	
-    	// nota : se non abbiamo selezionato il titolo , abbiamo selezionato autore e anno 
-        if ((sceltaFiltro.getSelectionModel().getSelectedItem()).equals("  titolo") ) {
-    	    
-        	/* se titolo NON era l'opzione selezionata , 
-        	   dobbiamo cambiare gli elementi della GUI collegati alle opzioni  */
-        	if ( !(PreviousOption.equals("  titolo")) ) {
+    	String selectedItem = sceltaFiltro.getSelectionModel().getSelectedItem() ; 
+    	
+        if ( selectedItem.equals("  titolo")) {
+        	
+        	if ((filtroSelezionato.getText()).equals("autore e anno")) {
         		
         		filtroSelezionato.setText("titolo");
-        		tipoRicerca = 1;
         		// cambiamo tab 
         		selectionModel.select(0);
         		firstTab.setDisable(false);
 			    secondTab.setDisable(true);
-			    // nota : l'opzione scelta sarà quella precedente nella prossima esecuzione del metodo
-			    PreviousOption  = "  titolo"; 
         		
         	}
     		
     	}
         else {
         	
-        	if ( !(PreviousOption.equals("  autore e anno")) ) {
+        	if ((filtroSelezionato.getText() ).equals("titolo") ) {
         		
             	filtroSelezionato.setText("autore e anno");
-            	tipoRicerca = 2;
             	selectionModel.select(1);
             	firstTab.setDisable(true);
 			    secondTab.setDisable(false);
-			    PreviousOption  = "  autore e anno";
         	}
         	
         }

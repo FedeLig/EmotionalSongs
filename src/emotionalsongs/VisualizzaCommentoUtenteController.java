@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 /**
  * Classe che gestisce la visualizzazione del commento scritto dall'utente
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class VisualizzaCommentoUtenteController extends Controller implements Initializable {

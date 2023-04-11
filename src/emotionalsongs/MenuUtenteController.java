@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 
 /**
  * Classe che si occupa della gestione della scena "Menu Utente"
- * @author Ligas
+ * @author Federico Ligas
  */
 public class MenuUtenteController extends Controller  {
 	

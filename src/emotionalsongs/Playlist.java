@@ -15,7 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**
  * La classe playlist permette di creare nuove playlist e ottenere dati di quelle esistenti
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class Playlist {

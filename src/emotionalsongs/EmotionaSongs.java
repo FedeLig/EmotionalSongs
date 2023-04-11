@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 /**
  * Classe che si occupa di iniziare il programma, avvia l'applicazione
  * presentando all'utente il menu iniziale.
- * @author Picazio
+ * @author Edoardo Picazio
  */
 public class EmotionaSongs extends Application {
 	@Override

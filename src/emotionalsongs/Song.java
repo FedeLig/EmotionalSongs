@@ -10,7 +10,7 @@ import java.io.*;
 /**
  * Classe che gestisce le canzoni: permette di cercarle, ottenerne i dati
  * e valutare le emozioni che trasmettono.
- * @author Picazio
+ * @author Edoardo Picazio
  */
 public class Song {
 
@@ -261,6 +261,8 @@ public class Song {
    
     	int emozione,valutazione,len = valutazioni.size(), numUtenti, voto;
     	float media = 0;
+    	Emozioni[] emozioni = Emozioni.getlistaEmozioni() ; 
+    	
     	//il ciclo legge più volte tutte le valutazioni, una volta per ciascuna emozione
     	for(emozione=0;emozione<9;emozione++) {
     		//inizializzo i dati
@@ -279,8 +281,8 @@ public class Song {
     		if(numUtenti!=0) 
     		  //calcolo la media
     		  media/=numUtenti;
-    		//aggiungo l'elemento alla lista
-    		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozione+1,numUtenti,media));
+   
+    		listaDatiEmozioni.add(new VisualizzaEmozioniDati(emozioni[emozione].getNome(),emozioni[emozione].getDescrizione(),numUtenti,media));
     	}
     	
     	return listaDatiEmozioni;

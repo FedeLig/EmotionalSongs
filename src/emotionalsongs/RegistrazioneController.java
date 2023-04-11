@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 
 /**
  * classe che gestisce la scena di registrazione utente
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class RegistrazioneController extends Controller implements Initializable {

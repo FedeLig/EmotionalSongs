@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
@@ -29,7 +30,7 @@ import javafx.util.Callback;
 
 /**
  * classe che serve a gestire la visualizzazione delle emozioni inserite dall'utente
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class VisualizzaEmozioniUtenteController extends Controller implements Initializable {
@@ -45,8 +46,6 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 	private Song canzoneSelezionata ; 
 	private Login utente ; 
 	private Playlist playlist ; 
-	private int iterazione = 0 ; 
-	private int riga  = 0 ; 
 	private String[] voti = new String[9] ; 
 	private String[] commenti = new String[9] ; 
 	
@@ -144,15 +143,10 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 								e1.printStackTrace();
 							}
 							
-							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 							linkToComment.setVisited(false);
 	                    });
-	                	
-	                	iterazione++;
-	                    if(iterazione>3 && iterazione < 12) {
-	                       riga++;
-	                    }
+	            
 	                	
 	                 }
 	                
@@ -165,8 +159,20 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 	                    if (empty) {
 	                        setGraphic(null);
 	                    } else {
-	                    	if(!(commenti[riga].equals(" "))) 
-	                          setGraphic(linkToComment);
+	                    	
+                            TableRow<ArrayList<StringProperty>> row = getTableRow();
+	                    	
+	                    	if ( row != null && !(row.isEmpty())) {
+	                    		
+	                    		int indice ; 
+		                    	getTableView().getItems().get(indice = getIndex());
+		                    	
+		                    	if(!(commenti[indice].equals(" "))) 
+			                          setGraphic(linkToComment);
+		                    	//else
+		                    	//    setGraphic(new Label("        "));
+	                    	}
+	                    	
 	                    }
 	                }};
 
@@ -176,7 +182,8 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
 	    commentColumn.setCellFactory(cellFactory);
-
+	    commentColumn.setMinWidth(150);
+	    
 	    tabellaEmozioni.getColumns().add(commentColumn);
 		
 	}
