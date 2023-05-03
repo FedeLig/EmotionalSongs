@@ -27,20 +27,20 @@ import javafx.stage.Stage;
  *
  */
 public class VisualizzaCommentiController extends Controller implements Initializable {
-
-	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
-	private ArrayList<String> listaCommenti ;
-	private SimpleIntegerProperty pos = new SimpleIntegerProperty(0);
-	private String emozione ; 
    
-	@FXML
-	private TextArea areaCommenti ; 
-	@FXML   
-	private Button commentoPrecedente; 
-	@FXML   
-	private Button commentoSuccessivo; 
-	@FXML
-	private Label utenteLabel , emozioneEVotoLabel;
+	@FXML private TextArea areaCommenti ; 
+	
+	@FXML  private Button commentoPrecedente, commentoSuccessivo; 
+	
+	@FXML private Label utenteLabel , emozioneEVotoLabel;
+	
+	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
+	
+	private ArrayList<String> listaCommenti ;
+	
+	private SimpleIntegerProperty pos = new SimpleIntegerProperty(0);
+	
+	private String emozione ; 
 	
     public VisualizzaCommentiController(ObservableList<VisualizzaEmozioniDati> listaEmozioni, int indice ) throws FileNotFoundException, IOException {
 		
@@ -76,7 +76,7 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 	 * mostra il commento successivo
 	 * @param e
 	 */
-	public void nextComment(ActionEvent e ) {
+	public void nextComment(ActionEvent event ) {
 		
         pos.set(pos.intValue()+1);
         String[] dati = new String[2] ; 
@@ -89,7 +89,7 @@ public class VisualizzaCommentiController extends Controller implements Initiali
 	/**
 	 * mostra il commento precedente
 	 */
-    public void previousComment(ActionEvent e ) {
+    public void previousComment(ActionEvent event ) {
 		
     	pos.set(pos.intValue()-1);
     	String[] dati = new String[2] ; 

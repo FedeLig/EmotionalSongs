@@ -97,7 +97,7 @@ public class InserisciCommentoController extends Controller implements Initializ
         else {
             messaggio = "Il commento e' stato salvato" ; 
 		    listaCommenti[indice] = areaCommento.getText();
-		    controllerPrecedente.setListaCommenti(listaCommenti);
+		    // scrivere commento 
 		    createAlert(messaggio);
         }
 		

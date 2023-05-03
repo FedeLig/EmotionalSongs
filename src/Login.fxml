@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@emotionalsongs/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@emotionalsongs/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="LoginButton" layoutX="328.0" layoutY="361.0" mnemonicParsing="false" onAction="#Login" prefHeight="42.0" prefWidth="112.0" text="Login">
+      <Button fx:id="LoginButton" layoutX="328.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="112.0" text="Login">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -33,7 +33,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Hyperlink fx:id="LinkToRegistrazione" layoutX="424.0" layoutY="452.0" onAction="#switchToRegistrazione" prefHeight="34.0" prefWidth="134.0" text="Registrati" textFill="#faf0f0" underline="true">
+      <Hyperlink fx:id="LinkToRegistrazione" layoutX="424.0" layoutY="452.0" prefHeight="34.0" prefWidth="134.0" text="Registrati" textFill="#faf0f0" underline="true">
          <font>
             <Font size="16.0" />
          </font></Hyperlink>
@@ -41,7 +41,7 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Button layoutX="312.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" prefHeight="34.0" prefWidth="144.0" text="torna al menu">
+      <Button fx:id="backToMenu" layoutX="312.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="144.0" text="torna al menu">
          <font>
             <Font size="14.0" />
          </font></Button>

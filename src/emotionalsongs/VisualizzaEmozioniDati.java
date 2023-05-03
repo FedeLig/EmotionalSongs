@@ -17,9 +17,13 @@ import java.util.ArrayList;
 public class VisualizzaEmozioniDati {
 
 	private String nome ; 
+	
 	private String descrizione ; 
+	
 	private Integer numeUtentiAssociati ; 
+	
 	private Float mediaVoti ; 
+	
 	private ArrayList<String> listaCommenti  = new ArrayList<String>() ; 
 
 	/**

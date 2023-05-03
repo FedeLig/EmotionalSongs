@@ -14,18 +14,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -35,18 +34,24 @@ import javafx.util.Callback;
  */
 public class VisualizzaEmozioniUtenteController extends Controller implements Initializable {
 
-	@FXML 
-	private TableView<ArrayList<StringProperty>> tabellaEmozioni ; 
+    @FXML private TabPane  tabpane ; 
 	
-	private ObservableList<ArrayList<StringProperty>> datiTabella = FXCollections.observableArrayList();
+	@FXML private Tab firstTab , secondTab ;
 	
-	@FXML
-	private TextArea infoCanzone ; 
+	@FXML  private TableView<ArrayList<StringProperty>> tabellaEmozioni ; 
+	
+	@FXML private TextArea infoCanzone , areaCommento ; 
+	
+	@FXML private Button backToSongs , backToEmotions ; 
 	
 	private Song canzoneSelezionata ; 
+	
 	private Login utente ; 
+	
 	private Playlist playlist ; 
+	
 	private String[] voti = new String[9] ; 
+	
 	private String[] commenti = new String[9] ; 
 	
 	public VisualizzaEmozioniUtenteController(Login utente , Song canzoneSelezionata , String dati, Playlist playlist ) {
@@ -86,6 +91,27 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 				
 		infoCanzone.setText(info);
 		
+		
+		backToSongs.setOnAction(
+				event -> switchTo(event,"SelezionaCanzone.fxml",new SelezionaCanzoneController(utente,playlist,null)) );
+				
+		backToEmotions.setOnAction(
+				event -> { 
+				SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+				selectionModel.select(0);
+				firstTab.setDisable(false);
+			    secondTab.setDisable(true);	
+			    
+				}); 
+		
+		createTable();
+		
+		tabellaEmozioni.setItems(getData());
+		
+	}
+	
+	private void createTable() {
+		
 		TableColumn<ArrayList<StringProperty>, String>  nameColumn = new TableColumn<>("Emozione");
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().get(0));
 		tabellaEmozioni.getColumns().add(nameColumn);
@@ -99,21 +125,25 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 		tabellaEmozioni.getColumns().add(ratingColumn);
 		
 		addHyperlinkToTable();
+	}
+	
+	private ObservableList<ArrayList<StringProperty>> getData(){
 		
-		for (int r = 0; r < 9 ; r++) {
+		ObservableList<ArrayList<StringProperty>> datiTabella = FXCollections.observableArrayList();
+		
+		for (int indice = 0; indice < 9 ; indice++) {
 	        ArrayList<StringProperty> row = new ArrayList<StringProperty>();
             
-	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[r].getNome()));
-	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[r].getDescrizione()));
-	        row.add(new SimpleStringProperty(voti[r]));
+	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[indice].getNome()));
+	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[indice].getDescrizione()));
+	        row.add(new SimpleStringProperty(voti[indice]));
 
 	        datiTabella.add(row);
 	    }
 		
-		tabellaEmozioni.setItems(datiTabella);
+		return datiTabella;
 		
 	}
-	
 
 	private void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
@@ -132,15 +162,14 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                	linkToComment.setOnAction((ActionEvent e) -> {
+	                	linkToComment.setOnAction((ActionEvent event) -> {
 	                		
 	                    	int  indice = getIndex();
 	                    	
 							try {
-								onHyperLinkCliked(e,indice);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								onHyperLinkCliked(event,indice);
+							} catch (IOException exp) {
+								exp.printStackTrace();
 							}
 							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
@@ -187,42 +216,14 @@ public class VisualizzaEmozioniUtenteController extends Controller implements In
 	}
 	
 	private void  onHyperLinkCliked (ActionEvent e, int indice ) throws IOException {
-	     
-	    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaCommentoUtente.fxml"));
-		Parent parent = null;
+	    
+		SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+		selectionModel.select(1);
+		firstTab.setDisable(true);
+		secondTab.setDisable(false);
 		
-		VisualizzaCommentoUtenteController controller = new VisualizzaCommentoUtenteController(commenti[indice]);
-		fxmlloader.setController(controller);
-		
-		try {
-			parent = fxmlloader.load();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		Scene dialog = new Scene(parent);
-        Stage stage = new Stage();
-        
-        stage.setTitle("Emotional Songs");
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(dialog);
-        stage.showAndWait();
+		areaCommento.setText(commenti[indice]);
      
     }
-	/**
-	 * porta alla scena di selezione canzone
-	 * @param e: evento scatenante
-	 * @throws IOException
-	 */
-	public void switchToSelezionaCanzone(ActionEvent e ) throws IOException {
-		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
-    	SelezionaCanzoneController controller = new SelezionaCanzoneController(utente,playlist);
-    	fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-	}
-
 
 }

@@ -8,46 +8,57 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Classe che si occupa della gestione della scena descritta da InserisciEmozioni.fxml
- * , permette all' utente di inserire le emozioni provate , votarle e eventualmente lo
- *  indirizza verso la scena per inserire un commento per un' emozione 
+ * Classe che permette all' utente di inserire le emozioni provate , votarle 
+ * e eventualmente inserire un commento per un' emozione inserita
  * @author Federico Ligas
+ * @author Edoardo Picazio
+ *
  */
 public class InserisciEmozioniController extends Controller implements Initializable {
+	
+    @FXML private TabPane tabpane;
+	
+	@FXML private Tab firstTab,secondTab ; 
 	/**
 	 * </>tabellaEmozioni</> : tabella che contiene le emozioni , i voti e un link di testo ai commenti
 	 */
-	@FXML 
-	private TableView<ArrayList<StringProperty>> tabellaEmozioni ; 
+	@FXML private TableView<ArrayList<StringProperty>> tabellaEmozioni ; 
+	
+	@FXML private Button backToSongs , backToEmotions , saveEmotions , saveComment ; 
 	/**
-	 * </>data</> : dati della tabella 
+	 * </>areaCommento</> : area di Testo che permette di inserire il commento
 	 */
-	private ObservableList<ArrayList<StringProperty>> data = FXCollections.observableArrayList();
+	@FXML private TextArea areaCommento ; 
+	
+	@FXML private Label caratteriRimasti ; 
 	/**
 	 * </>idCanzone</> : identificatore della canzone a cui l'utente vuole associare delle emozioni
 	 */
@@ -69,19 +80,18 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	 * </>listaVoti</> : lista dei voti inseriti 
 	 */
 	private int[] listaVoti ;
+	
+	private int indiceCommentoCorrente ;
 	/**
 	 * </>utente</> : utente che sta inserendo l'emozione 
 	 */
 	private Login utente; 
-	/**
-	 * </>ControllerCorrente</> : controller che sta gestendo la scena 
-	 */
-	private InserisciEmozioniController controllerCorrente ; 
+
 	
 	/**
 	 * costruttore di base 
 	 */
-	public InserisciEmozioniController() {
+	public InserisciEmozioniController(Login utente, int idCanzone , Playlist playlist ) {
 		
 		listaVoti  = new int[9] ;
 		listaCommenti = new String[9];
@@ -91,6 +101,10 @@ public class InserisciEmozioniController extends Controller implements Initializ
 			listaVoti[i] = 0 ;
 		}
 		commentoVisibile = new ArrayList<SimpleBooleanProperty>();
+		
+		this.playlist = playlist;
+		this.idCanzone = idCanzone;
+		this.utente = utente; 
 		
 	}
 	
@@ -104,6 +118,42 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		backToSongs.setOnAction(
+				event -> switchTo(event,"SelezionaCanzone.fxml",new SelezionaCanzoneController(utente,playlist,null) )); 
+		
+		backToEmotions.setOnAction(
+				event -> { 
+					SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+				    selectionModel.select(0);
+				    firstTab.setDisable(false);
+				    secondTab.setDisable(true);
+						
+				});
+		
+		saveEmotions.setOnAction(
+				event -> {
+					try {
+						salvaEmozioni(event);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} );
+		
+		saveComment.setOnAction(
+				event -> salvaCommento(event) );
+		
+		createTable();
+		
+		tabellaEmozioni.setItems(getData());
+		
+		areaCommento.setTextFormatter(new TextFormatter<String>(change -> change.getControlNewText().length() <= 256 ? change : null));
+		
+		caratteriRimasti.textProperty().bind(new SimpleIntegerProperty(256).subtract(Bindings.length(areaCommento.textProperty())).asString());
+		
+	}
+	
+	private void createTable() {
+		
 		TableColumn<ArrayList<StringProperty>, String>  nameColumn = new TableColumn<>("Emozione");
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().get(0));
 		tabellaEmozioni.getColumns().add(nameColumn);
@@ -115,17 +165,21 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		addButtonsToTable();
 		addHyperlinkToTable();
 		
-		for (int r = 0; r < 9 ; r++) {
+	}
+	
+	private ObservableList<ArrayList<StringProperty>> getData(){
+		
+		ObservableList<ArrayList<StringProperty>> datiTabella = FXCollections.observableArrayList() ; 
+		for (int i = 0; i < 9 ; i++) {
 	        ArrayList<StringProperty> row = new ArrayList<StringProperty>();
             
-	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[r].getNome()));
-	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[r].getDescrizione()));
+	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[i].getNome()));
+	        row.add(new SimpleStringProperty(Emozioni.getlistaEmozioni()[i].getDescrizione()));
 
-	        data.add(row);
+	        datiTabella.add(row);
 	    }
 		
-		tabellaEmozioni.setItems(data);
-		
+		return datiTabella ;    
 		
 	}
 	/**
@@ -148,27 +202,16 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                	linkToComment.setOnAction((ActionEvent e) -> {
+	                	linkToComment.setOnAction( event -> {
 	                		
 	                    	int indice  = getIndex();
-							try {
-								onHyperLinkCliked(e,indice);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							onHyperLinkCliked(event,indice);
 							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 							linkToComment.setVisited(false);
 	                    });
 	                	
-	                	commentoVisibile.add(new SimpleBooleanProperty(true));
-	                	
-	                	TableRow<ArrayList<StringProperty>> row = getTableRow();
-	                	
-	                	if(row != null && !(row.isEmpty()))
-	                	  linkToComment.disableProperty().bind(commentoVisibile.get(getIndex()));
-	                	
+	                
 	                 }
 	                
 	                /* update item è un metodo che viene chiamato per ogni cella dopo
@@ -180,7 +223,14 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	                    if (empty) {
 	                        setGraphic(null);
 	                    } else {
-	                        setGraphic(linkToComment);
+	                    	TableRow<ArrayList<StringProperty>> row = getTableRow();
+		                	
+		                	if(row != null && !(row.isEmpty())) {
+		                	  commentoVisibile.add(new SimpleBooleanProperty(true));
+		                	  linkToComment.disableProperty().bind(commentoVisibile.get(getIndex()));
+		                	  setGraphic(linkToComment);
+		                	}
+	                        
 	                    }
 	                }};
 
@@ -190,7 +240,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
 
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
 	    commentColumn.setCellFactory(cellFactory);
-
+	    commentColumn.setMinWidth(150);
 	    tabellaEmozioni.getColumns().add(commentColumn);
 		
 	}
@@ -242,10 +292,12 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		                    	
 		                    	
 		                    	if(listaVoti[indice] == votoInserito) {
+		                    		
 		                    	   button.setStyle("-fx-background-color: transparent;");
 		                    	   listaVoti[indice] = 0 ; 
 		                    	   listaCommenti[indice] = "" ; 
-		                    	   commentoVisibile.get(indice+2).setValue(true);
+		                    	   commentoVisibile.get(indice).setValue(true);
+		                    	   
 		                    	}
 		                    	else {
 		                    		
@@ -257,7 +309,7 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		                    		   
 		                    	   }
 		                    	   
-		                    	   commentoVisibile.get(indice+2).setValue(false);
+		                    	   commentoVisibile.get(indice).setValue(false);
 		                    	   button.setStyle("-fx-background-color: white;");
 		                    	   listaVoti[indice] = votoInserito ; 
 		                    	}	
@@ -298,57 +350,22 @@ public class InserisciEmozioniController extends Controller implements Initializ
 	 * @param indice : indice della riga che contiene l'Hyperlink clickato 
 	 * @throws IOException : un file non viene trovato 
 	 */
-    private void onHyperLinkCliked(ActionEvent e, int indice) throws IOException {
+    private void onHyperLinkCliked(ActionEvent event, int indice) {
     	
-    	FXMLLoader nextFxmlloader = new FXMLLoader(getClass().getResource("/InserisciCommento.fxml"));
-		InserisciCommentoController controller = new InserisciCommentoController(listaCommenti,indice,controllerCorrente);
-		nextFxmlloader.setController(controller);
-		Parent parent = null;
-		
-		try {
-			parent = nextFxmlloader.load();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		Scene dialog = new Scene(parent);
-        Stage stage = new Stage();
-        
-        stage.setTitle("Emotional Songs");
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(dialog);
-        stage.showAndWait();
+    	indiceCommentoCorrente = indice ; 
+    	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+	    selectionModel.select(1);
+	    firstTab.setDisable(true);
+	    secondTab.setDisable(false);
+	    areaCommento.setText(listaCommenti[indiceCommentoCorrente]);
 			
-	}
-    /**
-	 * imposta il valore della variabile </>playlist</> con la playlist che contiene la canzone che stiamo valutando
-	 * @param playlist : playlist a cui appartiene la canzone da valutare 
-	 */
-	public void setPlaylist(Playlist playlist) {
-		
-		this.playlist = playlist ; 
-		
-	}
-
-    /**
-    * torna alla scena per selezionare le canzoni di una playlist dell'utente
-    * @param e : evento che scatena il metodo
-    */
-	public void switchToSelezionaCanzone(ActionEvent e ) throws IOException {
-		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
-		SelezionaCanzoneController controller = new SelezionaCanzoneController(utente,playlist);
-		fxmlloader.setController(controller);
-    	controller.setElencoPlaylistUtente(FXCollections.observableArrayList(utente.getUserPlaylists()));
-		setRoot(fxmlloader.load());
-		changeScene(e);
 	}
 	/**
 	 * salva le emozioni inserite dall'utente nel file Emozioni.dati.csv 
 	 * @param e : evento che scatena il metodo
 	 * @throws IOException : il file non viene trovato 
 	 */
-	public void salvaEmozioni(ActionEvent e )throws IOException {
+	public void salvaEmozioni(ActionEvent event )throws IOException {
 	
 		boolean almenoUnVoto = false;
 		for (int i = 0; i < listaVoti.length; i++){
@@ -360,47 +377,30 @@ public class InserisciEmozioniController extends Controller implements Initializ
 		if(almenoUnVoto) {
 		  Song.RegistraEmozioni(utente,idCanzone,listaVoti,listaCommenti);
 		  createAlert("Le emozioni sono state salvate");
-          switchToSelezionaCanzone(e);
+		  switchTo(event,"SelezionaCanzone.fxml",new SelezionaCanzoneController(utente,playlist,null));
 		}
 		else
 		  createAlert("Errore : E' necesssario associare \n        almeno un emozione");
         
 	}
-	/**
-	 * imposta il valore della variabile </>listaCommenti</> 
-	 * @param listaCommenti : lista dei commenti inserite
-	 */
-	public void setListaCommenti(String[] listaCommenti) {
-		
-		this.listaCommenti = listaCommenti ;
-	}
-
-	/**
-	 * imposta il valore della variabile </>idCanzone</> 
-	 * @param idCanzone : identificatore della canzone a cui l'utente vuole associare delle emozioni
-	 */
-	public void setIdCanzone(int idCanzone) {
-		this.idCanzone = idCanzone;
-	}
-	/**
-	 * imposta il valore della variabile </>utente</> 
-	 * @param utente : playlist dell' utente a cui dobbiamo aggiungere le canzoni
-	 */
-	public void setUtente(Login utente) {
-		this.utente = utente; 
-	}
-
-	/**
-	 * imposta il valore della variabile </>controllerCorrente</> 
-	 * @param controllerCorrente : controller che sta gestendo la scena 
-	 */
-	public void setControllerCorrente(InserisciEmozioniController controllerCorrente) {
-		this.controllerCorrente = controllerCorrente ; 
-		
-	}
 	
+	/**
+	 *  Salva il commento nella lista commenti se non è vuoto 
+	 *  @param event : azione che scatena l'esecuzione del metodo
+	 */
+	public void salvaCommento(ActionEvent event ) {
+		
+		String commentoInserito = areaCommento.getText() ; 
+        
+        if (commentoInserito.isBlank()) {
+        	createAlert("il commento non puo' essere vuoto");
+        }
+        else {
+		    listaCommenti[indiceCommentoCorrente] = areaCommento.getText();
+		    createAlert("Il commento e' stato salvato" );
+        }
+		
 	
-
-
+	}
 	
 }

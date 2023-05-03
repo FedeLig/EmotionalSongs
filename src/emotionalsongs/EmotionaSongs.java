@@ -20,7 +20,9 @@ public class EmotionaSongs extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		
-			Parent root = FXMLLoader.load(getClass().getResource("/MenuIniziale.fxml"));
+			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
+			fxmlloader.setController(new MenuInizialeController());
+			Parent root = fxmlloader.load();
 			Scene scene = new Scene(root);
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -33,8 +35,8 @@ public class EmotionaSongs extends Application {
 			primaryStage.show();
 			
 			
-		} catch(Exception e) {
-			e.printStackTrace();
+		} catch(Exception exp) {
+			exp.printStackTrace();
 		}
 	}
 	

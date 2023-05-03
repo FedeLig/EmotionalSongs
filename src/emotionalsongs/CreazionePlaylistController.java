@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 /*
- * Classe che si occupa della gestione della scena descritta da CreazionePlaylist.fxml,
- * gestisce la creazione delle playlist e contiene i controlli per tutte le operazioni effettuabili nella schermata "playlist"
+ * Classe che permette di vedere le canzoni presenti nella playlist
+ * che si sta creando , di andare a cercare una canzone per aggiungerla e 
+ * di eliminare una canzone aggiunta precedentemente
  * @author Federico Ligas
  * @author Edoardo Picazio 
  */
@@ -24,14 +24,9 @@ public class CreazionePlaylistController extends SongTableController {
 
 	/**
 	 * </>RicercaCanzone</> : buttone che permette di cercare una canzone 
-	 */
-	@FXML
-	private Button RicercaCanzone ;
-	/**
 	 * </>TornaAlMenu</> : buttone che fa tornare l'utente al menu utente
 	 */
-	@FXML
-	private Button TornaAlMenu ;
+	@FXML private Button RicercaCanzone, TornaAlMenu , tuttiBraniAlbum , tuttiBraniAutore , salvaPlaylistButton ;
 	/**
 	 * </>playlist</> : playlist che l'utente vuole creare
 	 */
@@ -44,9 +39,11 @@ public class CreazionePlaylistController extends SongTableController {
 	/**
 	 * Costruttore di base 
 	 * @param utente : utente che vuole creare la playlist 
+	 * @param playlist : 
 	 */
-	public CreazionePlaylistController(Login utente) {
+	public CreazionePlaylistController(Login utente, Playlist playlist) {
 		this.utente = utente; 
+		this.playlist = playlist;
 	}
 	/**
 	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
@@ -57,6 +54,29 @@ public class CreazionePlaylistController extends SongTableController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		RicercaCanzone.setOnAction(
+				event -> switchTo(event,"RicercaInRepository.fxml",new AddSongToPlaylistController(utente,playlist)) ) ;
+		
+		TornaAlMenu.setOnAction(
+		        event -> {
+		        	playlist.svoutaListaCanzoni();
+		        	switchTo(event,"MenuUtente.fxml",new MenuUtenteController(utente));
+		        });
+		
+		tuttiBraniAlbum.setOnAction(
+				event -> switchTo(event,"RicercaAvanzata.fxml",new RicercaAvanzataController(utente,"album",playlist)) )  ;
+		
+		tuttiBraniAutore.setOnAction(
+				event -> switchTo(event,"RicercaAvanzata.fxml",new RicercaAvanzataController(utente,"autore",playlist)) )  ;
+		
+		salvaPlaylistButton.setOnAction(
+					event -> {
+						try {
+							salvaPlaylist(event);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}} )  ;
+		 
 		setSongObservableList(playlist.getListaCanzoni());
 		
 		if (getSongObservableList().isEmpty()) 
@@ -70,7 +90,7 @@ public class CreazionePlaylistController extends SongTableController {
 	* @param event : evento che scatena il metodo
 	*/
     @FXML
-	public void salvaPlaylist(ActionEvent e ) throws IOException {
+	public void salvaPlaylist(ActionEvent event ) throws IOException {
 		
     	// se la playlist non è vuota viene salvata 
 		if(!(playlist.getListaCanzoni().isEmpty())) {
@@ -88,83 +108,22 @@ public class CreazionePlaylistController extends SongTableController {
 		   // la coerenza dei dati durante l'esecuzione 
 		   utente.addToUserplaylists(playlist);
 		   createAlert("la playlist e' stata salvata");
+		   playlist.svoutaListaCanzoni();
+       	   switchTo(event,"MenuUtente.fxml",new MenuUtenteController(utente));
 		}
 		else {
 		   createAlert("Errore : la playlist è vuota");
 		}
 		
 	}
-    /**
-     * porta alla scena per aggiungere tutte le canzoni scritte da un autore 
-     * @param event : evento che scatena il metodo
-     * @throws IOException : il file non viene trovato 
-     */
-    @FXML 
-    public void switchToRicercaAvanzataAutore(ActionEvent e) throws IOException {
-    	
-    	RicercaAvanzataController controller = new RicercaAvanzataController(utente,"autore");
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
-    	fxmlloader.setController(controller);
-    	controller.setPlaylist(playlist);
-    	setRoot(fxmlloader.load());
-		changeScene(e);
-    }
-    /**
-     * porta alla scena per aggiungere tutte le canzoni contenute in un album 
-     * @param event : evento che scatena il metodo
-     * @throws IOException : il file non viene trovato 
-     */
-    @FXML 
-    public void switchToRicercaAvanzataAlbum(ActionEvent e) throws IOException {
-    	
-    	RicercaAvanzataController controller = new RicercaAvanzataController(utente,"album");
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaAvanzata.fxml"));
-    	fxmlloader.setController(controller);
-    	controller.setPlaylist(playlist);
-    	setRoot(fxmlloader.load());
-		changeScene(e);
-    }
-	@FXML
-	 /**
-     * porta alla scena per aggiungere canzoni alla playlist in fase di creazione 
-     * @param event : evento che scatena il metodo
-     * @throws IOException : il file non viene trovato 
-     */
-    public void switchToAddSong(ActionEvent e) throws IOException {
-        
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
-		AddSongToPlaylistController controller = new AddSongToPlaylistController(utente);
-		fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		controller = fxmlloader.getController();
-		controller.setPlaylist(playlist);
-		changeScene(e);
-		
-    }
-	 /**
-     * porta alla scena del menu utente 
-     * @param event : evento che scatena il metodo
-     * @throws IOException : il file non viene trovato 
-     */
-	@FXML 
-	public void switchToMenuUtente(ActionEvent e) throws IOException { 
-		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-		MenuUtenteController controller = new MenuUtenteController(utente);
-	    fxmlloader.setController(controller);
-	    playlist.svoutaListaCanzoni();
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-		
-	}
+
 	 /**
      * Rimuove la canzone contenuta nella riga a cui appartiene il link di testo clickato
      * @param event : evento che scatena il metodo
      * @param indice : indice della riga che contiene il link di testo clickato 
      */
 	@Override
-	protected void onHyperLinkCliked(ActionEvent e ,int indice ) {
+	protected void onHyperLinkCliked(ActionEvent event ,int indice ) {
 		
 		getSongObservableList().remove(indice);
 		UpdateTable(getSongObservableList());
@@ -177,12 +136,6 @@ public class CreazionePlaylistController extends SongTableController {
 	protected String getTestoHyperLink() {
 		return "elimina"; 
 	}
-	/**
-	 * imposta il valore della variabile </>playlist</> con la playlist in fase di creazione
-	 * @param playlist : playlist dell' utente a cui dobbiamo aggiungere le canzoni
-	 */
-	public void setPlaylist( Playlist playlist ) {
-		this.playlist = playlist ; 
-	}
+	
 	
 }

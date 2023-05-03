@@ -6,6 +6,8 @@ package emotionalsongs;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,7 +26,7 @@ import javafx.stage.Stage;
  * @author Federico Ligas 
  * @author Edoardo Picazio 
  */
-public class Controller {
+abstract public class Controller implements Initializable {
 
 	/**
 	 * </>stage</> : contenitore di alto livello che contiene una scena 
@@ -37,28 +39,40 @@ public class Controller {
 	 */
 	private Parent root ;
 	
-	/**
-	 * Permette di passare da un'interfaccia grafica(scena) ad un'altra 
-	 * @param event : evento che scatena il metodo
+	 /**
+	 * Permette di passare ad un'altra scena 
+	 * @param event : evento scatenante  es. l'utente ha cliccato un bottone
+	 * @param fileName : nome file che contiene fxml che descrive la scena 
+	 * @param controller : istanza della classe estensione di Controller che gestisce la scena 
 	 */
-    public void changeScene(ActionEvent event ) throws IOException{
-		
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		Scene scene = new Scene(root);
-		    
-		stage.setResizable(false);
-		stage.sizeToScene();
-		stage.setTitle("Emotional Songs");
+    public void switchTo(ActionEvent event , String fileName , Controller controller )  { 
+    	
+    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/" + fileName ));
+    	fxmlloader.setController(controller);
+    	
+		try {
 			
-		stage.setScene(scene);
-		stage.show();
+			root = fxmlloader.load();
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			Scene scene = new Scene(root);
+			    
+			stage.setResizable(false);
+			stage.sizeToScene();
+			stage.setTitle("Emotional Songs");
+				
+			stage.setScene(scene);
+			stage.show();
 			
+		} catch (IOException exp) {
+			exp.printStackTrace();
+		}   
+    	
     }
     /**
 	 * Crea un piccola finestra (Alert) che contiene un messaggio che si vuole comunicare all'utente
-	 * @param messaggio :  segnala un errore o il completamente di un'azione 
+	 * @param messaggio : segnala un errore o il completamente di un'azione 
 	 */
-    public void createAlert(String messaggio) throws IOException {
+    public void createAlert(String messaggio) {
     	
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.setTitle("");
@@ -79,18 +93,5 @@ public class Controller {
     	
     	
     }
-    /**
-	 * Ritorna il nodo radice della scena 
-	 * @return l'elemento piu in alto nella gerarchia degli elementi della scena 
-	 */
-	public Parent getRoot() {
-		return root;
-	}
-	/**
-	 * Imposta la radice della scena 
-	 * @param root : elemento piu in alto nella gerarchia degli elementi della scena 
-	 */
-	public void setRoot(Parent root) {
-		this.root = root;
-	}
+ 
 }

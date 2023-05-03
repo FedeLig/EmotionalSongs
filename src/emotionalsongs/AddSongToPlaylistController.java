@@ -4,18 +4,21 @@
  */
 package emotionalsongs;
 
-import java.io.IOException;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 /**
- * Classe che si occupa della gestione della scena descritta da RicercaInRepository.fxml
- * , quando &egrave richiesto ricercare una canzone per aggiungerla ad una playlist
- * nota : la scena RicercaInRepository.fxml può essere usata anche da RicercaInRepositoryController in altri contesti
+ * Classe permette di ricercare una canzone e aggiungerla alla playlist 
  * @author Federico Ligas
  */
 public class AddSongToPlaylistController extends SearchSongTableController {
 	
+	
+	@FXML private Button goBackButton ; 
 	/**
 	 * </>playlist</> : playlist dell' utente a cui dobbiamo aggiungere le canzoni
 	 */
@@ -28,24 +31,19 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 	/**
 	 * costruttore di base 
 	 * @param utente : utente che ha effettuato il Login 
+	 * @param playlist 
 	 */
-	public AddSongToPlaylistController(Login utente) {
+	public AddSongToPlaylistController(Login utente, Playlist playlist) {
 		this.utente = utente ; 
+		this.playlist = playlist;
 	}
 
-	/**
-	 * torna alla scena precedente : rappresentata da CreazionePlaylist.fxml
-	 * @param event : evento che scatena il metodo
-	 */
-	public void tornaAlPrecedente(ActionEvent e ) throws IOException {
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
-		CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
-		fxmlloader.setController(controller);
-		controller.setPlaylist(playlist);
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
+		super.initialize(arg0, arg1);
+		goBackButton.setOnAction(
+				event -> switchTo(event,"CreazionePlaylist.fxml",new CreazionePlaylistController(utente,playlist)) );
 	}
 	/**
 	 * ritorna il testo contenuto del link di testo contenuto nella tabella 
@@ -57,12 +55,11 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 	}
 	/**
 	 * Aggiunge la canzone della riga a cui appartiene il link di testo clickato
-	 * @param e : evento che scatena il metodo
+	 * @param event : evento che scatena il metodo
 	 * @param indice : indice della riga che contiene il link di testo clickato 
-	 * @throws IOException : 
 	 */
 	@Override 
-    protected void  onHyperLinkCliked (ActionEvent e , int indice) throws IOException{
+    protected void  onHyperLinkCliked (ActionEvent event , int indice) {
 		
 		// prende la canzone nella riga selezionata
 		Song canzone = getSongObservableList().get(indice);
@@ -77,12 +74,5 @@ public class AddSongToPlaylistController extends SearchSongTableController {
 		}
 		
 	}
-	/**
-	 * imposta il valore della variabile </>playlist</> con la playlist in fase di creazione
-	 * @param playlist : playlist dell' utente a cui dobbiamo aggiungere le canzoni
-	 */
-	public void setPlaylist( Playlist playlist ) {
-		this.playlist = playlist ; 
-	}
-	
+
 }

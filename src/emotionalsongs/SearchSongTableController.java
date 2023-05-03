@@ -32,37 +32,31 @@ abstract class SearchSongTableController extends SongTableController {
 	/**
      * </>tabpane </> : struttura che ospita delle scene 
 	  */
-	@FXML
-	private TabPane tabpane ; 
+	@FXML private TabPane tabpane ; 
 	/**
      * </>firstTab</> : prima scena contenuta ,</>secondTab</> : seconda scena contenuta 
 	  */
-	@FXML 
-	private Tab firstTab, secondTab ; 
+	@FXML private Tab firstTab, secondTab ; 
 	/**
      * </>titleField</> : area di testo per il titolo della canzone ,</>authorField</> : area di testo per il nome dell'autore ,</>yearField</> :  area di testo per l'anno della canzone
 	  */
-	@FXML 
-	private TextField  titleField ,authorField , yearField ; 
+	@FXML private TextField  titleField ,authorField , yearField ; 
 	/**
      * </>sceltaFiltro</> : menu di scelta del filtro 
 	  */
-	@FXML
-	protected ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
+	@FXML protected ChoiceBox<String> sceltaFiltro = new ChoiceBox<String>();
+	/**
+     * </>filtroSelezionato</> : indica il tipo di filtro selezionato per la ricerca 
+	  */
+	@FXML private Label filtroCorrente ;
+	/**
+     * </>goBackButton</> : buttone per tornare indietro alla tabella precedente , </>searchButton</> : buttone per cercare 
+	  */
+	@FXML protected Button goBackButton , searchButton ;
 	/**
      * </>tipoRicerca</> : indica il tipo di ricerca selezionata 
 	  */
 	private int tipoRicerca = 1;
-	/**
-     * </>filtroSelezionato</> : indica il tipo di filtro selezionato per la ricerca 
-	  */
-	@FXML 
-	private Label filtroSelezionato ;
-	/**
-     * </>goBackButton</> : buttone per tornare indietro alla tabella precedente , </>searchButton</> : buttone per cercare 
-	  */
-	@FXML
-	protected Button goBackButton , searchButton ;
 	/**
      * </>listaOpzioni</> : lista delle opzioni possibile per la ricerca 
 	 */
@@ -90,7 +84,7 @@ abstract class SearchSongTableController extends SongTableController {
 		
 		getTabellaCanzoni().setPlaceholder(new Label("La tabella è vuota"));
 		
-		filtroSelezionato.setText("titolo");
+		filtroCorrente.setText("titolo");
 		
 		yearField.setTextFormatter(new TextFormatter <> (change -> change.getControlNewText().matches("^[0-9]{0,4}") ? change : null));
 		
@@ -101,11 +95,11 @@ abstract class SearchSongTableController extends SongTableController {
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-	public void cercaBranoMusicale(ActionEvent e ) throws NumberFormatException, IOException {
+	public void cercaBranoMusicale(ActionEvent event ) throws NumberFormatException, IOException {
 		
 		String[] input = new String[2] ; 
 		
-		tipoRicerca = (filtroSelezionato.getText()).equals("titolo") ? 1 : 2 ; 
+		tipoRicerca = (filtroCorrente.getText()).equals("titolo") ? 1 : 2 ; 
 		
 		if( tipoRicerca == 1 & !(titleField.getText().isEmpty())) {
 			
@@ -134,38 +128,37 @@ abstract class SearchSongTableController extends SongTableController {
     	
     	SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
     	
-    	String selectedItem = sceltaFiltro.getSelectionModel().getSelectedItem() ; 
+    	String selectedItem = sceltaFiltro.getSelectionModel().getSelectedItem().substring(2) ; 
     	
-        if ( selectedItem.equals("  titolo")) {
-        	
-        	if ((filtroSelezionato.getText()).equals("autore e anno")) {
-        		
-        		filtroSelezionato.setText("titolo");
-        		// cambiamo tab 
-        		selectionModel.select(0);
-        		firstTab.setDisable(false);
-			    secondTab.setDisable(true);
-        		
-        	}
+    	// cambiamo filtro solo se quello correntemente selezionato è diverso
+    	
+    	if ( ! (filtroCorrente.getText()).equals(selectedItem) ) { 
     		
-    	}
-        else {
-        	
-        	if ((filtroSelezionato.getText() ).equals("titolo") ) {
-        		
-            	filtroSelezionato.setText("autore e anno");
-            	selectionModel.select(1);
-            	firstTab.setDisable(true);
-			    secondTab.setDisable(false);
-        	}
-        	
-        }
-    	
-    	
+	    	switch(selectedItem) {
+	    	
+	    		case "titolo" : 
+	    			
+    				filtroCorrente.setText("titolo");
+            		// cambiamo tab 
+            		selectionModel.select(0);
+            		firstTab.setDisable(false);
+    			    secondTab.setDisable(true);
+	    		
+	    			break ; 
+	    			
+	    		case "autore e anno" : 
+	    			 
+	        		filtroCorrente.setText("autore e anno");
+	            	selectionModel.select(1);
+	            	firstTab.setDisable(true);
+				    secondTab.setDisable(false);
+		        	
+	    	        break ; 
+	    	        
+	    	}
+    	} 
+       
     }
-    
-    public String getFiltroSelezionato() {
-    	return filtroSelezionato.getText();
-    }
+   
 
 }

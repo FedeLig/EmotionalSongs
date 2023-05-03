@@ -6,10 +6,12 @@ package emotionalsongs;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 
 /**
  * Classe che si occupa della gestione della scena descritta da RicercaInRepository.fxml
@@ -29,22 +31,18 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		this.utente = utente ;
 		this.indirizzoTabellaPrecedente = indirizzoTabellaPrecedente ; 
 	}
-
-	/**
-	 * torna alla scena precedente : che può essere il menu Iniziale o il menu Utente , 
-	 * a seconda dell' esecuzione del programma
-	 * @param event : evento che scatena il metodo
-	 */
-	public void tornaAlPrecedente( ActionEvent e ) throws IOException{
+   
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(indirizzoTabellaPrecedente));
-	    if(utente!= null) {
-	       MenuUtenteController controller = new MenuUtenteController(utente);
-	       fxmlloader.setController(controller);
-	    }
-	    setRoot(fxmlloader.load());
-	    changeScene(e);
-	    
+		super.initialize(arg0, arg1);
+		goBackButton.setOnAction(
+				event -> {
+					 if(utente!= null) 
+					       switchTo(event,indirizzoTabellaPrecedente,new MenuUtenteController(utente));
+					    else
+					       switchTo(event,indirizzoTabellaPrecedente,new MenuInizialeController());
+				});
 	}
 	
 	@Override
@@ -52,33 +50,19 @@ public class RicercaInRepositoryController extends SearchSongTableController {
 		return "visualizza emozioni"; 
 	}
 	@Override 
-    protected void  onHyperLinkCliked (ActionEvent e ,int indice ) throws FileNotFoundException, IOException{
+    protected void  onHyperLinkCliked (ActionEvent event ,int indice ) throws FileNotFoundException, IOException{
 		
 		Song canzoneSelezionata = getSongObservableList().get(indice) ; 
 		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
 		setEmotionData(canzoneSelezionata.getId());
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,null,canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
-		fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-	    changeScene(e);
+		switchTo(event,"VisualizzaEmozioni.fxml",new VisualizzaEmozioniController(utente,null,canzoneSelezionata,FXCollections.observableArrayList(listaEmozioni)));
 		
 	}
 	
 	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
 		this.listaEmozioni = Song.VisualizzaEmozioniBrano(indiceCanzone);
 	}
-	public void setIndirizzoTabellaPrecedente(String indirizzoTabellaPrecedente) {
-		this.indirizzoTabellaPrecedente = indirizzoTabellaPrecedente ; 
-	}
-	/**
-	 * permette di impostare l'utente
-	 * @param utente
-	 */
-	public void setUtente(Login utente) {
-		this.utente = utente ; 
-		
-	}
+
 
 }

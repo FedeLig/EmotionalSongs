@@ -4,15 +4,12 @@
  */
 package emotionalsongs;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -25,14 +22,11 @@ import javafx.util.Callback;
 
 public class SelezionaPlaylistController extends Controller implements Initializable {
 
-	@FXML
-    private Button TornaAlMenu;
+	@FXML private Button TornaAlMenu;
 
-    @FXML
-    private TableView<Playlist> tabellaPlaylist;
+    @FXML private TableView<Playlist> tabellaPlaylist;
     
-    @FXML
-	protected  ObservableList<Playlist> UserPlaylists ;
+    @FXML protected  ObservableList<Playlist> UserPlaylists ;
 
     private Login utente; 
     /**
@@ -56,23 +50,25 @@ public class SelezionaPlaylistController extends Controller implements Initializ
     	
     	if(!( UserPlaylists.isEmpty() )) {
     		
-    		populateTable(UserPlaylists);
+    		createTable();
+    		tabellaPlaylist.setItems(UserPlaylists); 
     	}
 		
+    	TornaAlMenu.setOnAction(
+    			event -> switchTo(event,"MenuUtente.fxml",new MenuUtenteController(utente)) );
 	}
     /**
      * permette di popolare la tabella con delle playlist
      * @param list
      */
-    public void populateTable (ObservableList<Playlist> list ) {
+    private void createTable() {
 		
 		TableColumn<Playlist,String> nameColumn = new TableColumn<>("nome");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Playlist,String>("nomePlaylist"));
 		tabellaPlaylist.getColumns().add(nameColumn);
 		
 		addHyperlinkToTable();
-		
-    	tabellaPlaylist.setItems(list); 
+	
     }
     
     private void addHyperlinkToTable() {
@@ -92,14 +88,11 @@ public class SelezionaPlaylistController extends Controller implements Initializ
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                    linkToStats.setOnAction((ActionEvent e) -> {
+	                    linkToStats.setOnAction( event-> {
 	                    	int indice = getIndex();
-	                    	try {
-								onHyperLinkCliked(e,indice);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+	                    	
+							onHyperLinkCliked(event,indice);
+							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToStats.setVisited(false);
 	                    });
@@ -130,31 +123,10 @@ public class SelezionaPlaylistController extends Controller implements Initializ
 		
 	}
     
-    private void  onHyperLinkCliked (ActionEvent e, int indice ) throws IOException {
+    private void  onHyperLinkCliked (ActionEvent event, int indice ) {
     	
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
     	Playlist playlistSelezionata = UserPlaylists.get(indice);
-    	SelezionaCanzoneController controller = new SelezionaCanzoneController(utente,playlistSelezionata);
-    	fxmlloader.setController(controller); 
-    	controller.setElencoPlaylistUtente(UserPlaylists);
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-		
-    }
-    /**
-     * porta alla scena menu utente
-     * @param e: evento scatenante
-     * @throws IOException
-     */
-    @FXML
-    public void switchToMenuUtente(ActionEvent e) throws IOException {
-
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-    	MenuUtenteController controller = new MenuUtenteController(utente);
-    	fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		changeScene(e);
+    	switchTo(event,"SelezionaCanzone.fxml",new SelezionaCanzoneController(utente,playlistSelezionata,UserPlaylists));
 		
     }
     
