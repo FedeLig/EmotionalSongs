@@ -6,23 +6,26 @@ package emotionalsongs;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -30,26 +33,37 @@ import javafx.util.Callback;
  *  Permette all'utente di visualizzare le informazioni relative di una canzone che esso ha selezionato 
  *  , di vedere un prospetto riassuntivo delle emozioni che sono state associate alla canzone dagli utenti 
  *  e di accedere ad eventuali commenti che gli utenti hanno lasciato riguardo un emozione valutata 
- *  @see application.StatisticheCanzone.fxml 
- *  @author Ligas
+ *  @author Federico Ligas
  */
 public class VisualizzaEmozioniController extends Controller implements Initializable {
 
-	@FXML 
-	private TableView<VisualizzaEmozioniDati> tabellaEmozioni ; 
-	@FXML
-	private TextArea infoCanzone ; 
-	@FXML
-	private Label commentHeader ; 
+	@FXML private TabPane  tabpane ; 
+	
+	@FXML private Tab firstTab , secondTab ;
+	
+	@FXML private TableView<VisualizzaEmozioniDati> tabellaEmozioni ; 
+	
+	@FXML private TextArea infoCanzone , areaCommenti ; 
+	
+	@FXML private Label emozioneEVotoLabel ; 
+	
+	@FXML private Button backToPrevious ,  previousComment , nextComment , backToEmotions ; 
 	
 	private Song canzoneSelezionata ; 
+	
 	private ObservableList<VisualizzaEmozioniDati> listaEmozioni;
+	
 	private Login utente ; 
+	
 	private Playlist playlist ; 
-	private int iterazione = 0 ; 
-	private int riga  = 0 ; 
 	
 	private boolean EsistonoEmozioniAssociate = false; 
+	
+	private ArrayList<String> listaCommenti; 
+	
+	private SimpleIntegerProperty indiceCommento ;
+	
+	private String emozione ; 
 	
 	public VisualizzaEmozioniController(Login utente, Playlist playlist, Song canzoneSelezionata,ObservableList<VisualizzaEmozioniDati> listaEmozioni ) {
 		
@@ -72,7 +86,6 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		// prendiamo i dati  della canzone 
 		String info = "Titolo   :  "
 				     + canzoneSelezionata.getName()
 				     + "   Autore  :  "
@@ -86,7 +99,6 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		
 		infoCanzone.setText(info);
 		
-		// condizione : listaEmozioni.size() != 0 
 		if ( EsistonoEmozioniAssociate ) {
 			
 			tabellaEmozioni.setItems(listaEmozioni);
@@ -96,37 +108,49 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 		    tabellaEmozioni.setPlaceholder(new Label("Nessuna emozione associata"));
 		}
 		
-	}
-	/**
-	 * 	Se non è stata creata la playlist torna alla ricerca,a altrimenti alla selezione delle canzoni
-	 * @param event: evento scatenante
-	 * @throws IOException
-	 */
-    public void tornaAlPrecedente(ActionEvent event ) throws IOException {
-		
-		if(playlist == null ) {
-			
-			switchToRicercaInRepository(event);
-		}
-		else {
-			
-			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaCanzone.fxml"));
-			SelezionaCanzoneController controller = new SelezionaCanzoneController(utente,playlist);
-			fxmlloader.setController(controller);
-			setRoot(fxmlloader.load());
-			changeScene(event);	
-		}
+		backToPrevious.setOnAction(
+				event -> { 
+					if(playlist == null ) {
+						
+						String indirizzoTabella = utente == null ? "MenuIniziale.fxml" : "MenuUtente.fxml"  ; 
+						switchTo(event,"RicercaInRepository.fxml",new RicercaInRepositoryController(utente,indirizzoTabella));
+					}
+					else 
+						switchTo(event,"SelezionaCanzone.fxml",new SelezionaCanzoneController(utente,playlist,null));
+					
+				});
 		
 		
-	}
-	public void switchToRicercaInRepository(ActionEvent event ) throws IOException {
+		backToEmotions.setOnAction(
+				event -> {
+				SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+				selectionModel.select(0);
+				firstTab.setDisable(false);
+			    secondTab.setDisable(true);	
+			    
+				});
 		
-		String indirizzoTabella = utente == null ? "/MenuIniziale.fxml" : "/MenuUtente.fxml"  ; 
-		RicercaInRepositoryController controller = new RicercaInRepositoryController(utente,indirizzoTabella);
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/RicercaInRepository.fxml"));
-		fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		changeScene(event);
+		nextComment.setOnAction(
+				event ->{
+				indiceCommento.set(indiceCommento.intValue()+1);
+		        String[] dati = new String[2] ; 
+				dati = listaCommenti.get((indiceCommento.intValue())).split(",,") ; 
+				emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+				areaCommenti.setText(dati[2]);	
+					
+				});
+		
+		
+		
+		previousComment.setOnAction(
+				event -> {
+				indiceCommento.set(indiceCommento.intValue()-1);
+		    	String[] dati = new String[2] ; 
+				dati = listaCommenti.get((indiceCommento.intValue())).split(",,") ; 
+				emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+				areaCommenti.setText(dati[2]);	
+					
+				});
 		
 	}
 	
@@ -161,7 +185,7 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	private void addHyperlinkToTable() {
 	    // usiamo la wrapper class di void per inizializzare colonna 
 		
-	    TableColumn<VisualizzaEmozioniDati, Void> StatsColumn = new TableColumn<VisualizzaEmozioniDati, Void>("");
+	    TableColumn<VisualizzaEmozioniDati, Void> CommentsColumn = new TableColumn<VisualizzaEmozioniDati, Void>("");
 
 	    Callback<TableColumn<VisualizzaEmozioniDati, Void>, TableCell<VisualizzaEmozioniDati, Void>> cellFactory = new Callback<TableColumn<VisualizzaEmozioniDati, Void>, TableCell<VisualizzaEmozioniDati, Void>>() {
 
@@ -170,30 +194,25 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 
 	            final TableCell<VisualizzaEmozioniDati, Void> cell = new TableCell<VisualizzaEmozioniDati, Void>(){
 
-	                private final Hyperlink linkToStats = new Hyperlink("commenti");
+	                private final Hyperlink linkToComments = new Hyperlink("commenti");
 	                
 	                {
+	                	 
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                    linkToStats.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                	linkToComments.setOnAction((ActionEvent event) -> {
+	                    	
+	                    	int indice = getIndex();
 							try {
-								onHyperLinkCliked(e,indice);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								onHyperLinkCliked(event,indice);
+							} catch (IOException exp) {
+								exp.printStackTrace();
 							}
 							
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
-	                    	linkToStats.setVisited(false);
+							linkToComments.setVisited(false);
 	                    });
 	                    
-	                    iterazione++;
-	                    if(iterazione>3 && iterazione < 12) {
-	                       riga++;
-	                    }
-	                
 	                 }
 	                
 	                
@@ -207,8 +226,18 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	                        setGraphic(null);
 	                    } else {
 	                    	
-	                    	if ( getTableView().getItems().get(getIndex()).getNumeUtentiAssociati() != 0 && listaEmozioni.get(riga).getListaCommenti().size() != 0 ) 
-	                             setGraphic(linkToStats);
+	                    	TableRow<VisualizzaEmozioniDati> row = getTableRow();
+	                    	
+	                    	if ( row != null && !(row.isEmpty())) {
+	                    		
+	                    		int indice = row.getIndex(); 
+		                    	
+		                    	if ( getTableView().getItems().get(indice).getNumeUtentiAssociati() != 0 && listaEmozioni.get(indice).getListaCommenti().size() != 0 ) 
+		                             setGraphic(linkToComments);
+		                   
+	                    	}
+	                    	
+	                    	
 	                    }
 	                }
 	              };
@@ -217,33 +246,33 @@ public class VisualizzaEmozioniController extends Controller implements Initiali
 	        }
 	    };
 
-	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
-	    StatsColumn.setCellFactory(cellFactory);
+	    CommentsColumn.setCellFactory(cellFactory);
+	    CommentsColumn.setMinWidth(150);
 
-	    tabellaEmozioni.getColumns().add(StatsColumn);
+	    tabellaEmozioni.getColumns().add(CommentsColumn);
 		
 	}
 
-	 private void  onHyperLinkCliked (ActionEvent e, int indice ) throws IOException {
+	 private void  onHyperLinkCliked (ActionEvent event, int indice ) throws IOException {
 	     
-		    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaCommenti.fxml"));
-			Parent parent = null;
-			
-			VisualizzaCommentiController controller = new VisualizzaCommentiController(canzoneSelezionata,listaEmozioni,indice);
-			fxmlloader.setController(controller);
-			try {
-				parent = fxmlloader.load();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			Scene dialog = new Scene(parent);
-	        Stage stage = new Stage();
-	        
-	        stage.setTitle("Emotional Songs");
-	        stage.setResizable(false);
-	        stage.initModality(Modality.APPLICATION_MODAL);
-	        stage.setScene(dialog);
-	        stage.showAndWait();
-         
+		 listaCommenti = listaEmozioni.get(indice).getListaCommenti() ;  
+		 indiceCommento = new SimpleIntegerProperty(0);
+		 
+		 BooleanBinding condizione1 = indiceCommento.isEqualTo(listaCommenti.size()-1);
+		 nextComment.disableProperty().bind(condizione1);
+		 
+		 BooleanBinding condizione2 = indiceCommento.isEqualTo(0);
+		 previousComment.disableProperty().bind(condizione2);
+		 
+	     SingleSelectionModel<Tab> selectionModel  = tabpane.getSelectionModel();
+		 selectionModel.select(1);
+		 firstTab.setDisable(true);
+		 secondTab.setDisable(false);
+		 
+		 String[] dati = new String[2] ; 
+		 dati = listaCommenti.get((indiceCommento.intValue())).split(",,") ;
+		 emozione = Emozioni.values()[indice].getNome() ; 
+		 emozioneEVotoLabel.setText("Emozione : " + emozione + "  Voto : " + dati[1]);
+		 areaCommenti.setText(dati[2]);
 	}
 }

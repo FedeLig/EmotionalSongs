@@ -8,15 +8,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
@@ -36,27 +35,27 @@ import javafx.util.Callback;
  */
 public class RicercaAvanzataController extends Controller implements Initializable{
 	
-
      /**
 	 * </>TabellaRicerca</> : tabella dei risultati della ricerca 
 	 */
-	@FXML
-	private TableView<Song> TabellaRicerca ; 
+	@FXML private TableView<Song> TabellaRicerca ; 
 	 /**
       * </>tabpane</> : struttura che ospita delle scene 
 	  */
-	@FXML
-	private TabPane tabpane ; 
+	@FXML private TabPane tabpane ; 
 	/**
      * </>firstTab</> : prima scena contenuta ,</>secondTab</> : seconda scena contenuta 
 	  */
-	@FXML 
-	private Tab firstTab, secondTab ;
+	@FXML private Tab firstTab, secondTab ;
 	/**
      * </>authorField </> : area di testo per l 'autore ,</>albumField</> : area di testo per l'album 
 	  */
-	@FXML
-	private TextField authorField , albumField; 
+	@FXML private TextField authorField , albumField; 
+	/**
+     * </>goBackButton </> : 
+     * </>searchButton </> :
+	  */
+	@FXML private Button goBackButton , searchButton ; 
 	/**
      * </>playlist</> : playlist a cui aggiungeremo le canzoni 
 	 */
@@ -87,10 +86,11 @@ public class RicercaAvanzataController extends Controller implements Initializab
      * @param utente : utente corrente 
      * @param opzioneDiRicerca : opzione per la ricerca selezionata 
 	 */
-	public RicercaAvanzataController(Login utente,String opzioneDiRicerca ) { 
+	public RicercaAvanzataController(Login utente,String opzioneDiRicerca,Playlist playlist ) { 
 		
 		this.utente = utente ; 
 		this.opzioneDiRicerca = opzioneDiRicerca ; 
+		this.playlist = playlist ; 
 		listProperty = new SimpleObjectProperty<>(risultatiRicerca);
 		
 	}
@@ -119,6 +119,18 @@ public class RicercaAvanzataController extends Controller implements Initializab
             firstTab.setDisable(true);
 			secondTab.setDisable(false);  
         }
+        
+        searchButton.setOnAction(
+        		event -> {
+					try {
+						ricercaAvanzata(event);
+					} catch (NumberFormatException | IOException exp) {
+						exp.printStackTrace();
+					}
+				} ); 
+        		
+        goBackButton.setOnAction(
+        		event -> switchTo(event,"CreazionePlaylist.fxml",new CreazionePlaylistController(utente,playlist)) );
  
 		
 	}
@@ -141,11 +153,10 @@ public class RicercaAvanzataController extends Controller implements Initializab
 	                
 	                {
 	                
-	                    link.setOnAction((ActionEvent e) -> {
+	                    link.setOnAction((ActionEvent event) -> {
 	                    	
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
-	                    	Song canzone = getRisultatiRicerca().get(indice);
+	                    	int indice = getIndex();
+	                    	Song canzone = risultatiRicerca.get(indice);
 	                    	String argomentoDiRicerca ;
 	                        
 							switch(tipoRicerca) {
@@ -166,16 +177,14 @@ public class RicercaAvanzataController extends Controller implements Initializab
 								for( Song risultato : listaRisultati) {
 								    if(!(playlist.contiene(risultato))) {
 								       playlist.aggiungiCanzone(risultato);
+								       createAlert("le canzoni sono state aggiunte");
 								    }
 								}
 								
-							} catch (NumberFormatException | IOException e1) {
-								e1.printStackTrace();
+							} catch (NumberFormatException | IOException exp) {
+								exp.printStackTrace();
 							}
 							
-							if(playlist.getListaCanzoni().isEmpty()) {
-								System.out.println("ccc");
-							}
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	link.setVisited(false);
 	                    });
@@ -206,22 +215,6 @@ public class RicercaAvanzataController extends Controller implements Initializab
 		
 	}
 	
-
-	 /**
-	 * porta alla scena per la creazione delle playlist 
-	 * @param event : evento che scatena il metodo
-	 * @throws IOException : il file non viene trovato 
-	 */
-    public void switchToCreazionePlaylist(ActionEvent e) throws IOException {
-        
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
-		CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
-		fxmlloader.setController(controller);
-		controller.setPlaylist(playlist);
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-    }
     /**
 	 * Permette di ricerca un autore o un album per poi poter
 	 * aggiungere tutte le canzoni di un autore o un album presente nei risultati 
@@ -229,22 +222,15 @@ public class RicercaAvanzataController extends Controller implements Initializab
 	 * @throws IOException : il file non viene trovato 
 	 * @throws NumberFormatException : 
 	 */
-    public void ricercaAvanzata(ActionEvent e ) throws NumberFormatException, IOException {
+    public void ricercaAvanzata(ActionEvent event ) throws NumberFormatException, IOException {
     	
         String[] input = new String[1] ; 
 		
-		if( tipoRicerca == 3 ) {
-			
+		if( tipoRicerca == 3 ) 
 			input[0] = authorField.getText();
-		}
 		else {
-			
-		   if ( tipoRicerca == 4 ){
-			   
-			input[0] = albumField.getText();
-
-			
-		   }
+		    if ( tipoRicerca == 4 )   
+		    	input[0] = albumField.getText();
 		}
 		
 		if(!(input[0].isEmpty())) {
@@ -279,28 +265,6 @@ public class RicercaAvanzataController extends Controller implements Initializab
 			
 		}
     }
-    /**
-     * 
-     * @return restituisce i risulati della ricerca
-     */
-	public ObservableList<Song> getRisultatiRicerca() {
-		return risultatiRicerca;
-	}
-	/**
-	 * Permette di impostare i risultati della ricerca
-	 * @param risultatiRicerca
-	 */
-	public void setRisultatiRicerca(ObservableList<Song> risultatiRicerca) {
-		this.risultatiRicerca = risultatiRicerca;
-	}
-	/**
-	 * permette di impostare la playlist
-	 * @param playlist
-	 */
-	public void setPlaylist(Playlist playlist ) {
-		this.playlist = playlist  ;
-		
-	}
-	
+
 	
 }

@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -22,23 +21,22 @@ import javafx.scene.control.TextField;
 
 /**
  * classe che gestisce la scena di registrazione utente
- * @author kurapica
+ * @author Edoardo Picazio
  *
  */
 public class RegistrazioneController extends Controller implements Initializable {
 
-	@FXML 
-	private TextField nameField ,surnameField,codiceFiscaleField ,nomeViaField,civicoField,capField,comuneField,provinciaField,emailField,newIdField;
-	@FXML
-	private PasswordField singInPasswordField;
-	@FXML 
-	private Button toSecondTabButton,toThirdTabButton,SubmitButton;
-	@FXML
-	private Hyperlink LinkToLogin;
-	@FXML
-	private TabPane tabpane;
-	@FXML
-	private Tab firstTab,secondTab,thirdTab; 
+	@FXML private TextField nameField ,surnameField,codiceFiscaleField ,nomeViaField,civicoField,capField,comuneField,provinciaField,emailField,newIdField;
+	
+	@FXML private PasswordField singInPasswordField;
+	
+	@FXML private Button toSecondTabButton,toThirdTabButton,SubmitButton , backToMenu ;
+	
+	@FXML private Hyperlink LinkToLogin;
+	
+	@FXML private TabPane tabpane;
+	
+	@FXML private Tab firstTab,secondTab,thirdTab; 
 	
 	/*Attributi di calcolo */
 	private String[] dati = new String[7];
@@ -57,18 +55,51 @@ public class RegistrazioneController extends Controller implements Initializable
 		
 		toSecondTabButton.disableProperty().bind(firstTabCondition);
 		
+		toSecondTabButton.setOnAction(
+				event -> {
+					try {
+						changeToSecondTab(event);
+					} catch (IOException exp) {
+						exp.printStackTrace();
+					}
+				} ); 
+		
 		BooleanBinding secondTabCondition = (nomeViaField.textProperty().isEmpty())
                 .or((civicoField.textProperty().isEmpty()))
                 .or((capField.textProperty().isEmpty()))
                 .or((provinciaField.textProperty().isEmpty())); 
 
         toThirdTabButton.disableProperty().bind(secondTabCondition);
+        
+        toThirdTabButton.setOnAction(
+				event -> {
+					try {
+						changeToThirdTab(event);
+					} catch (IOException exp) {
+						exp.printStackTrace();
+					}
+				} ); 
 		
         BooleanBinding thirdTabCondition = (emailField.textProperty().isEmpty())
                 .or((newIdField.textProperty().isEmpty()))
                 .or((singInPasswordField.textProperty().isEmpty())); 
 
         SubmitButton.disableProperty().bind(thirdTabCondition);
+        
+        SubmitButton.setOnAction(
+				event -> {
+					try {
+						singIn(event);
+					} catch (IOException exp) {
+						exp.printStackTrace();
+					}
+				} ); 
+        
+        backToMenu.setOnAction(
+        		event -> switchTo(event,"MenuIniziale.fxml",new MenuInizialeController()) ) ;
+        
+        LinkToLogin.setOnAction(
+        		event -> switchTo(event,"Login.fxml",new LoginController()) );
 		
 	}
 	   /* DI SEGUITO I METODI DI NAVIGAZIONE FRA LE TAB NELLA SCENA REGISTRAZIONE
@@ -82,7 +113,7 @@ public class RegistrazioneController extends Controller implements Initializable
 	 * cambia alla seconda tab
 	 * @param event : evento che scatena il metodo
 	 */
-    public void changeToSecondTab(ActionEvent e ) throws IOException {
+    public void changeToSecondTab(ActionEvent event ) throws IOException {
  
     	String name = nameField.getText();
     	String surname = surnameField.getText();
@@ -109,8 +140,6 @@ public class RegistrazioneController extends Controller implements Initializable
     	else 
     		createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
 
-        //Alla fine di ogni fase si aggiorna sempre la errorLabel
-    	//this.errorLabel.setText(errore);
 	}
     //metodo per passare dalla seconda tab alla terza.
     //Al momento non sono presenti controlli particolari,
@@ -120,7 +149,7 @@ public class RegistrazioneController extends Controller implements Initializable
 	 * cambia alla terza tab
 	 * @param event : evento che scatena il metodo
 	 */
-    public void changeToThirdTab(ActionEvent e ) throws IOException {
+    public void changeToThirdTab(ActionEvent event ) throws IOException {
         String via = nomeViaField.getText();
         String civico = civicoField.getText();
         String cap = capField.getText();
@@ -140,8 +169,7 @@ public class RegistrazioneController extends Controller implements Initializable
         }	    
         else
         	createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
-
-        //this.errorLabel.setText(this.errore);
+        
 	}
     
   //Il comando per l'ultima tab effettua la registrazione e cambia scena.
@@ -151,7 +179,7 @@ public class RegistrazioneController extends Controller implements Initializable
      * @param e: evento che iniza la funzione
      * @throws IOException
      */
-    public void singIn(ActionEvent e) throws IOException {
+    public void singIn(ActionEvent event) throws IOException {
         
         String email = emailField.getText();
         String userId = newIdField.getText();
@@ -171,16 +199,15 @@ public class RegistrazioneController extends Controller implements Initializable
                 login = new Login(dati);
                 
                 if(login.isLogged()) {
-                	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
-            		setRoot(fxmlloader.load());
-            		changeScene(e);
+                	
+            		switchTo(event,"MenuIniziale.fxml",new MenuInizialeController());
                 }
     	            
             }
         }
         else
         	createAlert("Errore : non possono essere lasciati \n    spazi vuoti o contenenti virgole");
-        //this.errorLabel.setText(this.errore);
+        
     }
     
     //metodo che verifica l'integrità dei dati inseriti(no vuoti e virgole)
@@ -191,31 +218,5 @@ public class RegistrazioneController extends Controller implements Initializable
   			return true;
   	}
   	
-  	/**
-	 * porta alla scena del login
-	 * @param event : evento che scatena il metodo
-	 */
-  	@FXML
-    public void switchToLogin(ActionEvent event ) throws IOException {
-		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-		setRoot(fxmlloader.load());
-		changeScene(event);
-		
-	}
-  	
-  	/**
-	 * porta alla scena del menu iniziale
-	 * @param event : evento che scatena il metodo
-	 */
-  	@FXML 
-  	public void switchToMenuIniziale(ActionEvent event )throws IOException {
-  		
-  		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
-		setRoot(fxmlloader.load());
-		changeScene(event);
-		
-	}
-	
 
 }

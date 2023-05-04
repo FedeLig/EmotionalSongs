@@ -10,22 +10,22 @@
    <children>
   <AnchorPane layoutX="1.0" layoutY="-3.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-3.0">
          <children>
-            <Button fx:id="toSearchButton" layoutX="215.0" layoutY="192.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToRicercaRepository" prefHeight="40.0" prefWidth="320.0" text="ricerca in repository">
+            <Button fx:id="toSearchButton" layoutX="215.0" layoutY="192.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="320.0" text="ricerca in repository">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="newPlaylistButton" layoutX="215.0" layoutY="260.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToNomePlaylist" prefHeight="40.0" prefWidth="320.0" text="crea una playlist">
+            <Button fx:id="newPlaylistButton" layoutX="215.0" layoutY="260.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="320.0" text="crea una playlist">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="seePlaylistsButton" layoutX="215.0" layoutY="324.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToVisualizzaPlaylist" prefHeight="40.0" prefWidth="320.0" text="visualizza le tue playlist" textAlignment="CENTER">
+            <Button fx:id="seePlaylistsButton" layoutX="215.0" layoutY="324.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="320.0" text="visualizza le tue playlist" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="281.0" layoutY="508.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" prefHeight="34.0" prefWidth="187.0" text="esci dal tuo account ">
+            <Button fx:id="logoutButton" layoutX="281.0" layoutY="508.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="187.0" text="esci dal tuo account ">
                <font>
                   <Font size="14.0" />
                </font>

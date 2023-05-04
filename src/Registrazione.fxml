@@ -12,13 +12,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@emotionalsongs/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emotionalsongs.RegistrazioneController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" stylesheets="@emotionalsongs/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="274.0" layoutY="449.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="26.0" prefWidth="146.0" text="sei già registrato  ? ">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Hyperlink fx:id="LinkToLogin" layoutX="419.0" layoutY="445.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onAction="#switchToLogin" prefHeight="34.0" prefWidth="82.0" text="Accedi" textFill="#fcfbfb" underline="true">
+      <Hyperlink fx:id="LinkToLogin" layoutX="419.0" layoutY="445.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="34.0" prefWidth="82.0" text="Accedi" textFill="#fcfbfb" underline="true">
          <font>
             <Font size="16.0" />
          </font></Hyperlink>
@@ -41,7 +41,7 @@
                               <Font size="18.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="toSecondTabButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" onAction="#changeToSecondTab" prefHeight="38.0" prefWidth="75.0" text="next">
+                        <Button fx:id="toSecondTabButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="next">
                            <font>
                               <Font size="16.0" />
                            </font></Button>
@@ -50,7 +50,7 @@
                         <Circle fill="#fafafa02" layoutX="354.0" layoutY="44.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f7fa00" height="9.0" layoutX="136.0" layoutY="39.0" stroke="#f7f6f6" strokeType="INSIDE" width="52.0" />
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="9.0" layoutX="262.0" layoutY="39.0" stroke="#fcfbfb" strokeType="INSIDE" width="52.0" />
-                        <Label layoutX="95.0" layoutY="27.0" prefHeight="16.0" prefWidth="18.0" text="1">
+                        <Label layoutX="95.0" layoutY="27.0" prefHeight="16.0" prefWidth="18.0" text="1" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -73,7 +73,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="342.0">
                      <children>
-                        <Button fx:id="toThirdTabButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" onAction="#changeToThirdTab" prefHeight="38.0" prefWidth="75.0" text="next">
+                        <Button fx:id="toThirdTabButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="next">
                            <font>
                               <Font size="16.0" />
                            </font></Button>
@@ -131,7 +131,7 @@
                            <font>
                               <Font size="18.0" />
                            </font></PasswordField>
-                        <Button fx:id="SubmitButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" onAction="#singIn" prefHeight="38.0" prefWidth="75.0" text="next">
+                        <Button fx:id="SubmitButton" layoutX="331.0" layoutY="309.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="next">
                            <font>
                               <Font size="16.0" />
                            </font></Button>
@@ -150,7 +150,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <Button layoutX="303.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToMenuIniziale" prefHeight="34.0" prefWidth="146.0" text="torna al menu">
+      <Button fx:id="backToMenu" layoutX="303.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="146.0" text="torna al menu">
          <font>
             <Font size="14.0" />
          </font></Button>

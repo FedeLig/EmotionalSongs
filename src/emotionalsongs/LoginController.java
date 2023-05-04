@@ -7,11 +7,9 @@ package emotionalsongs;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -20,8 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 /**
- * Classe che si occupa della gestione della scena descritta da Login.fxml
- * , permette ad utente di accedere se possiede un account 
+ * Classe che permette ad utente si è registrato precedentemente
  * @author Federico Ligas
  * @author Edoardo Picazio 
  */
@@ -30,28 +27,23 @@ public class LoginController extends Controller implements Initializable {
 	/**
 	 * </>idTextField</> : area di testo dove inserire l'id utente ( username ) 
 	 */
-	@FXML 
-	private TextField idTextField;
+	@FXML private TextField idTextField;
 	/**
 	 * </>passwordField</> : area di testo dove inserire la password 
 	 */
-	@FXML
-	private PasswordField passwordField;
+	@FXML private PasswordField passwordField;
 	/**
 	 * </>IdLabel</> : area di testo che riporta : "Id utente :", </>PasswordLabel</> : area di testo che riporta : "Password :"
 	 */
-	@FXML
-	private Label IdLabel,PasswordLabel;
+	@FXML private Label IdLabel,PasswordLabel;
 	/**
 	 * </>LoginButton</> : buttone per accedere 
 	 */
-	@FXML 
-	private Button LoginButton; 
+	@FXML private Button LoginButton , backToMenu ; 
 	/**
 	 * </>LinkToRegistrazione</> : link che rimanda alla registrazione 
 	 */
-	@FXML
-	private Hyperlink LinkToRegistrazione;
+	@FXML private Hyperlink LinkToRegistrazione;
 	
 	/**
 	 * Viene chiamato (una e una sola volta) dal controller appena dopo la scena è stata "caricata" con successo 
@@ -67,13 +59,27 @@ public class LoginController extends Controller implements Initializable {
 
         LoginButton.disableProperty().bind(condition);
         
+        LoginButton.setOnAction(
+        		event -> {
+					try {
+						Login(event);
+					} catch (IOException exp) {
+						exp.printStackTrace();
+					}
+				} )  ; 
+        
+		backToMenu.setOnAction(
+				event -> switchTo(event,"MenuIniziale.fxml",new MenuInizialeController()) ) ; 
+		
+		LinkToRegistrazione.setOnAction(
+				event -> switchTo(event,"Registrazione.fxml",new RegistrazioneController() ) ) ; 
 		
 	}
 	 /**
      * Permette all 'utente registrato di accedere 
      * @param event : evento che scatena il metodo
      */
-    public void Login(ActionEvent e ) throws IOException {
+    public void Login(ActionEvent event ) throws IOException {
 		
 		String idUtente = idTextField.getText();
 		String password = passwordField.getText(); 
@@ -83,11 +89,7 @@ public class LoginController extends Controller implements Initializable {
 	        if(login.isLogged()) {
                 //loginErrorLabel.setText("");
                 login.setUserPlaylists(Login.getPlaylistsUtente(idUtente));
-                FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-                MenuUtenteController controller = new MenuUtenteController(login);
-                fxmlloader.setController(controller);
-        		setRoot(fxmlloader.load());
-        		changeScene(e);
+                switchTo(event,"MenuUtente.fxml",new MenuUtenteController(login));
             }
 		    else 
 	        	createAlert("Errore : credenziali errate");	 
@@ -107,27 +109,6 @@ public class LoginController extends Controller implements Initializable {
 		else
 			return true;
 	}
-    
-    /**
-    * Porta alla scena delle registrazione 
-    * @param event : evento che scatena il metodo
-    */
-	public void switchToRegistrazione(ActionEvent e ) throws IOException {
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Registrazione.fxml"));
-		setRoot(fxmlloader.load());
-		changeScene(e);
-	}
-	/**
-	 * Porta alla scena del menu iniziale 
-	 * @param event : evento che scatena il metodo
-	 */
-    @FXML 
-    public void switchToMenuIniziale(ActionEvent event )throws IOException {
-  		
-  		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuIniziale.fxml"));
-		setRoot(fxmlloader.load());
-		changeScene(event);
-		
-	}
+	
 	
 }

@@ -6,12 +6,10 @@ package emotionalsongs;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -26,18 +24,16 @@ import javafx.util.Callback;
  * @author Federico Ligas
  */
 
-abstract class SongTableController extends Controller implements Initializable{
+abstract class SongTableController extends Controller {
 	
 	/**
 	 * </>tabellaCanzoni</> : tabella che contiene delle canzoni 
 	 */
-	@FXML
-	private TableView<Song> tabellaCanzoni;
+	@FXML private TableView<Song> tabellaCanzoni;
 	/**
 	 * </>songObservableList</> : lista delle canzoni contenute nella tabella 
 	 */
-	@FXML
-	private  ObservableList<Song> songObservableList = FXCollections.observableArrayList();
+	@FXML private  ObservableList<Song> songObservableList = FXCollections.observableArrayList();
 	
 	
 	/**
@@ -85,7 +81,7 @@ abstract class SongTableController extends Controller implements Initializable{
 		    	// dice alla tabella da quali lista prendere i dati 
 		    	getTabellaCanzoni().setItems(data); 
 		    	// crea una nuova tabella usando la lista di dati più recente
-		    	createTableFromList();
+		    	createTable();
 		    	
 		    	
 		    }
@@ -96,7 +92,7 @@ abstract class SongTableController extends Controller implements Initializable{
 	/**
 	 * Crea una tabella di tipo </>Song</> 
 	 */
-	private void createTableFromList() {
+	private void createTable() {
 		
 		/* sommariamente : 
 	     * setCellValueFactory : specifica come popolare tutte le celle della colonna che la chiama  
@@ -126,12 +122,6 @@ abstract class SongTableController extends Controller implements Initializable{
 		durationColumn.setCellValueFactory(new PropertyValueFactory<Song,Integer>("duration"));
 		getTabellaCanzoni().getColumns().add(durationColumn);
          
-		
-
-	    /* nota : la scelta di aggiungere le colonne singoralmente è preferibile 
-		    *  rispetto all' uso di addAll(colonna1 , ... colonnaN ) in quando questa
-		    *  comporta l'uso di Array e Generics che il compilatore segnala con un warning
-		    *  ( l'uso combinato di queste non è considerata una buona pratica )   */
 	}
 
 	/* parafrasando dalla documentazione della classe Cell : 
@@ -162,14 +152,12 @@ abstract class SongTableController extends Controller implements Initializable{
 	                {
 	                /* all' interno di questa funzione lambda metteremo un metodo 
 	                * crea un dialog che mostra le statistiche della canzone */ 
-	                    linkToStats.setOnAction((ActionEvent e) -> {
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
+	                    linkToStats.setOnAction((ActionEvent event) -> {
+	                    	int indice  = getIndex();
 	                    	try {
-								onHyperLinkCliked(e,indice);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								onHyperLinkCliked(event,indice);
+							} catch (IOException exp) {
+								exp.printStackTrace();
 							}
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToStats.setVisited(false);

@@ -17,7 +17,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="TornaAlMenu" layoutX="294.0" layoutY="483.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="158.0" text="torna al menu">
+            <Button fx:id="TornaAlMenu" layoutX="294.0" layoutY="483.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="158.0" text="torna al menu">
                <font>
                   <Font size="14.0" />
                </font></Button>

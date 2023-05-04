@@ -21,15 +21,15 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Button fx:id="RicercaCanzone" layoutX="510.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#switchToAddSong" prefHeight="31.0" prefWidth="138.0" text="vai alla ricerca">
+            <Button fx:id="RicercaCanzone" layoutX="510.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="138.0" text="vai alla ricerca">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="salvaPlaylistButton" layoutX="586.0" layoutY="472.0" mnemonicParsing="false" onAction="#salvaPlaylist" prefHeight="31.0" prefWidth="137.0" text="salva playlist">
+            <Button fx:id="salvaPlaylistButton" layoutX="586.0" layoutY="472.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="137.0" text="salva playlist">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="TornaAlMenu" layoutX="306.0" layoutY="503.0" mnemonicParsing="false" onAction="#switchToMenuUtente" prefHeight="31.0" prefWidth="138.0" text="torna al menu">
+            <Button fx:id="TornaAlMenu" layoutX="306.0" layoutY="503.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="138.0" text="torna al menu">
                <font>
                   <Font size="14.0" />
                </font></Button>
@@ -41,11 +41,11 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Button fx:id="tuttiBraniAutore" layoutX="405.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAutore" prefHeight="31.0" prefWidth="107.0" text="un autore">
+            <Button fx:id="tuttiBraniAutore" layoutX="405.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="un autore">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="tuttiBraniAlbum" layoutX="558.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchToRicercaAvanzataAlbum" prefHeight="31.0" prefWidth="107.0" text="un album">
+            <Button fx:id="tuttiBraniAlbum" layoutX="558.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="un album">
                <font>
                   <Font size="14.0" />
                </font></Button>

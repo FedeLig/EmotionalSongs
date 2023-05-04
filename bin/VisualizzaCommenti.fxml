@@ -11,11 +11,6 @@
    <children>
       <AnchorPane prefHeight="550.0" prefWidth="750.0">
          <children>
-            <Label fx:id="utenteLabel" layoutX="70.0" layoutY="37.0" prefHeight="15.0" prefWidth="662.0" text="Utente : ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
             <Label fx:id="emozioneEVotoLabel" layoutX="67.0" layoutY="81.0" prefHeight="15.0" prefWidth="661.0" text="Emozione : ">
                <font>
                   <Font size="18.0" />

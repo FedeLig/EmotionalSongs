@@ -4,30 +4,25 @@
  */
 package emotionalsongs;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 /**
  * Classe che gestisce l'inserimento del nome della playlist
- * @author Ligas
+ * @author Federico Ligas
  *
  */
 public class NomePlaylistController extends Controller  implements Initializable {
-	@FXML 
-	private Button confermaNome ;
-	@FXML
-	private Button tornaAlMenu ; 
-	@FXML
-	private TextField nameField ; 
+	
+	@FXML  private Button confermaNome, tornaAlMenu ; 
+	
+	@FXML private TextField nameField ; 
 	
 	private Login utente ; 
 	
@@ -49,46 +44,23 @@ public class NomePlaylistController extends Controller  implements Initializable
 	
 		BooleanBinding condition  = (nameField.textProperty().isEmpty());
         confermaNome.disableProperty().bind(condition);
-		
-	}
-	
-	/**
-	 * Porta alla scena della creazione playlist 
-	 * @param event : evento che scatena il metodo
-	 */
-	@FXML
-    public void switchToCreazionePlaylist(ActionEvent e ) throws IOException {
-		
-		String nomePlaylist = nameField.getText();
-		
-		if( checkNomePlaylist(nomePlaylist)) {
-			
-			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/CreazionePlaylist.fxml"));
-			CreazionePlaylistController controller = new CreazionePlaylistController(utente); 
-			fxmlloader.setController(controller);
-			Playlist playlist = new Playlist(nomePlaylist,utente.getUserName());
-			controller.setPlaylist(playlist);
-			setRoot(fxmlloader.load());
-			changeScene(e);
-			
-		}
-		else 
-			createAlert("Errore : hai già creato una \n  playlist con questo nome  ");
-		
-	}
-	
-	/**
-	 * Porta alla scena del menu utente
-	 * @param event : evento che scatena il metodo
-	 */
-	@FXML
-    public void switchToMenuUtente(ActionEvent e ) throws IOException {
-
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-		MenuUtenteController controller = new MenuUtenteController(utente);
-	    fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		changeScene(e);
+        
+        tornaAlMenu.setOnAction(
+        	event -> switchTo(event,"MenuUtente.fxml",new MenuUtenteController(utente)) ) ;
+        
+        confermaNome.setOnAction(
+        	event -> {
+        	String nomePlaylist = nameField.getText();
+    		
+    		if( checkNomePlaylist(nomePlaylist)) {
+    			
+    			Playlist playlist = new Playlist(nomePlaylist,utente.getUserName());
+    			switchTo(event,"CreazionePlaylist.fxml",new CreazionePlaylistController(utente,playlist));
+    			
+    		}
+    		else 
+    			createAlert("Errore : hai già creato una \n  playlist con questo nome  ");
+        	});
 		
 	}
 	

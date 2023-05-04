@@ -13,19 +13,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class SelezionaCanzoneController extends SongTableController {
 
+	@FXML private Button TornaAlMenu , TornaAllePlaylist ; 
+	
     private Playlist playlist ; 
 	
 	private ArrayList<Song> canzoniPlaylist ; 
@@ -41,11 +40,16 @@ public class SelezionaCanzoneController extends SongTableController {
 	 * permette di aggiungere delle canzoni a quelle valutate
 	 * @param utente
 	 * @param playlist
+	 * @param userPlaylists 
 	 */
-	public SelezionaCanzoneController( Login utente , Playlist playlist ) {
+	public SelezionaCanzoneController( Login utente , Playlist playlist, ObservableList<Playlist> userPlaylists ) {
 		
 		this.playlist = playlist; 
 		this.utente = utente ; 
+		if ( userPlaylists == null )
+		   this.elencoPlaylistUtente = FXCollections.observableArrayList(utente.getUserPlaylists()) ; 
+		else
+		   this.elencoPlaylistUtente = userPlaylists;
 		
 		canzoniPlaylist = new ArrayList<Song>() ; 
 		ArrayList<Integer> ListaIndiciCanzoni = playlist.getlistaIndiciPlaylist() ; 
@@ -55,7 +59,6 @@ public class SelezionaCanzoneController extends SongTableController {
 				canzoniPlaylist.add(new Song(indice));
 				
 			} catch (NumberFormatException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 		}
@@ -63,7 +66,6 @@ public class SelezionaCanzoneController extends SongTableController {
 		try {
 			canzoniValutate.addAll(Song.getEmozioniUtente(utente,ListaIndiciCanzoni));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -80,6 +82,13 @@ public class SelezionaCanzoneController extends SongTableController {
 		
 		setSongObservableList(FXCollections.observableArrayList(canzoniPlaylist));
 		UpdateTable(getSongObservableList()); 
+		
+		TornaAlMenu.setOnAction(
+				event -> switchTo(event,"MenuUtente.fxml",new MenuUtenteController(utente)) );
+		
+		TornaAllePlaylist.setOnAction(
+				event -> switchTo(event,"SelezionaPlaylist.fxml",new  SelezionaPlaylistController(utente)) );
+		
 	}
 	@Override
 	protected void addHyperlinkToTable() {
@@ -94,32 +103,42 @@ public class SelezionaCanzoneController extends SongTableController {
 
 	            final TableCell<Song,Void> cell = new TableCell<Song,Void>(){
 
-	            	
-	                private final Hyperlink linkToInsert = new Hyperlink(getTestoHyperLink());
-	                private final Hyperlink linkToStats  = new Hyperlink("prospetto riassuntivo utenti");
-	                
-	                private final HBox hyperlinks = new HBox(linkToInsert,linkToStats) ; 
+	                private final Hyperlink linkToInsert = new Hyperlink("inserisci emozioni");
+	                private final Hyperlink linkToView = new Hyperlink("emozioni inserite");
+	                private final Hyperlink linkToStats  = new Hyperlink(getTestoHyperLink());
 	                
 	                {
 	                
-	                    linkToInsert.setOnAction((ActionEvent e) -> {
+	                    linkToInsert.setOnAction((ActionEvent event) -> {
 	           
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
-	                    	onHyperLinkCliked(e,indice);
+	                    	int indice = getIndex();
+	                    	onHyperLinkCliked(event,indice);
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToInsert.setVisited(false);
 	                    });
 	                    
-	                    linkToStats.setOnAction((ActionEvent e) -> {
+	                    linkToView.setOnAction((ActionEvent event) -> {
+	         	           
+	                    	int indice = getIndex();
 	                    	
-	                    	int indice ; 
-	                    	getTableView().getItems().get(indice = getIndex());
-	                    	try {
-								switchToVisualizzaEmozioni(e,indice);
-							} catch (IOException e1) {
+							try {
+								switchToVisualizzaEmozioniUtente(event,indice);
+							} catch (IOException exp) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								exp.printStackTrace();
+							}
+	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
+	                    	linkToView.setVisited(false);
+	                    });
+	                    
+	                    linkToStats.setOnAction((ActionEvent event) -> {
+	                    	
+	                    	int indice = getIndex();
+	                    	try {
+	                    		switchToVisualizzaEmozioni(event,indice);
+							} catch (IOException exp) {
+								// TODO Auto-generated catch block
+								exp.printStackTrace();
 							}
 	                    	// serve in modo che un hyperlink clickato non rimanga sottolineato
 	                    	linkToStats.setVisited(false);
@@ -136,7 +155,14 @@ public class SelezionaCanzoneController extends SongTableController {
 	                    if (empty) {
 	                        setGraphic(null);
 	                    } else {
-	                        setGraphic(hyperlinks);
+	                    	TableRow<Song> row = getTableRow();
+	                    	if ( row != null && !(row.isEmpty())) {
+	                    		int indice = getIndex();
+		                    	HBox hyperlinks = canzoniValutate.get(indice).equals(" ") ? new HBox(linkToInsert,linkToStats) 
+		                    			                                                  : new HBox(linkToView,linkToStats) ;
+		                        setGraphic(hyperlinks);
+	                    	}
+	                    	
 	                    }
 	                }
 
@@ -149,106 +175,46 @@ public class SelezionaCanzoneController extends SongTableController {
 
 	    // crea una CellValueFactory che contiene un hyperlink , per ogni riga della tabella 
 	    StatsColumn.setCellFactory(cellFactory);
+	    StatsColumn.setMinWidth(300);
 
 	    getTabellaCanzoni().getColumns().add(StatsColumn);
 	    
 	}
 	@Override
-	protected void onHyperLinkCliked(ActionEvent e, int indice) {
+	protected void onHyperLinkCliked(ActionEvent event, int indice) {
+		
+		Song CanzoneSelezionata = canzoniPlaylist.get(indice);
+			
+		switchTo(event,"InserisciEmozioni.fxml",new InserisciEmozioniController(utente,CanzoneSelezionata.getId(),playlist));
+  
+		
+	}
+	
+	private void switchToVisualizzaEmozioniUtente(ActionEvent event , int indice ) throws IOException  {
 		
 		Song CanzoneSelezionata = canzoniPlaylist.get(indice);
 		
-		if((canzoniValutate.get(indice).equals(" "))) {
-			
-		    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/InserisciEmozioni.fxml"));
-	   
-	        try {
-			   setRoot(fxmlloader.load());
-			   changeScene(e);
-		    } catch (IOException e1) {
-			   e1.printStackTrace();
-		    }
-	    
-	        InserisciEmozioniController controller = fxmlloader.getController() ;
-		    controller.setUtente(utente);
-		    controller.setIdCanzone(CanzoneSelezionata.getId());
-		    controller.setPlaylist(playlist);
-		    controller.setControllerCorrente(controller);
-		}
-		else {
-			
-			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioniUtente.fxml"));
-			
-			VisualizzaEmozioniUtenteController controller  = new VisualizzaEmozioniUtenteController(utente,CanzoneSelezionata,canzoniValutate.get(indice),playlist);
-			fxmlloader.setController(controller);
-			try {
-				   setRoot(fxmlloader.load());
-				   changeScene(e);
-			    } catch (IOException e1) {
-				   e1.printStackTrace();
-		    }
-			
-		}
+		switchTo(event,"VisualizzaEmozioniUtente.fxml",new VisualizzaEmozioniUtenteController(utente,CanzoneSelezionata,canzoniValutate.get(indice),playlist));
+		
 	}
 
 	@Override
 	protected String getTestoHyperLink() {
-		return "Inserisci o visualizza emozione" ;
+		return "riassunto emozioni utenti" ;
 	}
 	
-	@FXML
-	/**
-	 * porta alla scena menu utente
-	 * @param e:evento scatenante
-	 * @throws IOException
-	 */
-    public void switchToMenuUtente(ActionEvent e) throws IOException {
 
-    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/MenuUtente.fxml"));
-    	MenuUtenteController controller = new MenuUtenteController(utente);
-    	fxmlloader.setController(controller);
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-    }
-
-	@FXML 
-	/**
-	 * Porta alla scena di visualizzazione della playlist
-	 * @param e: evento scatenante
-	 * @throws IOException
-	 */
-	public void switchToVisualizzaPlaylist(ActionEvent e )throws IOException{
-		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/SelezionaPlaylist.fxml"));
-		SelezionaPlaylistController controller = new  SelezionaPlaylistController(utente);
-		fxmlloader.setController(controller); 
-		setRoot(fxmlloader.load());
-		changeScene(e);
-		
-	}
-	/**
-	 * Permette di impostare l'elenco delle canzoni
-	 * @param elencoPlaylistUtente
-	 */
-	public void setElencoPlaylistUtente( ObservableList<Playlist> elencoPlaylistUtente ) {
-		this.elencoPlaylistUtente =  elencoPlaylistUtente ; 
-	}
-	
-	private void switchToVisualizzaEmozioni(ActionEvent e, int indice) throws IOException {
+	private void switchToVisualizzaEmozioni(ActionEvent event, int indice) throws IOException {
 		
 		Song CanzoneSelezionata = canzoniPlaylist.get(indice);
 		
 		listaEmozioni = new ArrayList<VisualizzaEmozioniDati>() ; 
 		setEmotionData(CanzoneSelezionata.getId());
 		
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/VisualizzaEmozioni.fxml"));
-		VisualizzaEmozioniController controller = new VisualizzaEmozioniController(utente,playlist,CanzoneSelezionata,FXCollections.observableArrayList(listaEmozioni));
-		fxmlloader.setController(controller); 
-		setRoot(fxmlloader.load());
-		changeScene(e);
+		switchTo(event,"VisualizzaEmozioni.fxml",new VisualizzaEmozioniController(utente,playlist,CanzoneSelezionata,FXCollections.observableArrayList(listaEmozioni)));
 		
 	}
+	
 	
 	private void setEmotionData(int indiceCanzone ) throws FileNotFoundException, IOException {
 		this.listaEmozioni = Song.VisualizzaEmozioniBrano(indiceCanzone);
