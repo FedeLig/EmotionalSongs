@@ -1,2 +1,2 @@
 # EmotionalSongs
-Progetto di laoratorio A, versione con UI.
+Progetto di laboratorio A, versione con UI.
